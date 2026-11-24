@@ -1,0 +1,10 @@
+{"id": "n01", "kind": "news", "key": "news:wire:KSVH", "sent": true, "level": "critical", "reasons": ["tag", "watchlist"], "message": "CRITICAL KSVH: Kesvora Holdings shares suspended pending announcement (wire, tags: halt)"}
+{"id": "n02", "kind": "news", "key": "news:dowline:ORVK", "sent": true, "level": "info", "reasons": ["watchlist"], "message": "INFO ORVK: Orvik Energy names new chief financial officer (dowline)"}
+{"id": "n03", "kind": "news", "key": "news:wire:BRHW", "sent": true, "level": "critical", "reasons": ["tag", "watchlist"], "message": "CRITICAL BRHW: Brumhallow Foods raises guidance for the full year (wire, tags: guidance)"}
+{"id": "n04", "kind": "news", "key": "news:wire:VDRX", "sent": false, "level": "warning", "reasons": ["tag", "muted"], "message": null}
+{"id": "n05", "kind": "news", "key": "news:dowline:-", "sent": false, "level": null, "reasons": [], "message": null}
+{"id": "n06", "kind": "news", "key": "news:dowline:TVSK", "sent": false, "level": "warning", "reasons": ["tag", "stale"], "message": null}
+{"id": "n07", "kind": "news", "key": "news:wire:VDRX", "sent": true, "level": "warning", "reasons": ["tag"], "message": "WARNING VDRX: Valdorian Rail outlook cut to negative (wire, tags: downgrade)"}
+{"id": "n08", "kind": "news", "key": "news:wire:VDRX", "sent": false, "level": "warning", "reasons": ["tag", "cooldown"], "message": null}
+{"id": "n09", "kind": "news", "key": "news:wire:KSVH", "sent": true, "level": "critical", "reasons": ["tag", "watchlist"], "message": "CRITICAL KSVH: Kesvora Holdings subsidiary misses a coupon payment on its senior notes and e... (wire, tags: default)"}
+{"id": "n10", "kind": "news", "key": "news:dowline:ORVK", "sent": false, "level": "info", "reasons": ["watchlist", "quiet_hours"], "message": null}

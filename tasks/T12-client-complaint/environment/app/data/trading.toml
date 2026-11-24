@@ -1,0 +1,24 @@
+# Dealing rules for GBL-BAL, used by `python -m folio.rebalance propose`.
+# Amounts are in the base currency; shares are fractions of NAV.
+
+# Trades worth less than this are left out of a proposal.
+min_ticket = 25000
+# Keep at least this share of NAV in cash after the trades.
+cash_buffer = 0.01
+# Bond quantities are nominal. true: bond trades are whole multiples of the
+# bond lot below; false: any whole amount of nominal.
+bonds_in_nominal_multiples = true
+
+# Trade quantities are whole multiples of the round lot for their kind ...
+[lots]
+equity = 1
+bond = 1000
+fund = 1
+
+# ... unless the instrument has its own. Tokyo shares trade in 100s.
+[instrument_lots]
+KIWQ = 100
+SAQB = 100
+HNKI = 100
+KZRO = 100
+JGB30 = 1000000

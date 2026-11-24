@@ -1,0 +1,10 @@
+{"id": "p01", "kind": "price_move", "key": "price_move:ORVK", "sent": false, "level": null, "reasons": [], "message": null}
+{"id": "p02", "kind": "price_move", "key": "price_move:QMB10", "sent": false, "level": null, "reasons": [], "message": null}
+{"id": "p03", "kind": "price_move", "key": "price_move:ORVK", "sent": true, "level": "warning", "reasons": ["move"], "message": "WARNING ORVK: price down 3.12% (last 41.27, from 42.60)"}
+{"id": "p04", "kind": "price_move", "key": "price_move:BRHW", "sent": false, "level": "warning", "reasons": ["move", "cooldown"], "message": null}
+{"id": "p05", "kind": "price_move", "key": "price_move:QMB10", "sent": true, "level": "critical", "reasons": ["move"], "message": "CRITICAL QMB10: yield up 21bp (last 3.682, from 3.472)"}
+{"id": "p06", "kind": "price_move", "key": "price_move:QMB30", "sent": false, "level": "warning", "reasons": ["move", "muted"], "message": null}
+{"id": "p07", "kind": "price_move", "key": "price_move:KSVH", "sent": false, "level": "warning", "reasons": ["move", "stale"], "message": null}
+{"id": "p08", "kind": "price_move", "key": "price_move:ORVK", "sent": true, "level": "critical", "reasons": ["move"], "message": "CRITICAL ORVK: price down 6.57% (last 39.80, from 42.60)"}
+{"id": "p09", "kind": "price_move", "key": "price_move:BRHW", "sent": false, "level": "warning", "reasons": ["move", "quiet_hours"], "message": null}
+{"id": "p10", "kind": "price_move", "key": "price_move:KSVH", "sent": true, "level": "critical", "reasons": ["move"], "message": "CRITICAL KSVH: price up 14.53% (last 13.40, from 11.70)"}

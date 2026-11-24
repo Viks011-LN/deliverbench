@@ -1,0 +1,73 @@
+{
+ "answers": [
+  {
+   "id": "Q01",
+   "value": 2.9,
+   "citations": [
+    {
+     "note": "notes/2026-10-06-valdoria-september-cpi.txt",
+     "quote": "Consumer prices rose 2.9% year on year in September, down from 3.0% in August, as fuel prices fell."
+    }
+   ]
+  },
+  {
+   "id": "Q02",
+   "value": 4.8,
+   "citations": [
+    {
+     "note": "notes/2026-10-16-kestria-labour-market.txt",
+     "quote": "Kestria's unemployment rate rose to 4.8% in September from 4.7% in August."
+    }
+   ]
+  },
+  {
+   "id": "Q03",
+   "value": 5.17,
+   "citations": [
+    {
+     "note": "notes/2026-10-09-sorvik-energy-q3-preview.txt",
+     "quote": "In the second quarter, revenue was EUR 2,960m and the operating margin 15.2%."
+    },
+    {
+     "note": "notes/2026-11-02-sorvik-energy-q3-results.txt",
+     "quote": "Sorvik Energy's third-quarter revenue rose to EUR 3,113m, while its operating margin fell to 13.9% as maintenance at two fields cut volumes and lifted unit costs."
+    }
+   ]
+  },
+  {
+   "id": "Q04",
+   "value": -25.0,
+   "direction": "lowered",
+   "citations": [
+    {
+     "note": "notes/2026-10-13-corvo-telecom-q3-preview.txt",
+     "quote": "For 2026, Corvo Telecom guides to an EBITDA margin of 37.5% to 38.5% and to capital expenditure of EUR 640m to EUR 680m."
+    },
+    {
+     "note": "notes/2026-10-23-corvo-telecom-q3-results.txt",
+     "quote": "The company raised its guidance for the 2026 EBITDA margin to 38.0% to 39.5%, and cut its capital expenditure guidance to EUR 620m to EUR 650m as network spending comes in below plan."
+    }
+   ]
+  },
+  {
+   "id": "Q05",
+   "value": 3.75,
+   "citations": [
+    {
+     "note": "notes/2026-10-08-valdoria-vcb-decision.txt",
+     "quote": "The Valdorian Central Bank raised its deposit rate by 25bp to 3.75% at its October meeting, as most economists had expected."
+    }
+   ]
+  },
+  {
+   "id": "Q06",
+   "value": 0.6,
+   "citations": [
+    {
+     "note": "notes/2026-10-08-pellmark-retail-into-the-third-quarter.txt",
+     "quote": "First-half gross margin was 38.2%, against 37.6% a year earlier, as the company bought better and cut markdowns."
+    }
+   ]
+  }
+ ]
+}

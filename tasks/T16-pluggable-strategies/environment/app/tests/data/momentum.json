@@ -1,0 +1,10 @@
+{
+  "signal": {
+    "type": "momentum",
+    "lookback": 60,
+    "skip": 5
+  },
+  "top_n": 3,
+  "rebalance": "monthly",
+  "benchmark": "IDX"
+}

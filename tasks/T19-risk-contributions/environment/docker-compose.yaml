@@ -1,0 +1,6 @@
+# Room hardening for the main room (scripts/apply_hardening.py).
+services:
+  main:
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 512

@@ -1,0 +1,27 @@
+[project]
+name = "deliverbench"
+version = "0.1.0.dev0"
+description = "Does the model deliver the job? Realistic agent jobs graded by hidden checks."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "harbor==0.26.0",
+    "openai==3.53.0",
+    "pypdf==7.1.1",
+]
+
+[project.scripts]
+dbench = "dbench.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["dbench"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

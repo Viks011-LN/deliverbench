@@ -1,0 +1,68 @@
+Title: Credit monthly: November
+Date: 2026-11-11
+Desk: Credit
+
+October was a good month for credit: spreads tightened, new issues were absorbed easily and the
+results season brought few surprises.
+
+Index                          End-September (bp)  End-October (bp)
+-------------------------------------------------------------------
+Investment grade, all sectors  108                 103
+Investment grade, industrials  99                  95
+High yield, all sectors        351                 339
+
+Supply
+
+Rating agencies have become more willing to look through one-off costs. Rating drift has turned
+slightly positive, with upgrades outnumbering downgrades this quarter. We see better value in the
+five-to-seven-year part of the curve than in the long end. Covenant quality in new high-yield deals
+has deteriorated again. New-issue premiums have compressed to almost nothing for the strongest
+names. Hybrid issuance has picked up as issuers lock in funding before rates fall further. Demand
+for longer maturities has been broad-based, which keeps credit curves steep.
+
+Fundamentals
+
+We prefer industrial and utility paper over financials at current levels. Leverage across the
+companies we follow is stable, and cash balances are healthy. Primary markets were busy, with
+issuers bringing deals forward ahead of results blackouts. Credit-default swap indices have
+outperformed cash bonds over the quarter so far. Sentiment toward investment-grade credit was little
+changed over the quarter so far as pension funds digested the outlook for consumer spending. Issuers
+are extending maturities while demand for longer paper lasts. Ten-year paper offers little extra
+spread over seven-year paper at current levels.
+
+Currency moves have been a smaller drag on reported growth than a year ago. Buybacks are an
+increasing share of shareholder returns across the sector. Dividend cover is comfortable for most of
+the companies we follow. Order books remain healthy, although lead times have shortened, which
+points to slower growth next year.
+
+Issuers we follow
+
+Norrland Industrial's new seven-year bond has tightened since it was priced. Sorvik Energy's lower
+capital expenditure leaves more room to reduce debt next year.
+
+Fallen-angel risk is concentrated in a handful of consumer names with weak cash flow. We would add
+to defensive sectors on any widening caused by supply. Bank loan markets have reopened for mid-sized
+companies, which takes pressure off bond issuance. Pension funds have been net buyers of long-dated
+bonds for most of the week. Secondary liquidity is adequate, though bid-offer spreads widen quickly
+on risk-off days. Spreads tightened modestly over the month as new issues were well absorbed.
+
+Upstream spending plans remain disciplined, with most of the growth in gas rather than oil.
+Long-term gas contracts give the producers more stable cash flows than the spot market suggests.
+Field decline rates are the swing factor for volumes beyond next year.
+
+Strategy
+
+We review the allocation at the start of each quarter and after any large market move. Pension funds
+have added to long-dated bonds, and positioning there is no longer light. Our view of
+investment-grade credit is constructive: the case is sound, but much of it is in the price. Our
+allocation is built to survive a range of outcomes rather than to win on one. Earnings, not
+multiples, will have to do the work next year.
+
+Short-dated bonds have been anchored by the policy outlook, while the long end has traded on supply.
+Our fair-value models put the long end slightly cheap, but not by enough to fight the trend. The
+term structure of volatility slopes upward: the market fears the new year more than the old. Pension
+fund demand for long-dated bonds should pick up as funding levels improve. We stay underweight
+duration but would add on any further back-up in yields.
+
+Risks to our view include a sharper fall in energy prices, a faster easing of the labour market and
+a renewed rise in long-term yields. Any of these would change the balance of our arguments.

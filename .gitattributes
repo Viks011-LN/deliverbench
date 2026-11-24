@@ -1,0 +1,5 @@
+# LF everywhere: task files are copied into Linux containers and some checks compare bytes.
+* text=auto eol=lf
+scripts/hooks/* text eol=lf
+*.png binary
+*.parquet binary

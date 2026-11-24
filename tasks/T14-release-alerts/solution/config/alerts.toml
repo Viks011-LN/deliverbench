@@ -1,0 +1,35 @@
+# The desk's alert settings. Only what differs from alertd/defaults.toml is set here; every other setting has its
+# default. `python -m alertd settings` prints them all, with where each comes from.
+
+[alerts]
+cooldown_minutes = 45
+daily_cap = 20
+quiet_end = "07:00"
+
+[price_move]
+threshold_pct = 2.0
+
+[limit_usage]
+warn_at_pct = 80.0
+
+[news]
+watchlist = ["ORVK", "KSVH", "BRHW", "QMB10"]
+
+# Release alerts (docs/desk/release-alerts.md): the economists' thresholds, set here so the desk can change them.
+[release]
+stale_after_minutes = 120
+
+[release.thresholds.high]
+pct = 0.10
+k = 15
+bn = 1.0
+
+[release.thresholds.medium]
+pct = 0.20
+k = 30
+bn = 2.0
+
+[release.thresholds.low]
+pct = 0.30
+k = 50
+bn = 3.0

@@ -1,0 +1,52 @@
+# folio default settings.
+#
+# This file is the source of truth for every setting and its default value.
+# Override them for a desk in ./folio.toml (same layout, only the keys you
+# change) or for one run with --set section.key=value, for example
+#
+#     folio check-limits --set limits.sector_max_share=0.30
+#
+# A key that is not in this file is rejected, so a typo fails loudly instead
+# of being ignored. Every key here must also be a field of the matching
+# dataclass in config/settings.py.
+
+[report]
+# Decimal places for amounts and percentages in text output and exports.
+money_places = 2
+percent_places = 1
+# Show cash as its own row in the sector and kind breakdowns.
+show_cash = true
+# Fold all but the largest N rows of a breakdown into "Other" (0 = show all).
+# Breakdowns with a fixed row order (kind) are never folded.
+top_n = 0
+# Prices older than this many business days are flagged by `folio value`.
+stale_price_days = 3
+
+[risk]
+var_confidence = 0.99
+# Number of most recent daily returns used for VaR, ES and volatility.
+var_lookback_days = 60
+# With fewer daily returns than this, risk figures are refused.
+min_observations = 20
+horizon_days = 1
+annualisation_days = 252
+# Bin width for `folio risk --histogram`, as a fraction (0.005 = 0.5%).
+histogram_step = 0.005
+
+[limits]
+# Every *_max_share is a fraction of NAV; a breach is strictly greater.
+sector_max_share = 0.25
+name_max_share = 0.08
+# Largest share of NAV in any one currency other than fx.base_currency.
+currency_max_share = 0.35
+# Historical VaR at risk.var_confidence over risk.horizon_days, as a share of NAV.
+var_max_share = 0.03
+# Names of rules to skip, e.g. ["var_share"].
+disabled = []
+
+[fx]
+base_currency = "GBP"
+# Crosses that are not in fx.csv are computed through this currency.
+pivot_currency = "USD"
+# An FX fixing older than this many calendar days is an error.
+max_rate_age_days = 5

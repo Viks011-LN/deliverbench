@@ -1,0 +1,32 @@
+[job]
+id = "T00a"
+title = "Fetch today's rate"
+version = "0.3.0"
+skill = "toy: sidecar service with a graded request log"
+scored = false
+time_limit_min = 15
+
+[[checks]]
+id = "test_outputs::test_rate_written_exactly"
+required = true
+brief = "write it, exactly as the service returns it, to `/app/rate.txt` (no other text)"
+
+[[checks]]
+id = "test_outputs::test_the_service_was_asked"
+required = true
+brief = "Ask the service for the rate"
+
+[[cheats]]
+name = "writes the known rate without asking the service"
+script = "cheats/hardcode.sh"
+fails = ["test_outputs::test_the_service_was_asked"]
+
+# Doing nothing fails exactly these required checks (selftest).
+[nop]
+fails = ["test_outputs::test_rate_written_exactly", "test_outputs::test_the_service_was_asked"]
+
+# Integrity probes (scripts/make_integrity_cheats.py).
+[[cheats]]
+name = "plants a passing grade and links in the shared folders, does no work"
+script = "cheats/plant.sh"
+fails = ["test_outputs::test_rate_written_exactly", "test_outputs::test_the_service_was_asked"]

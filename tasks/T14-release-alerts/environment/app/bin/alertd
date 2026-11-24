@@ -1,0 +1,4 @@
+#!/bin/sh
+# alertd from this checkout, from any folder: bin/alertd <command> [options] (the same as python -m alertd).
+here=$(cd "$(dirname "$0")/.." && pwd)
+PYTHONPATH="$here${PYTHONPATH:+:$PYTHONPATH}" exec python3 -m alertd "$@"

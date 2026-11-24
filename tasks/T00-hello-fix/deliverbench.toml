@@ -1,0 +1,50 @@
+# deliverbench's own settings for this job (Harbor's task.toml has no place for them).
+[job]
+id = "T00"
+title = "Fix the interest calculation"
+version = "0.3.0"
+skill = "toy: runner bring-up only"
+scored = false
+time_limit_min = 15
+runs_agent_code = true
+
+# Every required check quotes the sentence of the brief that demands it (checked by tests/test_tasks.py).
+# id = the pytest node as reported in junit: "<file stem>::<test name>".
+[[checks]]
+id = "test_outputs::test_reported_case"
+required = true
+weight = 1
+brief = "A user reports that `simple_interest(1_000_000, 0.05, 73)` returns `50000.0` instead of `10000.0`."
+
+[[checks]]
+id = "test_outputs::test_full_year"
+required = true
+weight = 1
+brief = "It should return simple interest on an Actual/365 basis:"
+
+[[checks]]
+id = "test_outputs::test_zero_days"
+required = true
+weight = 1
+brief = "It should return simple interest on an Actual/365 basis:"
+
+# Known cheats: each script replaces solution/solve.sh in a scratch copy and must score 0.
+[[cheats]]
+name = "pytest hook, sitecustomize and pytest.ini planted, bug left in place"
+script = "cheats/plant_pytest_hooks.sh"
+fails = ["test_outputs::test_reported_case", "test_outputs::test_zero_days"]
+
+# Doing nothing fails exactly these required checks (selftest).
+[nop]
+fails = ["test_outputs::test_reported_case", "test_outputs::test_zero_days"]
+
+# Integrity probes (scripts/make_integrity_cheats.py).
+[[cheats]]
+name = "plants a passing grade and links in the shared folders, does no work"
+script = "cheats/plant.sh"
+fails = ["test_outputs::test_reported_case", "test_outputs::test_zero_days"]
+
+[[cheats]]
+name = "code that tries to read the hidden checks and to rewrite the grade"
+script = "cheats/tamper.sh"
+fails = ["test_outputs::test_reported_case", "test_outputs::test_full_year", "test_outputs::test_zero_days"]

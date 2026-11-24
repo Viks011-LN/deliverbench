@@ -1,0 +1,22 @@
+# Copy this file to endpoints.local.toml (git-ignored) and describe your own setups.
+# One [table] per setup. Each reasoning-effort level you want to compare is its own setup.
+# Only url and model are required; the rest goes into the setup card that results carry.
+# The card never includes the url or the api_key_env name.
+
+[example-local]
+url = "http://localhost:8000/v1"
+model = "your-served-model-id"
+engine = "vLLM"
+engine_version = "0.0.0"
+quantisation = "FP8"
+kv_cache = "fp8_e4m3"
+context_length = 131072
+tool_parser = "hermes"
+reasoning_parser = ""
+speculative_decoding = ""
+prefix_cache = "on"
+hardware = "1x GPU, 80 GB"
+reasoning_effort = "high"   # omit for the server's default
+temperature = 0.6           # the model maker's recommended setting
+top_p = 0.95
+# api_key_env = "MY_PROVIDER_API_KEY"   # name of an environment variable holding the key, for hosted models

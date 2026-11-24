@@ -1,0 +1,73 @@
+Title: Weekly wrap: 19 to 23 October
+Date: 2026-10-23
+Desk: Strategy
+
+The week
+
+Cash still pays, which raises the bar for every other asset. Our allocation is built to survive a
+range of outcomes rather than to win on one. Dispersion within sectors remains high, which favours
+stock selection over sector bets. The backdrop is one of slowing but positive growth and inflation
+drifting lower. We keep a small overweight in credit, funded from government bonds.
+
+Data of the past fortnight
+
+Economy   Release                               Published   Figure
+------------------------------------------------------------------
+Valdoria  Retail sales volumes, September, m/m  7 October   -0.2%
+Kestria   GDP, third quarter, q/q, flash        14 October  0.9%
+Valdoria  Trade balance, September (EUR bn)     15 October  -1.8
+Kestria   Unemployment rate, September          16 October  4.8%
+
+The data have been tentative rather than weak, and the week brought few surprises. Services
+inflation is proving stickier than goods inflation, which has all but stopped rising. Government
+bond issuance plans for next year will be published with the budget, and we expect few surprises.
+Firms' price expectations have fallen to their lowest level in two years. Investment intentions are
+strongest in energy and logistics, and weakest in construction. Fiscal policy is set to be broadly
+neutral next year after two years of support. Households' view of their own finances has improved
+faster than their view of the wider outlook.
+
+Results
+
+Norrland Industrial's third-quarter revenue came in at EUR 4,216m, with an adjusted EBITA margin of
+12.4% (22 October). Corvo Telecom raised its guidance for the 2026 EBITDA margin to 38.0% to 39.5%
+(23 October).
+
+Pricing power is the theme of the season: companies that held prices have protected their margins.
+Buybacks are an increasing share of shareholder returns across the sector. Consolidation remains a
+theme in the sector, though regulators have become stricter. Analysts' estimates for next year still
+assume a recovery in volumes that the companies do not promise. Input-cost relief from lower freight
+and energy is now flowing through to gross margins. Dividend cover is comfortable for most of the
+companies we follow. The sector trades at a premium to its history because of the visibility of its
+earnings.
+
+Rail and grid equipment remain the strongest end markets, with orders running ahead of deliveries.
+Sentiment toward telecoms softened over the week as corporate treasurers digested the path of
+interest rates. Order cancellations remain rare, which suggests the backlog is solid.
+
+Markets
+
+Two-year swap rates in the major markets moved by 13bp on average over the fortnight. The regional
+equity index slipped 2.2% on the month, with chemicals the best performer. Equity funds took in USD
+4.9bn over the week, and bond funds took in USD 6.8bn.
+
+We prefer to hold steepeners in the five-to-thirty-year sector. Repo markets remain calm into the
+year end, with no sign of the balance-sheet strains of previous years. Our fair-value models put the
+long end slightly cheap, but not by enough to fight the trend. Pension fund demand for long-dated
+bonds should pick up as funding levels improve. Real-money accounts have been buyers of defensive
+equities on any back-up in yields. Sentiment toward cyclical equities was little changed over the
+fortnight as retail investors focused on the results season.
+
+New-issue premiums have compressed to almost nothing for the strongest names. We see better value in
+the five-to-seven-year part of the curve than in the long end. Fallen-angel risk is concentrated in
+a handful of consumer names with weak cash flow. Hybrid issuance has picked up as issuers lock in
+funding before rates fall further. Default rates remain low, and the pipeline of distressed
+exchanges is short.
+
+Investors have trimmed their long dollar positions, but only at the margin. Central bank reserve
+managers have been steady buyers on dips. Options markets price a calm year end, which we think is
+too complacent. We see little reason to chase the latest move and prefer to sell volatility.
+
+Next week
+
+Tuesday: our preview of Valdoria's third-quarter GDP. Wednesday: Kestria's third-quarter GDP, second
+estimate. Friday: Valdoria's third-quarter GDP, first estimate.

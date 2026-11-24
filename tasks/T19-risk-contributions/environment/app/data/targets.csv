@@ -1,0 +1,14 @@
+# Model weights for GBL-BAL, as agreed at the October allocation meeting.
+# scope: sector, instrument or cash. weight and band are fractions of NAV;
+# the weights, cash included, add up to 1.
+scope,key,weight,band
+sector,Government,0.20,0.010
+sector,Technology,0.15,0.010
+sector,Financials,0.15,0.010
+sector,Industrials,0.11,0.010
+sector,Consumer,0.10,0.010
+sector,Health Care,0.09,0.010
+sector,Energy,0.08,0.010
+instrument,GEIF,0.05,0.005
+instrument,JMKF,0.03,0.005
+cash,,0.04,0.010

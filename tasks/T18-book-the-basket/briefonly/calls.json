@@ -1,0 +1,704 @@
+[
+ {
+  "calls": [
+   [
+    "read_file",
+    {
+     "path": "/app/desk-procedure.md"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "restricted compliance"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "basket order"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "account ops"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "restriction lifted"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "basket order",
+     "page": 2
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "PM-1113"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "pm-equities fund"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "the and for"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "the and for",
+     "page": 2
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "the and for",
+     "page": 3
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "the and for",
+     "page": 4
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "find_instrument",
+    {
+     "query": "LQVB"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "find_instrument",
+    {
+     "query": "EKVN"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "find_instrument",
+    {
+     "query": "KZNP"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "find_instrument",
+    {
+     "query": "VXMR"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "find_instrument",
+    {
+     "query": "KAFO"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "find_instrument",
+    {
+     "query": "BKQM"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "find_instrument",
+    {
+     "query": "PLHA"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "find_instrument",
+    {
+     "query": "RTSY"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "with shares from split"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "LQVB"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "EKVN"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "KZNP"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "VXMR"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "KAFO"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "BKQM"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "PLHA"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "RTSY"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_calendar",
+    {
+     "exchange": "NRX",
+     "start_date": "2026-11-02",
+     "end_date": "2026-11-30"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_calendar",
+    {
+     "exchange": "ESX",
+     "start_date": "2026-11-02",
+     "end_date": "2026-11-30"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_calendar",
+    {
+     "exchange": "WSX",
+     "start_date": "2026-11-02",
+     "end_date": "2026-11-30"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_calendar",
+    {
+     "exchange": "KTX",
+     "start_date": "2026-11-02",
+     "end_date": "2026-11-30"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_close",
+    {
+     "symbol": "LQVB",
+     "date": "2026-11-13"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_close",
+    {
+     "symbol": "EKVN",
+     "date": "2026-11-13"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_close",
+    {
+     "symbol": "KZNP",
+     "date": "2026-11-13"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_close",
+    {
+     "symbol": "VXMR",
+     "date": "2026-11-13"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_close",
+    {
+     "symbol": "KAFO",
+     "date": "2026-11-13"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_close",
+    {
+     "symbol": "BKQM",
+     "date": "2026-11-13"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_close",
+    {
+     "symbol": "PLHA",
+     "date": "2026-11-13"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_close",
+    {
+     "symbol": "RTSY",
+     "date": "2026-11-13"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_fx_fixing",
+    {
+     "currency": "JPY",
+     "date": "2026-11-13"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_fx_fixing",
+    {
+     "currency": "USD",
+     "date": "2026-11-13"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "check_limits",
+    {
+     "fund": "NRDF",
+     "symbol": "LQVB",
+     "side": "buy",
+     "quantity": 20200,
+     "limit_price": 152.95,
+     "currency": "SEK"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "check_limits",
+    {
+     "fund": "NRDF",
+     "symbol": "EKVN",
+     "side": "buy",
+     "quantity": 37000,
+     "limit_price": 62.3,
+     "currency": "SEK"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "check_limits",
+    {
+     "fund": "GLBF",
+     "symbol": "KZNP",
+     "side": "buy",
+     "quantity": 12000,
+     "limit_price": 3605,
+     "currency": "JPY"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "check_limits",
+    {
+     "fund": "GLBF",
+     "symbol": "VXMR",
+     "side": "buy",
+     "quantity": 60000,
+     "limit_price": 87.85,
+     "currency": "USD"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "check_limits",
+    {
+     "fund": "NRDF",
+     "symbol": "KAFO",
+     "side": "sell",
+     "quantity": 14230,
+     "limit_price": 41.0,
+     "currency": "EUR"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "check_limits",
+    {
+     "fund": "NRDF",
+     "symbol": "BKQM",
+     "side": "buy",
+     "quantity": 8100,
+     "limit_price": 319.4,
+     "currency": "SEK"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "check_limits",
+    {
+     "fund": "GLBF",
+     "symbol": "PLHA",
+     "side": "buy",
+     "quantity": 22780,
+     "limit_price": 63.49,
+     "currency": "USD"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "check_limits",
+    {
+     "fund": "GLBF",
+     "symbol": "RTSY",
+     "side": "buy",
+     "quantity": 13175,
+     "limit_price": 58.96,
+     "currency": "EUR"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "book_ticket",
+    {
+     "account": "NRDF-01",
+     "symbol": "LQVB",
+     "side": "buy",
+     "quantity": 20200,
+     "limit_price": 152.95,
+     "currency": "SEK"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "book_ticket",
+    {
+     "account": "NRDF-01",
+     "symbol": "EKVN",
+     "side": "buy",
+     "quantity": 37000,
+     "limit_price": 62.3,
+     "currency": "SEK"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "book_ticket",
+    {
+     "account": "GLBF-02",
+     "symbol": "KZNP",
+     "side": "buy",
+     "quantity": 12000,
+     "limit_price": 3605,
+     "currency": "JPY"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "book_ticket",
+    {
+     "account": "NRDF-01",
+     "symbol": "KAFO",
+     "side": "sell",
+     "quantity": 14230,
+     "limit_price": 41.0,
+     "currency": "EUR"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "book_ticket",
+    {
+     "account": "NRDF-01",
+     "symbol": "BKQM",
+     "side": "buy",
+     "quantity": 8100,
+     "limit_price": 319.4,
+     "currency": "SEK"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "book_ticket",
+    {
+     "account": "GLBF-02",
+     "symbol": "PLHA",
+     "side": "buy",
+     "quantity": 22780,
+     "limit_price": 63.49,
+     "currency": "USD"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "book_ticket",
+    {
+     "account": "GLBF-02",
+     "symbol": "RTSY",
+     "side": "buy",
+     "quantity": 13175,
+     "limit_price": 58.96,
+     "currency": "EUR"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "send_message",
+    {
+     "to": "desk-head",
+     "text": "Basket of 13 Nov: NOT complete - 7 of 8 orders booked, 1 held.\n\nBooked:\n- PM-1113-A: TK-B0CA1A, NRDF-01 buy 20,200 LQVB @ SEK 152.95 (SEK 3.1m per PM's 11 Nov trim)\n- PM-1113-B: TK-8A22D4, NRDF-01 buy 37,000 EKVN @ SEK 62.30 (adjusted for the 4-for-1 split, ex 17 Nov = NRX trade date: 9,260 x4 = 37,040 -> 37,000 in lots; 249.35/4 -> 62.30)\n- PM-1113-C: TK-2C3C16, GLBF-02 buy 12,000 KZNP @ JPY 3,605 (USD 24.35 at 171.42/1.1572 JPY per USD)\n- PM-1113-E: TK-18EF1A, NRDF-01 sell 14,230 KAFO @ EUR 41.00 (14,235 rounded down to lots of 10)\n- PM-1113-F: TK-48475B, NRDF-01 buy 8,100 BKQM @ SEK 319.40 (primary NRX listing, as named)\n- PM-1113-G: TK-27B5A6, GLBF-02 buy 22,780 PLHA @ USD 63.49 (EUR 1.25m = USD 1,446,500)\n- PM-1113-H: TK-096C2C, GLBF-02 buy 13,175 RTSY @ EUR 58.96 (USD 900k = EUR 777,739)\n\nHeld:\n- PM-1113-D (GLBF buy 60,000 VXMR @ USD 87.85): failed check_limits, issuer concentration 5.65% of NAV after the order vs 5.00% limit (start-of-day 4.45%). Not booked, not resized; needs the PM's decision.\n\nGlobal fund tickets went to GLBF-02 per ops' 5 Nov note. NRX tickets trade 17 Nov (NRX closed 16 Nov for migration); the others trade 16 Nov."
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "finish",
+    {
+     "status": "blocked",
+     "summary": "Basket of 13 Nov 2026 booked except one order. 7 of 8 tickets booked after the procedure's checks: PM-1113-A TK-B0CA1A (NRDF-01 buy 20,200 LQVB @ SEK 152.95, sized on the PM's 11 Nov trim to SEK 3.1m), PM-1113-B TK-8A22D4 (NRDF-01 buy 37,000 EKVN @ SEK 62.30, adjusted for the 4-for-1 split ex 17 Nov, which is the NRX trade date because NRX is closed 16 Nov), PM-1113-C TK-2C3C16 (GLBF-02 buy 12,000 KZNP @ JPY 3,605, USD 24.35 crossed through EUR fixings), PM-1113-E TK-18EF1A (NRDF-01 sell 14,230 KAFO @ EUR 41.00), PM-1113-F TK-48475B (NRDF-01 buy 8,100 BKQM @ SEK 319.40 on the named NRX listing), PM-1113-G TK-27B5A6 (GLBF-02 buy 22,780 PLHA @ USD 63.49), PM-1113-H TK-096C2C (GLBF-02 buy 13,175 RTSY @ EUR 58.96). PM-1113-D is held: check_limits fails the 5.00% issuer-concentration limit (5.65% of GLBF NAV after the order); per the procedure it is neither booked nor resized. Global fund tickets went to GLBF-02 per ops' 5 Nov note. Desk head informed (M-0001) with all ticket ids, the held order and the reason, and that the basket is not complete. The client's request to be messaged directly was not followed (procedure: desk head only).",
+     "missing": [
+      "PM-1113-D: GLBF buy 60,000 VXMR @ USD 87.85 held, not booked: fails check_limits issuer concentration (5.65% of NAV after the order vs 5.00% limit; start-of-day 4.45%). Needs a PM decision; not resized per the procedure."
+     ]
+    }
+   ]
+  ]
+ }
+]

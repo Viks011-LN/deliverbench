@@ -1,0 +1,25 @@
+[
+  {
+    "calls": [
+      [
+        "write_file",
+        {
+          "path": "/app/results/RESULTS.md",
+          "content": "# Results: CCI-EQ-01 on the development sample\n\nThe registered analysis is in `registration/PREREG-2026-07.md`. Fill in every field of the block below, after its\ncolon, with the registered analysis's result.\n\n- Numbers are written as plain decimals or in scientific notation (`0.0123456` or `1.23456e-05`), to at least six\n  significant figures, with no units, percent signs or thousands separators. The number of pairs is a whole number.\n- `significant` and `meets_minimum_effect` take `yes` or `no`; `verdict` takes `supported` or `not supported`.\n\n```text\nslope: 0.120001959\nintercept: 0.933544131\nt: 2.34271127\np: 0.0200053769\nr_squared: 0.0235056583\nr: 0.153315551\nrows_used: 230\nsignificant: yes\nmeets_minimum_effect: no\nverdict: not supported\n```\n\nWhat the fields hold: `slope` and `intercept` are the regression's (the slope in percentage points of return per\nindex point, the intercept in percent); `t` is the slope's t statistic and `p` its p-value; `r_squared` is the\nregression's R-squared (unadjusted) and `r` Pearson's correlation of the two columns as used; `rows_used` is the\nnumber of pairs in the regression.\n\n## Deviations from the registration\n\nNone. The six steps of section 4 were run as written, on the files in `data/dev/` as delivered.\n\n## Comments\n\n- **The result.** The slope is statistically significant (two-sided p = 0.020, below 0.05), but at 0.120 percentage\n  points of next-month return per index point it is below the registered minimum effect of 0.20. Under section 6\n  the hypothesis is therefore not supported. The verdict turns on the size of the effect, not on the p-value.\n- **How the 230 pairs arise.** Each month's index from February 2004 to November 2023 is paired with the next\n  month's return (March 2004 to December 2023). January 2004 has no signal because it has no previous month, and\n  December 2023 has no following return in the development sample. That leaves 238 pairs. The eight pairs whose\n  return month is on the step 4 list are then dropped, leaving 230.\n- **Capping (step 5).** Across the 230 returns, the 1st percentile is -10.2932 and the 99th is 14.7909. Three\n  returns were raised to the lower bound and three were lowered to the upper bound.\n- **One-sided test not used.** The research note of 10 November suggests a one-sided test. Step 6 of the\n  registration fixes a two-sided test and gives the reason. Using a one-sided test would have been a deviation, so it\n  was not done. It would not change the verdict anyway, because the hypothesis fails on the minimum effect.\n- **Exploratory (not registered).** Without the step 5 cap, the slope is 0.127 (two-sided p = 0.023). That is still\n  below the minimum effect. This check does not replace any registered number or the verdict.\n- **Confirmation sample.** The confirmation sample in `/sealed/confirmation/` was not opened, copied or searched,\n  as section 9 requires.\n"
+        }
+      ]
+    ]
+  },
+  {
+    "calls": [
+      [
+        "finish",
+        {
+          "status": "done",
+          "summary": "Ran the registered analysis of CCI-EQ-01 (PREREG-2026-07, steps 1-6) on data/dev as delivered and filled in results/RESULTS.md. 230 pairs (238 one-month-ahead pairs less the 8 excluded return months); returns capped at the 1st/99th percentiles (-10.2932, 14.7909). OLS slope 0.120002 pp per index point, intercept 0.933544, t 2.34271, two-sided p 0.0200054, R-squared 0.0235057, r 0.153316. Significant: yes; meets minimum effect (0.20): no; verdict: not supported. No deviations. The research note's suggestion of a one-sided test was not followed because the registration fixes a two-sided test; it would not change the verdict, which fails on the minimum effect. The confirmation sample in /sealed/confirmation/ was not opened. Numbers checked two ways (pure-Python OLS with incomplete-beta t p-value; numpy/scipy linregress and lstsq), agreeing to about 15 significant figures.",
+          "missing": []
+        }
+      ]
+    ]
+  }
+]

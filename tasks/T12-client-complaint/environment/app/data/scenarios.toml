@@ -1,0 +1,53 @@
+# Stress scenarios for the model portfolio, read by `python -m folio.scenarios`.
+#
+# One [scenarios.<name>] table per scenario; the name is what you type after
+# `run`. Price and FX shocks are in percent (-20 is a 20% fall), yield shifts
+# in basis points. Shocks that hit the same holding compound. The keys:
+#
+#   description  one line, shown by `list` and `run`
+#   kind         price shock by instrument kind: equity, bond or fund
+#   sector       price shock by sector, as written in instruments.csv; it hits
+#                shares, bonds and funds of that sector alike
+#   instrument   price shock for single instruments, by id
+#   fx           change in a currency's value against the base currency (GBP)
+#   yield_bp     parallel shift of bond yields: one number for every bond, or
+#                a table by currency; turned into prices through duration
+#   historical   { days = N, scope = "book" or "instrument" }: replay the worst
+#                N-business-day move in prices.csv instead of fixed shocks
+#
+# docs/scenarios.md has the details.
+
+[scenarios.equity-sell-off]
+description = "Equities fall 20%, the diversified equity funds 15%"
+kind = { equity = -20 }
+sector = { Diversified = -15 }
+
+[scenarios.tech-rout]
+description = "Technology shares fall 25-40%; the Adzel bond loses 6%"
+instrument = { ADZM = -35, QNTL = -40, HLZS = -40, VLXN = -25, KIWQ = -25, ADZM32 = -6 }
+
+[scenarios.rates-up-100]
+description = "Every bond yield 100 bp higher"
+yield_bp = 100
+
+[scenarios.gilt-sell-off]
+description = "Gilt yields up 150 bp and sterling down 7-8%; UK financials and private credit fall"
+yield_bp = { GBP = 150 }
+fx = { USD = 8, EUR = 7, JPY = 8 }
+instrument = { MXTB = -15, TLLY = -12, PCRF = -5 }
+
+[scenarios.dollar-slide]
+description = "The dollar loses 12% against sterling"
+fx = { USD = -12 }
+
+[scenarios.energy-spike]
+description = "Oil price spike: energy up 20%, industrials down 12%"
+sector = { Energy = 20, Industrials = -12 }
+
+[scenarios.worst-week]
+description = "The book's worst five-day stretch in the price history, replayed"
+historical = { days = 5, scope = "book" }
+
+[scenarios.worst-month-each]
+description = "Every holding's own worst 20-day move, all at once"
+historical = { days = 20, scope = "instrument" }

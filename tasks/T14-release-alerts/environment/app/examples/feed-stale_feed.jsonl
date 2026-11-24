@@ -1,0 +1,8 @@
+{"id": "s01", "kind": "stale_feed", "at": "2026-11-03T09:00:00Z", "feed": "prices-eu", "last_update": "2026-11-03T08:52:00Z"}
+{"id": "s02", "kind": "stale_feed", "at": "2026-11-03T09:35:00Z", "feed": "prices-eu", "last_update": "2026-11-03T09:12:00Z"}
+{"id": "s03", "kind": "stale_feed", "at": "2026-11-03T09:50:00Z", "feed": "prices-eu", "last_update": "2026-11-03T09:12:00Z"}
+{"id": "s04", "kind": "stale_feed", "at": "2026-11-03T10:05:00Z", "feed": "prices-eu", "last_update": "2026-11-03T09:12:00Z"}
+{"id": "s05", "kind": "stale_feed", "at": "2026-11-03T10:30:00Z", "feed": "fx-asia", "last_update": "2026-11-03T09:40:00Z"}
+{"id": "s06", "kind": "stale_feed", "at": "2026-11-03T10:40:00Z", "feed": "prices-eu", "last_update": "2026-11-03T09:12:00Z"}
+{"id": "s07", "kind": "stale_feed", "at": "2026-11-03T22:40:00Z", "feed": "rates-us", "last_update": "2026-11-03T22:20:00Z"}
+{"id": "s08", "kind": "stale_feed", "at": "2026-11-03T23:30:00Z", "feed": "rates-us", "last_update": "2026-11-03T22:20:00Z"}

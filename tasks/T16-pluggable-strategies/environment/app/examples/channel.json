@@ -1,0 +1,11 @@
+{
+  "signal": {
+    "type": "channel",
+    "days": 30,
+    "neutral": 0.15
+  },
+  "top_n": 3,
+  "allow_short": true,
+  "rebalance": "weekly",
+  "max_weight": 0.35
+}

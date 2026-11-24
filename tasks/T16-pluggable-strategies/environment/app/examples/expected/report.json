@@ -1,0 +1,148 @@
+{
+  "period": {
+    "start": "2025-02-03",
+    "end": "2025-11-28",
+    "days": 215
+  },
+  "capital": {
+    "initial": 1000000.0,
+    "final": 1042799.468037524
+  },
+  "strategy": {
+    "signal": {
+      "type": "channel",
+      "days": 30,
+      "neutral": 0.15
+    },
+    "top_n": 3,
+    "allow_short": true,
+    "max_weight": 0.35,
+    "min_price": 0.0,
+    "exclude": [],
+    "rebalance": "weekly",
+    "rebalance_band": 0.0,
+    "vol_target": null,
+    "vol_window": 20,
+    "max_leverage": 1.5,
+    "drawdown_limit": null,
+    "drawdown_scale": 0.5,
+    "stop_loss": null,
+    "max_turnover": null,
+    "min_history": 0,
+    "benchmark": null
+  },
+  "costs": {
+    "commission_bps": 5.0,
+    "min_commission": 0.0,
+    "slippage_bps": 2.0,
+    "borrow_bps": 50.0,
+    "cash_rate": 0.0
+  },
+  "metrics": {
+    "total_return": 0.0427994680375241,
+    "annual_return": 0.05649796446649738,
+    "annual_volatility": 0.11989312171975135,
+    "sharpe": 0.4712360780676031,
+    "sortino": 0.711325404516233,
+    "max_drawdown": -0.11051875841599335,
+    "calmar": 0.5112070138703392,
+    "hit_rate": 0.5081081081081081,
+    "best_day": 0.02399339559871705,
+    "worst_day": -0.018738103356020996,
+    "average_gross": 0.8474095498754914,
+    "average_net": 0.007095305461597528,
+    "average_holdings": 4.558139534883721,
+    "turnover": 35.26387646553769,
+    "trades": 247,
+    "forced_exits": 0,
+    "stop_losses": 0,
+    "commissions": 15543.236482323675,
+    "slippage": 6217.29459292947,
+    "borrow_fees": 1863.6415283941342,
+    "interest": 0.0
+  },
+  "drawdowns": [
+    {
+      "peak": "2025-07-14",
+      "trough": "2025-11-11",
+      "recovery": null,
+      "depth": -0.11051875841599335,
+      "days": 99
+    },
+    {
+      "peak": "2025-06-09",
+      "trough": "2025-06-24",
+      "recovery": "2025-07-08",
+      "depth": -0.04092295311141958,
+      "days": 21
+    },
+    {
+      "peak": "2025-03-18",
+      "trough": "2025-03-24",
+      "recovery": "2025-04-03",
+      "depth": -0.025297223979487304,
+      "days": 12
+    }
+  ],
+  "positions": {
+    "opened": 55,
+    "closed": 51,
+    "still_open": 4,
+    "average_days_held": 16.96078431372549,
+    "longest_held": {
+      "symbol": "KEPA",
+      "days": 50
+    }
+  },
+  "monthly_returns": {
+    "2025-02": 0.0,
+    "2025-03": -0.005426960492688315,
+    "2025-04": 0.011012845640196778,
+    "2025-05": 0.03700043947281606,
+    "2025-06": 0.014980818006483876,
+    "2025-07": 0.016914719180174842,
+    "2025-08": -0.008246980393580294,
+    "2025-09": -0.030341497259665173,
+    "2025-10": -0.016736105925883482,
+    "2025-11": 0.024692843003519815
+  },
+  "yearly_returns": {
+    "2025": 0.042799468037525656
+  },
+  "pnl_by_symbol": {
+    "KEPA": 46780.079854761745,
+    "LUQV": 21537.845536700603,
+    "MIQZ": 15928.315051690077,
+    "NOXA": 18001.028037710403,
+    "ORBI": -50454.73496141278,
+    "PAXT": 9509.670071031256,
+    "QUIL": 17836.674413162338,
+    "REQX": -36339.40996612
+  },
+  "final_positions": {
+    "LUQV": {
+      "units": 825.985815397052,
+      "price": 240.84,
+      "value": 198930.423780226,
+      "weight": 0.19076575111281865
+    },
+    "MIQZ": {
+      "units": 965.1278885027818,
+      "price": 128.65,
+      "value": 124163.70285588289,
+      "weight": 0.11906766992272286
+    },
+    "NOXA": {
+      "units": 923.8874795251888,
+      "price": 204.47,
+      "value": 188907.27293851535,
+      "weight": 0.18115397900425254
+    },
+    "PAXT": {
+      "units": -21929.714289129395,
+      "price": 15.94,
+      "value": -349559.6457687225,
+      "weight": -0.3352127196867193
+    }
+  }
+}

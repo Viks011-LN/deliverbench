@@ -1,0 +1,416 @@
+# deliverbench's own settings for this job (Harbor's task.toml has no place for them). A v2 job (format 2):
+# the evidence map, the name-and-rule list and the no-hint check below are checked by dbench/jobformat.py.
+# The job plan: docs/job-plans/T19-PLAN.md.
+[job]
+id = "T19"
+title = "Where the risk comes from: shares of volatility in folio"
+version = "0.1.3"
+skill = "a design decision in a large codebase with no twin to copy: a risk split measured the tool's own way"
+scored = true
+format = 2
+time_limit_min = 220   # SCORING section 6: 5 x the slowest honest trial run (43 min, all trial setups), rounded up to 5 minutes; 240 at most
+runs_agent_code = true
+
+# The job's levers (docs/job-plans/T19-PLAN.md), frozen before its first model run.
+[settings]
+codebase_lines = 15905        # the room: v1's T09 folio at full size, plus the risk notes and the helper
+data_sets = 6                 # hidden; generate.py
+hidden_cases = 108            # 18 per data set: 2 report, 3 export, 6 limits, 7 unchanged
+export_tolerance_pp = 0.05    # vol_share against the reference, in percentage points of volatility
+default_limit = 0.20          # limits.name_vol_max_share
+breaching_data_sets = 1       # concentrated: its largest name carries 25.3% at the default window
+near_limit_data_sets = 1      # near_limit: 19.5%, just under the default
+short_history_data_sets = 1   # short_history: 55 daily returns, fewer than the lookback of 60
+helper_off_by_days = 1        # calc/returns.daily_pnl_shares pairs each day's shares with the next day's return
+
+# Every output check runs the agent's folio and the reference side by side on six hidden data sets
+# (tests/data/cases.json); tests/compare.py says what is compared for each.
+[[checks]]
+id = "test_outputs::test_report_by_risk"
+required = true
+
+[[checks]]
+id = "test_outputs::test_export_has_vol_share"
+required = true
+
+[[checks]]
+id = "test_outputs::test_name_vol_share_limit"
+required = true
+
+[[checks]]
+id = "test_outputs::test_everything_else_unchanged"
+required = true
+
+[[checks]]
+id = "test_outputs::test_original_tests_pass"
+required = true
+
+# ----- the evidence map: what each check demands, the sentence that demands it, where it lives -----
+
+[[evidence]]
+check = "test_outputs::test_report_by_risk"
+demands = "folio report --by risk runs, lists every holding, and shows every sector's share of the volatility on a line that names the sector, or under its heading (the layout is the model's)"
+quote = "`folio report --by risk` shows each holding's and each sector's share of the volatility."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_report_by_risk"
+demands = "a sector's share is the sum of its holdings' shares (within 0.0005 of the reference's, as a percentage or a fraction)"
+quote = "A group's share (a sector, say) is the sum of its lines' shares."
+source = "room:docs/risk-notes.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_export_has_vol_share"
+demands = "each holding's share of volatility in the export"
+quote = "Show me each holding's and each sector's share of the portfolio's volatility, in the report and the export"
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_export_has_vol_share"
+demands = "the column and field vol_share, its place and its form"
+quote = "`folio export`, CSV and JSON, gains one column (CSV) and field (JSON), `vol_share`: each position's share, just before `weight` and written like it. The sectors' shares are in the report, not the export."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_export_has_vol_share"
+demands = "the method: the Euler allocation over the daily P&L shares"
+quote = "Volatility is split with the Euler allocation of volatility, applied to the daily P&L shares over the window above."
+source = "room:docs/risk-notes.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_export_has_vol_share"
+demands = "the daily P&L shares, not today's weights times returns"
+quote = "A line's daily P&L share is its P&L from one day to the next as a share of the previous day's NAV. On every day the lines' shares add up to the portfolio's simple return. Splits work from these shares, never from today's weights times each line's return"
+source = "room:docs/risk-notes.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_export_has_vol_share"
+demands = "the window: risk.var_lookback_days, as folio risk"
+quote = "The window is the last `risk.var_lookback_days` daily returns, the same window for volatility, VaR, expected shortfall and anything that splits them."
+source = "room:docs/risk-notes.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_export_has_vol_share"
+demands = "volatility about the mean of the window's returns, not about zero"
+quote = "Volatility is measured about the mean of the window's returns, as in `folio risk`."
+source = "room:docs/risk-notes.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_export_has_vol_share"
+demands = "simple returns, not log returns"
+quote = "Anything that splits a risk figure works on the simple returns instead, because P&L adds up and logs do not."
+source = "room:docs/risk-notes.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_export_has_vol_share"
+demands = "cash is a line of its own"
+quote = "every position, and every cash balance as a line of its own"
+source = "room:docs/risk-notes.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_export_has_vol_share"
+demands = "written like weight: a fraction, six places in the CSV"
+quote = "WEIGHT_PLACES = 6"
+source = "room:folio/report/csv_export.py"
+trail = ["room:README.md", "room:docs/ARCHITECTURE.md"]
+
+[[evidence]]
+check = "test_outputs::test_export_has_vol_share"
+demands = "written like weight: a plain number rounded to six places in the JSON"
+quote = "Weights are plain numbers rounded to six places"
+source = "room:folio/report/json_export.py"
+trail = ["room:README.md", "room:docs/ARCHITECTURE.md"]
+
+[[evidence]]
+check = "test_outputs::test_name_vol_share_limit"
+demands = "a limit on the largest single name's share of volatility"
+quote = "warn me when one name carries more than a set share of the risk"
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_name_vol_share_limit"
+demands = "the rule's name, its setting and the default"
+quote = "`folio check-limits` has a new rule, `name_vol_share`, with its threshold in the setting `limits.name_vol_max_share`, default `0.20`."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_name_vol_share_limit"
+demands = "the breach line in the house format"
+quote = "One line per breach, always in the same format:"
+source = "room:folio/limits/rules.py"
+trail = ["room:README.md", "room:docs/ARCHITECTURE.md"]
+
+[[evidence]]
+check = "test_outputs::test_name_vol_share_limit"
+demands = "a name is an issuer; cash is not a name"
+quote = "Limits by name follow the `name_share` limit: a name is an issuer, so a company's shares and its bonds count together. Cash is not a name."
+source = "room:docs/risk-notes.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_name_vol_share_limit"
+demands = "the setting is read from folio.toml and --set like any other (a hidden folio.toml changes it)"
+quote = "Override them in `./folio.toml` (same layout, only the keys you change) or for one run:"
+source = "room:README.md"
+
+[[evidence]]
+check = "test_outputs::test_everything_else_unchanged"
+demands = "every other command's output unchanged"
+quote = "Nothing else folio prints changes"
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_original_tests_pass"
+demands = "the original tests pass, unedited"
+quote = "the existing tests in `/app/tests` keep passing: they will be run in their current form against your `folio`."
+source = "ticket"
+
+# ----- every name and rule the grader relies on, with the sentence that fixes it -----
+
+[[names]]
+kind = "option"
+name = "folio report --by risk"
+value = "runs (exit 0), lists every holding (id, or the name's first 20 characters), and shows every sector's share on a line that names the sector (a holding's line counts too), or under a heading that names it, before the next sector's line: a number within 0.0005 of the reference's, as a percentage or a fraction; the layout and the holdings' numbers are not compared"
+quote = "`folio report --by risk` shows each holding's and each sector's share of the volatility."
+source = "ticket"
+
+[[names]]
+kind = "column"
+name = "vol_share"
+value = "one CSV column and one JSON field per position, just before weight; nothing else added (a vol_share on a JSON cash entry is not graded)"
+quote = "gains one column (CSV) and field (JSON), `vol_share`: each position's share, just before `weight` and written like it."
+source = "ticket"
+
+[[names]]
+kind = "format"
+name = "vol_share in the CSV"
+value = "a fraction of the volatility like weight (0.082434); compared as a number within 0.0005"
+quote = "WEIGHT_PLACES = 6"
+source = "room:folio/report/csv_export.py"
+
+[[names]]
+kind = "format"
+name = "vol_share in the JSON"
+value = "a JSON number, a fraction like weight; compared within 0.0005"
+quote = "Weights are plain numbers rounded to six places"
+source = "room:folio/report/json_export.py"
+
+[[names]]
+kind = "rule"
+name = "name_vol_share"
+value = "the rule's name in its lines and in limits.disabled"
+quote = "`folio check-limits` has a new rule, `name_vol_share`"
+source = "ticket"
+
+[[names]]
+kind = "setting"
+name = "limits.name_vol_max_share"
+value = "default 0.20; folio.toml and --set change it (hidden folio.toml: 0.15)"
+quote = "with its threshold in the setting `limits.name_vol_max_share`, default `0.20`."
+source = "ticket"
+
+[[names]]
+kind = "rule"
+name = "settings layering"
+value = "defaults.toml, then ./folio.toml or --config, then --set"
+quote = "Override them in `./folio.toml` (same layout, only the keys you change) or for one run:"
+source = "room:README.md"
+
+[[names]]
+kind = "format"
+name = "breach line"
+value = "BREACH name_vol_share ADZM: 25.3% > 20.0%"
+quote = "BREACH sector_share Technology: 31.2% > 25.0%"
+source = "room:folio/limits/rules.py"
+
+[[names]]
+kind = "format"
+name = "the --verbose line"
+value = "ok name_vol_share ADZM: 8.7% <= 20.0%"
+quote = 'return f"ok {self.rule} {self.subject}: {actual} <= {limit}"'
+source = "room:folio/limits/rules.py"
+
+[[names]]
+kind = "rule"
+name = "what --verbose shows"
+value = "the largest measurement of a rule without a breach"
+quote = "The largest measurement, breach or not, for ``check-limits --verbose``."
+source = "room:folio/limits/rules.py"
+
+[[names]]
+kind = "rule"
+name = "breach and order"
+value = "strictly above the threshold, on exact values; breaches largest first, ties by subject"
+quote = "a breach is strictly above the threshold, compared on exact values (the printed percentages are rounded)."
+source = "room:folio/limits/rules.py"
+
+[[names]]
+kind = "rule"
+name = "order of a rule's measurements"
+value = "largest first, ties by subject"
+quote = "Everything this rule limits, largest first (ties by subject)."
+source = "room:folio/limits/rules.py"
+
+[[names]]
+kind = "rule"
+name = "limits.disabled"
+value = "lists rules by name; name_vol_share can be listed"
+quote = "``name``: what appears in the output and what ``limits.disabled`` lists;"
+source = "room:folio/limits/rules.py"
+
+[[names]]
+kind = "format"
+name = "percentages in check-limits lines"
+value = "report.percent_places decimals (a hidden case sets 2)"
+quote = "places = ctx.settings.report.percent_places"
+source = "room:folio/cli.py"
+
+[[names]]
+kind = "rule"
+name = "a name"
+value = "an issuer (Instrument.issuer_key), shares and bonds together; cash is not a name"
+quote = "Limits by name follow the `name_share` limit: a name is an issuer, so a company's shares and its bonds count together. Cash is not a name."
+source = "room:docs/risk-notes.md"
+
+[[names]]
+kind = "method"
+name = "shares of volatility"
+value = "Euler allocation over the daily P&L shares: cov(line's P&L share, portfolio return) / var(portfolio return)"
+quote = "Volatility is split with the Euler allocation of volatility, applied to the daily P&L shares over the window above."
+source = "room:docs/risk-notes.md"
+
+[[names]]
+kind = "method"
+name = "the series"
+value = "today's holdings at historical prices and FX (returns.line_values over returns.history_dates)"
+quote = "Every risk figure is measured on today's holdings revalued at historical prices and FX"
+source = "room:docs/risk-notes.md"
+
+[[names]]
+kind = "method"
+name = "the daily P&L share"
+value = "a line's P&L from one day to the next over the previous day's NAV, in the base currency; not today's weights times returns"
+quote = "A line's daily P&L share is its P&L from one day to the next as a share of the previous day's NAV."
+source = "room:docs/risk-notes.md"
+
+[[names]]
+kind = "method"
+name = "the window"
+value = "the last risk.var_lookback_days daily returns, or every return there is when the history is shorter (a hidden case sets 40, a hidden folio.toml 45)"
+quote = "The window is the last `risk.var_lookback_days` daily returns, the same window for volatility, VaR, expected shortfall and anything that splits them."
+source = "room:docs/risk-notes.md"
+
+[[names]]
+kind = "method"
+name = "simple returns"
+value = "the portfolio's simple daily return, which the P&L shares add up to"
+quote = "Anything that splits a risk figure works on the simple returns instead, because P&L adds up and logs do not."
+source = "room:docs/risk-notes.md"
+
+[[names]]
+kind = "method"
+name = "the divisor"
+value = "n or n - 1, the same for covariances and the variance; it cancels"
+quote = "Use the same divisor for every figure in the split: it cancels out of the shares."
+source = "room:docs/risk-notes.md"
+
+[[names]]
+kind = "method"
+name = "cash"
+value = "each cash balance is a line of its own; it is in no position's vol_share and in no name, but in the 100%"
+quote = "every cash balance as a line of its own (a balance in a foreign currency moves with its exchange rate; one in the base currency never moves)"
+source = "room:docs/risk-notes.md"
+
+[[names]]
+kind = "method"
+name = "a sector's share"
+value = "the sum of its holdings' shares, graded in the report within 0.0005; cash a row of its own (not graded)"
+quote = "A group's share (a sector, say) is the sum of its lines' shares."
+source = "room:docs/risk-notes.md"
+
+[[names]]
+kind = "method"
+name = "about the mean"
+value = "the variance and every estimate in the split are taken about the window's mean, as folio risk's volatility is (statistics.stdev); not about zero"
+quote = "Volatility is measured about the mean of the window's returns, as in `folio risk`."
+source = "room:docs/risk-notes.md"
+
+[hints]
+forbidden = ["covariance", "Euler", "correlation", "contribution", "issuer", "P&L", "risk-notes", "daily_pnl_shares",
+             "drift"]
+
+# ----- selftest: doing nothing, the integrity probes and every wrong solution fail exactly their checks -----
+
+[nop]
+fails = ["test_outputs::test_report_by_risk", "test_outputs::test_export_has_vol_share",
+         "test_outputs::test_name_vol_share_limit"]
+
+[[cheats]]
+name = "each line's share is its own volatility over the sum of all the lines' (no co-movement)"
+script = "cheats/own_volatility.sh"
+fails = ["test_outputs::test_export_has_vol_share", "test_outputs::test_name_vol_share_limit",
+         "test_outputs::test_report_by_risk"]
+
+[[cheats]]
+name = "each line's share of the risk is its weight (position size)"
+script = "cheats/weights.sh"
+fails = ["test_outputs::test_export_has_vol_share", "test_outputs::test_name_vol_share_limit",
+         "test_outputs::test_report_by_risk"]
+
+[[cheats]]
+name = "the textbook formula on today's weights times each line's return, not the daily P&L shares the notes name"
+script = "cheats/todays_weights.sh"
+fails = ["test_outputs::test_export_has_vol_share", "test_outputs::test_name_vol_share_limit",
+         "test_outputs::test_report_by_risk"]
+
+[[cheats]]
+name = "splits the log returns, where the notes say simple: within the export's tolerance, but printed limit figures and the sectors' shares move"
+script = "cheats/log_returns.sh"
+fails = ["test_outputs::test_name_vol_share_limit", "test_outputs::test_report_by_risk"]
+
+[[cheats]]
+name = "reuses calc/returns.daily_pnl_shares as it stands: each day's shares paired with the next day's return"
+script = "cheats/buggy_helper.sh"
+fails = ["test_outputs::test_export_has_vol_share", "test_outputs::test_name_vol_share_limit",
+         "test_outputs::test_report_by_risk"]
+
+[[cheats]]
+name = "the setting is in defaults.toml but the threshold is typed into the code (a hidden folio.toml and --set change it)"
+script = "cheats/hardcoded_setting.sh"
+fails = ["test_outputs::test_name_vol_share_limit"]
+
+[[cheats]]
+name = "the limit counts each instrument as a name, not each issuer (a company's shares and bonds apart)"
+script = "cheats/instrument_as_name.sh"
+fails = ["test_outputs::test_name_vol_share_limit"]
+
+[[cheats]]
+name = "the report's sector table shows each sector's weight under the Vol share heading (the export and the limit are right)"
+script = "cheats/sector_weights.sh"
+fails = ["test_outputs::test_report_by_risk"]
+
+[[cheats]]
+name = "also prints the largest name's share of volatility under `folio risk`"
+script = "cheats/changes_risk_output.sh"
+fails = ["test_outputs::test_everything_else_unchanged"]
+
+# Integrity probes (scripts/make_integrity_cheats.py).
+[[cheats]]
+name = "plants a passing grade and links in the shared folders, does no work"
+script = "cheats/plant.sh"
+fails = ["test_outputs::test_report_by_risk", "test_outputs::test_export_has_vol_share",
+         "test_outputs::test_name_vol_share_limit"]
+
+[[cheats]]
+name = "code that tries to read the hidden checks and to rewrite the grade"
+script = "cheats/tamper.sh"
+fails = ["test_outputs::test_report_by_risk", "test_outputs::test_export_has_vol_share",
+         "test_outputs::test_name_vol_share_limit", "test_outputs::test_everything_else_unchanged",
+         "test_outputs::test_original_tests_pass"]

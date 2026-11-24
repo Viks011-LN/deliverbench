@@ -1,0 +1,20 @@
+# The desk shares only the room's localhost. A shared volume carries the relay key, readable by root only:
+# the agent's relay (running as root) can send it; the model (user agent) cannot read it.
+services:
+  main:
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 512
+    volumes:
+      - dbench-run:/run/dbench
+  desk:
+    build:
+      context: ./desk
+    network_mode: "service:main"
+    depends_on:
+      - main
+    volumes:
+      - dbench-run:/run/dbench
+
+volumes:
+  dbench-run: {}

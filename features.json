@@ -1,0 +1,273 @@
+{
+  "phase": "v2 V1-V2",
+  "rule": "Only scripts/check_features.py sets a status to pass or fail, after running the feature's verify command. An agent's own claim is never a pass. At most one feature is in-progress at a time.",
+  "features": [
+    {
+      "id": "F16",
+      "feature": "Every job's data is reproducible from its committed, seeded generator (hard rule 4)",
+      "done_when": "Re-running each job's generate.py into a scratch folder produces byte-identical files to the committed ones",
+      "verify": "uv run pytest -q tests/test_generators.py",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "21 passed in 219.96s (0:03:39)"
+      }
+    },
+    {
+      "id": "F18",
+      "feature": "Room hardening beyond Harbor's defaults (P1 known gap)",
+      "done_when": "Main rooms run with all capabilities dropped, no new privileges, and CPU, memory and process limits; a probe shows each limit in force; every job still passes selftest",
+      "verify": "uv run pytest -q tests/test_hardening.py",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "2 passed in 28.72s"
+      }
+    },
+    {
+      "id": "F20",
+      "feature": "No hidden file reaches any room (leak scan of every job)",
+      "done_when": "dbench leaktest builds every job's room and finds neither the canary nor an exact copy of any hidden file (tests/, solution/, cheats/, and the brief-only solver's own work)",
+      "verify": "uv run dbench leaktest",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "leaktest: no hidden file reached any room"
+      }
+    },
+    {
+      "id": "F21",
+      "feature": "P3 harness: binding time limit, one reply-budget rule, read_file continuation, claim checks",
+      "done_when": "H5, H4, C1 and H1 of docs/P3-PLAN.md behave as specified, each with tests that would fail without it (agent 1.3.0-dev, scoring 0.3-draft)",
+      "verify": "uv run pytest -q tests/test_agent.py tests/test_compat.py tests/test_selftest.py tests/test_report.py tests/test_tasks.py",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "159 passed in 42.57s"
+      }
+    },
+    {
+      "id": "F29",
+      "feature": "Agent 2.0.0-dev: a hard cap on every call into the room (a hang ends the run as harness_hang, our fault, re-run); standing finishing instructions; the stall rule (three nudges in a row); the turn limit 300; context relief",
+      "done_when": "The agent tests pass: a command, an upload and the agent's own listing that never return each end the run as harness_hang and raise HarnessHangError, which the runner re-runs and the report excludes; a slow command inside its limit is not a hang; nudges stall a run only in a row; relief does nothing below 70% of the context, drops the oldest thinking first and stops at 50%, then old bash and read_file outputs, never a service's replies, the ticket, the model's calls or the last ten turns; the edited history is what is sent and the transcript keeps the original",
+      "verify": "uv run pytest -q tests/test_agent.py tests/test_agent_v2.py",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "56 passed in 40.85s"
+      }
+    },
+    {
+      "id": "F30",
+      "feature": "Compatibility check: an edited-history case (the server accepts a history in which earlier thinking and an earlier output were replaced by notes, as context relief does)",
+      "done_when": "The compat tests pass, including a server that rejects an edited history failing the new check",
+      "verify": "uv run pytest -q tests/test_compat.py",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "15 passed in 11.09s"
+      }
+    },
+    {
+      "id": "F31",
+      "feature": "Report for v2: limit labels (stalled, ran out of time, turns or context), relief events, pass^k and could-do-it for any k, the run-level permutation test with Holm over pairs, 'separated on one job', and per-job diagnostic numbers shown but never scored",
+      "done_when": "The report and statistics tests pass: the permutation test is exact on small cases, Holm orders and bounds the pairs, a gap carried by one job is labelled so, and the labels and diagnostics appear",
+      "verify": "uv run pytest -q tests/test_report.py tests/test_stats.py",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "71 passed in 3.76s"
+      }
+    },
+    {
+      "id": "F32",
+      "feature": "Job format v2 and the validator: the ticket, the evidence map, the name-and-rule list, acceptable finishes, the no-hint check, quotes confirmed word for word in their source and trails followed; the time limit up to a four-hour backstop",
+      "done_when": "The validator tests pass: a v2 job with a quote that is not in its source, a broken trail, a give-away word in the ticket, a check without an evidence line or a missing name-and-rule entry is refused; a correct one passes; every v1 job still validates",
+      "verify": "uv run pytest -q tests/test_tasks.py tests/test_jobformat_v2.py",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "59 passed in 1.31s"
+      }
+    },
+    {
+      "id": "F33",
+      "feature": "Fetched documents: a download script with a backup address and a checksum per document, text conversion with checked passages; house rule 4's regeneration test checks fetched documents by fingerprint",
+      "done_when": "The document tests pass: a moved document falls back to its backup, a changed one fails loudly, a passage lost in conversion fails the build, and nothing fetched is ever committed",
+      "verify": "uv run pytest -q tests/test_documents.py",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "11 passed in 0.09s"
+      }
+    },
+    {
+      "id": "F34",
+      "feature": "The finish-claim rule for v2: an entry names the item whose identifier it starts with; identifiers may not start one another; replay over transcripts",
+      "done_when": "The claim tests pass: an explanation that mentions another item does not name it, C-01 and C-010 cannot both be declared, a deliverable item named fails the claim, and a replay reports any honest claim the rule would fail",
+      "verify": "uv run pytest -q tests/test_claims_v2.py",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "12 passed in 0.02s"
+      }
+    },
+    {
+      "id": "F35",
+      "feature": "T20 month-end (v2 pilot): a six-line ticket; the policy, the client file, daily AUM, a rate change, September's invoices, the register and summary in the room; one invoice that cannot be issued, with the parent's VAT number as the lure",
+      "done_when": "Format-2 validation passes (evidence map quotes found word for word, trails, name-and-rule list, no-hint check); the reference passes 10 out of 10; doing nothing, seven wrong solutions and the integrity probe fail exactly their declared checks; the generator proves the fairness facts (no rounding edges, the minimum binds for one client, the rate change moves a fee, the held client's VAT number is nowhere); the brief-only solve passes",
+      "verify": "uv run dbench selftest tasks/T20-month-end && uv run dbench selftest tasks/T20-month-end --quick --brief-only",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-23",
+        "exit_code": 0,
+        "last_line": "selftest: all passed"
+      }
+    },
+    {
+      "id": "F36",
+      "feature": "T19 where the risk comes from (v2 pilot): shares of volatility in the 15,000-line folio tool, the method named in the desk's risk notes, an off-by-one shared helper",
+      "done_when": "Format-2 validation passes; the reference passes 10 out of 10; doing nothing, eight wrong solutions and both integrity probes fail exactly their declared checks; the generator proves the hidden data sets' facts (a breach, one just under, short history, cash, a negative share, no printed figure on a rounding edge, the buggy helper changes every answer); the brief-only solve passes",
+      "verify": "uv run dbench selftest tasks/T19-risk-contributions && uv run dbench selftest tasks/T19-risk-contributions --quick --brief-only",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "selftest: all passed"
+      }
+    },
+    {
+      "id": "F37",
+      "feature": "T11 CDS pricing to the ISDA CDS Standard Model (v2 pilot): the methodology paper and ISDA's fix note in the room, the desk conventions, few plain tie-outs; ISDA's own library as the reference",
+      "done_when": "Format-2 validation passes; the documents build from the cache; the reference passes 10 out of 10; doing nothing, nine wrong solutions and both probes fail exactly their declared checks; the generator proves the Python reference agrees with ISDA, every case is at or below 1,000bp and a pricer skipping the half-day adjustment passes; the brief-only solve passes",
+      "verify": "uv run dbench documents tasks/T11-cds-pricing && uv run dbench selftest tasks/T11-cds-pricing && uv run dbench selftest tasks/T11-cds-pricing --quick --brief-only",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "selftest: all passed"
+      }
+    },
+    {
+      "id": "F38",
+      "feature": "T12 a client's complaint (v2): a money difference traced to one character deep in folio, behind a contradicting docstring; a tempting fix that passes every visible test",
+      "done_when": "Format-2 validation passes; the reference passes 10 out of 10; doing nothing, ten wrong solutions and both probes fail exactly their declared checks; the generator proves the original fails every trade-date case and passes every other, the tempting fix fails only reconcile cases, and the reference regression test fails before the fix by an assertion; the brief-only solve passes",
+      "verify": "uv run dbench selftest tasks/T12-client-complaint && uv run dbench selftest tasks/T12-client-complaint --quick --brief-only",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "selftest: all passed"
+      },
+      "timeout_sec": 21600
+    },
+    {
+      "id": "F39",
+      "feature": "T13 a pipeline against a real-feeling vendor (v2): every quirk documented as a fact, none announced; a fresh grading service with other instances of the same kinds",
+      "done_when": "Format-2 validation passes; the reference passes 10 out of 10; doing nothing, nine wrong solutions and both probes fail exactly their declared checks; the generator proves every kind of quirk is met by a documented-way pipeline and the grading service uses only those kinds; the brief-only solve passes",
+      "verify": "uv run dbench selftest tasks/T13-vendor-pipeline && uv run dbench selftest tasks/T13-vendor-pipeline --quick --brief-only",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "selftest: all passed"
+      },
+      "timeout_sec": 10800
+    },
+    {
+      "id": "F40",
+      "feature": "T15 the cited digest (v2): 72 notes, 20 questions (14 worked), lures of every kind; \"not in the notes\" for Q17",
+      "done_when": "Format-2 validation passes; the reference passes 10 out of 10; doing nothing, ten wrong solutions and the probe fail exactly their declared checks; the generator rebuilds the key from the shipped notes and proves the fairness facts; the brief-only solve passes",
+      "verify": "uv run dbench selftest tasks/T15-cited-digest && uv run dbench selftest tasks/T15-cited-digest --quick --brief-only",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "selftest: all passed"
+      },
+      "timeout_sec": 14400
+    },
+    {
+      "id": "F41",
+      "feature": "T17 run the registered analysis (v2): seven registered choices, the sealed holdout apart, significant but below the minimum effect",
+      "done_when": "Format-2 validation passes; the reference passes 10 out of 10; doing nothing, eleven wrong solutions and the probe fail exactly their declared checks; an ordinary look round does not trip the watcher; two implementations agree on the key; the brief-only solve passes",
+      "verify": "uv run dbench selftest tasks/T17-registered-analysis && uv run dbench selftest tasks/T17-registered-analysis --quick --brief-only",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "selftest: all passed"
+      },
+      "timeout_sec": 14400
+    },
+    {
+      "id": "F42",
+      "feature": "T18 book the basket (v2): eight orders, one trap each, irreversible booking, one order held on its limit and named in the finish",
+      "done_when": "Format-2 validation passes; the reference passes 10 out of 10; doing nothing, twenty wrong solutions and the probe fail exactly their declared checks; the generator proves one valid ticket per order over all booking orders; the brief-only solve passes",
+      "verify": "uv run dbench selftest tasks/T18-book-the-basket && uv run dbench selftest tasks/T18-book-the-basket --quick --brief-only",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "selftest: all passed"
+      },
+      "timeout_sec": 14400
+    },
+    {
+      "id": "F43",
+      "feature": "T14 release alerts (v2): a brownfield alert system, the desk page's rules, hidden feeds under two configs, nothing else changed",
+      "done_when": "Format-2 validation passes; the reference passes 10 out of 10; doing nothing, thirteen wrong solutions and both probes fail exactly their declared checks; the independent reimplementation agrees on every event; the brief-only solve passes",
+      "verify": "uv run dbench selftest tasks/T14-release-alerts && uv run dbench selftest tasks/T14-release-alerts --quick --brief-only",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "selftest: all passed"
+      },
+      "timeout_sec": 14400
+    },
+    {
+      "id": "F44",
+      "feature": "T16 make strategies pluggable (v2): a messy brownfield backtest, the slot design note, hidden strategies dropped in, every output unchanged",
+      "done_when": "Format-2 validation passes; the reference passes 10 out of 10; doing nothing, thirteen wrong solutions and both probes fail exactly their declared checks; the generator proves the expected outputs from the original program; the brief-only solve passes",
+      "verify": "uv run dbench selftest tasks/T16-pluggable-strategies && uv run dbench selftest tasks/T16-pluggable-strategies --quick --brief-only",
+      "status": "pass",
+      "evidence": {
+        "commit": "bb19237-dirty",
+        "date": "2026-11-24",
+        "exit_code": 0,
+        "last_line": "selftest: all passed"
+      },
+      "timeout_sec": 14400
+    }
+  ]
+}

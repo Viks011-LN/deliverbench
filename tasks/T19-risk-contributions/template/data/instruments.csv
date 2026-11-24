@@ -1,0 +1,41 @@
+id,name,kind,sector,currency,country,issuer,liquidity_days,coupon_rate,maturity,expense_ratio
+ADZM,Adzel Microsystems Inc,equity,Technology,USD,US,,1,,,
+QNTL,Quintal Software Inc,equity,Technology,USD,US,,1,,,
+HLZS,Helzo Semiconductor Corp,equity,Technology,USD,US,,1,,,
+PEBX,Pebrix Health Inc,equity,Health Care,USD,US,,1,,,
+NYQV,Nyvorel Biotherapeutics Inc,equity,Health Care,USD,US,,8,,,
+FRXL,Fraxley Aerospace Corp,equity,Industrials,USD,US,,1,,,
+PZLY,Pazely Brands Inc,equity,Consumer,USD,US,,2,,,
+SUQB,Swanbrae Power Co,equity,Energy,USD,US,,1,,,
+VLXN,Vexlin Systems SE,equity,Technology,EUR,DE,,2,,,
+CNZA,Couzan Assurances SA,equity,Financials,EUR,FR,,1,,,
+OZVR,Ozvar Pharma AG,equity,Health Care,EUR,DE,,1,,,
+TUXV,Tuxval Logistics NV,equity,Industrials,EUR,NL,,5,,,
+LVRU,Lavrou Foods SA,equity,Consumer,EUR,FR,,1,,,
+NRDP,Nordport Energy NV,equity,Energy,EUR,NL,,1,,,
+MXTB,Maxtead Bank plc,equity,Financials,GBP,GB,,1,,,
+TLLY,Tallyford Asset Management plc,equity,Financials,GBP,GB,,3,,,
+BRMD,Bramhall Medical plc,equity,Health Care,GBP,GB,,1,,,
+GRBY,Grelby Engineering plc,equity,Industrials,GBP,GB,,2,,,
+ASHB,Ashbourne Retail plc,equity,Consumer,GBP,GB,,1,,,
+CLVY,Colvenley Resources plc,equity,Energy,GBP,GB,,1,,,
+MLBY,Milbury Holdings plc,equity,Industrials,GBP,GB,,12,,,
+TNSL,Tansley Mining plc,equity,Energy,GBP,GB,,20,,,
+KIWQ,Kiwasei Electronics Co,equity,Technology,JPY,JP,,1,,,
+SAQB,Sanobu Trust Bank Ltd,equity,Financials,JPY,JP,,1,,,
+HNKI,Hanekawa Industrial Co,equity,Industrials,JPY,JP,,1,,,
+KZRO,Kazoro Motors Corp,equity,Consumer,JPY,JP,,1,,,
+UKT34,UK Treasury 4.25% 2034,bond,Government,GBP,GB,UK Treasury,1,0.0425,2034-03-07,
+UST31,US Treasury 3.875% 2031,bond,Government,USD,US,US Treasury,1,0.03875,2031-08-15,
+DBR33,Bund 2.6% 2033,bond,Government,EUR,DE,Germany,2,0.026,2033-08-15,
+JGB30,JGB 0.9% 2030,bond,Government,JPY,JP,Japan,2,0.009,2030-12-20,
+MXTB29,Maxtead Bank 5.125% 2029,bond,Financials,GBP,GB,MXTB,6,0.05125,2029-06-12,
+ADZM32,Adzel Microsystems 4.5% 2032,bond,Technology,USD,US,ADZM,5,0.045,2032-02-01,
+LVRU30,Lavrou Foods 3.25% 2030,bond,Consumer,EUR,FR,LVRU,21,0.0325,2030-05-14,
+BRXS30,Brixham Shipping 7.5% 2030,bond,Industrials,USD,US,Brixham Shipping,30,0.075,2030-11-01,
+SLQF,Stavholt Liquidity Fund,fund,Government,GBP,IE,,0,,,0.0010
+EQDF,Keldwyn EM Debt Fund USD,fund,Government,USD,IE,,3,,,0.0055
+GEIF,Harrow Global Equity Index Fund,fund,Diversified,GBP,GB,,2,,,0.0012
+JMKF,Mikawa Japan Equity Fund,fund,Diversified,JPY,JP,,4,,,0.0075
+PCRF,Ecclesby Private Credit Fund,fund,Financials,GBP,LU,,90,,,0.0125
+IXFR,Calder Infrastructure Fund,fund,Industrials,GBP,GB,,45,,,0.0095

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "alertd"
+version = "1.6.2"
+description = "The desk's alert system"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+alertd = "alertd.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["alertd*"]
+
+[tool.setuptools.package-data]
+"alertd" = ["defaults.toml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

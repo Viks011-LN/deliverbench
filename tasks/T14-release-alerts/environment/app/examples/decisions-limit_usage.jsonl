@@ -1,0 +1,9 @@
+{"id": "l01", "kind": "limit_usage", "key": "limit_usage:rates:VAR", "sent": false, "level": null, "reasons": [], "message": null}
+{"id": "l02", "kind": "limit_usage", "key": "limit_usage:rates:VAR", "sent": true, "level": "info", "reasons": ["usage"], "message": "INFO rates VAR: 71.7% of limit used (8.6m of 12.0m)"}
+{"id": "l03", "kind": "limit_usage", "key": "limit_usage:credit:CS01", "sent": true, "level": "critical", "reasons": ["usage", "breach"], "message": "CRITICAL credit CS01: 104.2% of limit used (2.5m of 2.4m)"}
+{"id": "l04", "kind": "limit_usage", "key": "limit_usage:rates:VAR", "sent": true, "level": "warning", "reasons": ["usage"], "message": "WARNING rates VAR: 88.3% of limit used (10.6m of 12.0m)"}
+{"id": "l05", "kind": "limit_usage", "key": "limit_usage:fx:DELTA", "sent": true, "level": "critical", "reasons": ["usage", "breach"], "message": "CRITICAL fx DELTA: 104.3% of limit used (12.3m of 11.8m)"}
+{"id": "l06", "kind": "limit_usage", "key": "limit_usage:credit:CS01", "sent": false, "level": "warning", "reasons": ["usage", "stale"], "message": null}
+{"id": "l07", "kind": "limit_usage", "key": "limit_usage:equities:VAR", "sent": true, "level": "warning", "reasons": ["usage"], "message": "WARNING equities VAR: 83.0% of limit used (4.2m of 5.0m)"}
+{"id": "l08", "kind": "limit_usage", "key": "limit_usage:rates:VAR", "sent": false, "level": "warning", "reasons": ["usage", "quiet_hours"], "message": null}
+{"id": "l09", "kind": "limit_usage", "key": "limit_usage:rates:VAR", "sent": true, "level": "critical", "reasons": ["usage", "breach"], "message": "CRITICAL rates VAR: 105.0% of limit used (12.6m of 12.0m)"}

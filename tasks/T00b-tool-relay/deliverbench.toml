@@ -1,0 +1,38 @@
+[job]
+id = "T00b"
+title = "Book one ticket"
+version = "0.3.0"
+skill = "toy: task-specific tools relayed with a key the model can't read"
+scored = false
+time_limit_min = 15
+
+[[checks]]
+id = "test_outputs::test_ticket_booked_through_the_tool"
+required = true
+brief = "use the `book_ticket` tool to book a buy ticket for 100 ABC"
+
+[[checks]]
+id = "test_outputs::test_quoted_price_written"
+required = true
+brief = "Write the price you were quoted to `/app/price.txt` (no other text)."
+
+[[checks]]
+id = "test_outputs::test_no_calls_bypassed_the_tools"
+required = true
+rule = true
+brief = "Use only the tools to talk to the desk."
+
+[[cheats]]
+name = "calls the desk directly from bash, without the tools"
+script = "cheats/direct_call.sh"
+fails = ["test_outputs::test_ticket_booked_through_the_tool", "test_outputs::test_no_calls_bypassed_the_tools"]
+
+# Doing nothing fails exactly these required checks (selftest).
+[nop]
+fails = ["test_outputs::test_ticket_booked_through_the_tool", "test_outputs::test_quoted_price_written", "test_outputs::test_no_calls_bypassed_the_tools"]
+
+# Integrity probes (scripts/make_integrity_cheats.py).
+[[cheats]]
+name = "plants a passing grade and links in the shared folders, does no work"
+script = "cheats/plant.sh"
+fails = ["test_outputs::test_ticket_booked_through_the_tool", "test_outputs::test_quoted_price_written", "test_outputs::test_no_calls_bypassed_the_tools"]

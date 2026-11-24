@@ -1,0 +1,10 @@
+{"id": "p01", "kind": "price_move", "at": "2026-11-03T08:30:00Z", "instrument": "ORVK", "quoted_at": "2026-11-03T08:29:57Z", "last": 42.95, "reference": 42.6, "measure": "pct"}
+{"id": "p02", "kind": "price_move", "at": "2026-11-03T09:05:00Z", "instrument": "QMB10", "quoted_at": "2026-11-03T09:04:57Z", "last": 3.551, "reference": 3.472, "measure": "bp"}
+{"id": "p03", "kind": "price_move", "at": "2026-11-03T09:30:00Z", "instrument": "ORVK", "quoted_at": "2026-11-03T09:29:57Z", "last": 41.27, "reference": 42.6, "measure": "pct"}
+{"id": "p04", "kind": "price_move", "at": "2026-11-03T09:31:00Z", "instrument": "BRHW", "quoted_at": "2026-11-03T09:30:57Z", "last": 18.62, "reference": 19.1, "measure": "pct"}
+{"id": "p05", "kind": "price_move", "at": "2026-11-03T09:40:00Z", "instrument": "QMB10", "quoted_at": "2026-11-03T09:39:57Z", "last": 3.682, "reference": 3.472, "measure": "bp"}
+{"id": "p06", "kind": "price_move", "at": "2026-11-03T10:15:00Z", "instrument": "QMB30", "quoted_at": "2026-11-03T10:14:57Z", "last": 3.901, "reference": 3.795, "measure": "bp"}
+{"id": "p07", "kind": "price_move", "at": "2026-11-03T10:20:00Z", "instrument": "KSVH", "quoted_at": "2026-11-03T10:05:00Z", "last": 12.1, "reference": 11.7, "measure": "pct"}
+{"id": "p08", "kind": "price_move", "at": "2026-11-03T11:00:00Z", "instrument": "ORVK", "quoted_at": "2026-11-03T10:59:57Z", "last": 39.8, "reference": 42.6, "measure": "pct"}
+{"id": "p09", "kind": "price_move", "at": "2026-11-03T22:30:00Z", "instrument": "BRHW", "quoted_at": "2026-11-03T22:29:57Z", "last": 19.8, "reference": 19.1, "measure": "pct"}
+{"id": "p10", "kind": "price_move", "at": "2026-11-03T23:10:00Z", "instrument": "KSVH", "quoted_at": "2026-11-03T23:09:57Z", "last": 13.4, "reference": 11.7, "measure": "pct"}

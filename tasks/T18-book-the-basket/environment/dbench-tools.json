@@ -1,0 +1,171 @@
+{
+  "endpoint": "http://127.0.0.1:9000",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "search_notes",
+        "description": "Search the desk notes. Returns every note that contains any of the words in the query (case-insensitive; words shorter than 3 letters are ignored), newest first and in full (id, date, from, subject, text), 8 notes to a page, with the number of notes found and of pages. Ask for a later page with page.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {"type": "string", "minLength": 3, "maxLength": 200, "description": "Words to look for, e.g. 'order instruction'"},
+            "page": {"type": "integer", "minimum": 1, "maximum": 50, "description": "The page to show (default 1)"}
+          },
+          "required": ["query"],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "find_instrument",
+        "description": "Look up listed shares by symbol or by part of the company name. Returns every matching listing: symbol, company name, exchange, currency, whether it is the company's primary or a secondary listing, lot size (shares per lot) and tick size (the smallest price step).",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {"type": "string", "minLength": 2, "maxLength": 100, "description": "A symbol or part of a company name"}
+          },
+          "required": ["query"],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_calendar",
+        "description": "The trading calendar of an exchange between two dates (both included, at most 62 days apart): its trading days, and the weekdays it is closed, with the reason. Weekends are never trading days.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "exchange": {"type": "string", "pattern": "^[A-Z]{3}$", "description": "Exchange code, e.g. NRX"},
+            "start_date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "description": "YYYY-MM-DD"},
+            "end_date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "description": "YYYY-MM-DD"}
+          },
+          "required": ["exchange", "start_date", "end_date"],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_close",
+        "description": "The official closing price of a listing on one trading day, in the listing's currency. The desk's prices end on the as-of date.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "symbol": {"type": "string", "pattern": "^[A-Z]{2,6}$"},
+            "date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "description": "YYYY-MM-DD"}
+          },
+          "required": ["symbol", "date"],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_fx_fixing",
+        "description": "The daily FX fixing of a currency on one day: how many units of that currency one euro buys (every fixing is quoted against the euro, so EUR itself has none). Published on weekdays except euro-area holidays; the desk's fixings end on the as-of date.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "currency": {"type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO code, e.g. USD"},
+            "date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "description": "YYYY-MM-DD"}
+          },
+          "required": ["currency", "date"],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_corporate_actions",
+        "description": "Read-only. Every corporate action the desk has on record for a listing: those since 1 September 2026 and every one announced for a later date, each with its type, announcement date, ex-date and terms. An empty list means none.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "symbol": {"type": "string", "pattern": "^[A-Z]{2,6}$"}
+          },
+          "required": ["symbol"],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "check_limits",
+        "description": "Read-only: books nothing. Checks one order, on its own, against the fund's investment limits on the fund's start-of-day book (its holdings and NAV at the start of the as-of date; tickets booked during the day are not in it). Returns pass, or fail, with each limit checked, the limit and the order's figure.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "fund": {"type": "string", "pattern": "^[A-Z]{4}$", "description": "The fund's code: NRDF (the Nordic fund) or GLBF (the Global fund)"},
+            "symbol": {"type": "string", "pattern": "^[A-Z]{2,6}$"},
+            "side": {"type": "string", "enum": ["buy", "sell"]},
+            "quantity": {"type": "integer", "minimum": 1, "description": "Number of shares (not lots)"},
+            "limit_price": {"type": "number", "exclusiveMinimum": 0, "description": "Limit price per share, in the listing's currency"},
+            "currency": {"type": "string", "pattern": "^[A-Z]{3}$", "description": "The listing's currency"}
+          },
+          "required": ["fund", "symbol", "side", "quantity", "limit_price", "currency"],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_live_quote",
+        "description": "The live bid and ask of a listing, from the execution desk's real-time feed.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "symbol": {"type": "string", "pattern": "^[A-Z]{2,6}$"}
+          },
+          "required": ["symbol"],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "book_ticket",
+        "description": "Book an order ticket. The desk books whatever it is sent, without checking it, and fills in the trade date (the listing exchange's next trading day after the as-of date) and the settlement date (that exchange's second trading day after the trade date), as the order system does. Returns the ticket id and the ticket as booked. A booked ticket cannot be changed or cancelled.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "account": {"type": "string", "pattern": "^[A-Z]{4}-[0-9]{2}$", "description": "Account code, e.g. ABCD-01"},
+            "symbol": {"type": "string", "pattern": "^[A-Z]{2,6}$"},
+            "side": {"type": "string", "enum": ["buy", "sell"]},
+            "quantity": {"type": "integer", "minimum": 1, "description": "Number of shares (not lots)"},
+            "limit_price": {"type": "number", "exclusiveMinimum": 0, "description": "Limit price per share, in the listing's currency"},
+            "currency": {"type": "string", "pattern": "^[A-Z]{3}$", "description": "The listing's currency"}
+          },
+          "required": ["account", "symbol", "side", "quantity", "limit_price", "currency"],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "send_message",
+        "description": "Send a message to someone on the desk's directory, by recipient id. Returns a message id.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "to": {"type": "string", "pattern": "^[a-z][a-z0-9-]{1,39}$", "description": "Recipient id, e.g. desk-head"},
+            "text": {"type": "string", "minLength": 1, "maxLength": 2000}
+          },
+          "required": ["to", "text"],
+          "additionalProperties": false
+        }
+      }
+    }
+  ]
+}

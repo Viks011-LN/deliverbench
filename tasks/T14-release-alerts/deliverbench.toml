@@ -1,0 +1,504 @@
+# deliverbench's own settings for this job (Harbor's task.toml has no place for them). A v2 job (format 2):
+# the evidence map, the name-and-rule list and the no-hint check below are checked by dbench/jobformat.py.
+# The job plan: docs/job-plans/T14-PLAN.md.
+[job]
+id = "T14"
+title = "Release alerts in the desk's alert system"
+version = "0.1.3"
+skill = "fitting interacting business rules into an existing codebase: its suppressions, settings and message style"
+scored = true
+format = 2
+time_limit_min = 60   # SCORING section 6: 5 x the slowest honest trial run (11 min, all trial setups), rounded up to 5 minutes; 240 at most
+runs_agent_code = true
+
+# The job's levers (docs/job-plans/T14-PLAN.md), at the hard end of the plan (owner, 22 Nov 2026), frozen before its
+# first model run. generate.py asserts that every value here is what it generates.
+[settings]
+codebase_files = 73
+codebase_lines = 3866
+code_lines = 1667
+original_tests = 201
+alert_kinds = 4
+suppressions = 5
+desk_examples = 6
+release_feeds = 7
+release_events = 71
+hidden_config_changes = 42
+hidden_stale_after_minutes = 75
+mixed_feeds = 3
+mixed_events = 42
+mixed_release_events = 23
+existing_feeds = 5
+existing_events = 54
+existing_configs = 2
+wrong_solutions = 13
+
+[[checks]]
+id = "test_outputs::test_release_decisions"
+required = true
+
+[[checks]]
+id = "test_outputs::test_release_messages"
+required = true
+
+[[checks]]
+id = "test_outputs::test_settings_are_read"
+required = true
+
+[[checks]]
+id = "test_outputs::test_fitted_to_the_machinery"
+required = true
+
+[[checks]]
+id = "test_outputs::test_existing_kinds_unchanged"
+required = true
+
+[[checks]]
+id = "test_outputs::test_original_tests_pass"
+required = true
+
+# ----- the evidence map: what each check demands, the sentence that demands it, where it lives -----
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "a decision for every release event, through alertd replay"
+quote = "Done means `alertd replay` gives a decision for each"
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "the rules for releases come from the economists' page"
+quote = "The rules the economists agreed are in `docs/desk/release-alerts.md`."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "what replay prints: one decision line per event, with sent, level and reasons"
+quote = "`replay` prints one JSON object per line, one for each event it decides, in the order of the feed:"
+source = "room:README.md"
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "the reasons hold the rule's tags, then the tag of the suppression that stopped the alert"
+quote = "why the event is worth an alert, as tags (each kind's page lists its own), followed by the tag of the suppression that stopped it, if one did; `[]` when the event is not worth an alert"
+source = "room:README.md"
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "the threshold by importance and unit, with its defaults"
+quote = "A release is judged against the threshold for its importance and unit. The thresholds are settings in alertd's config, under `release.thresholds.<importance>.<unit>`, with these defaults:"
+source = "room:docs/desk/release-alerts.md"
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "the surprise and its three levels"
+quote = "The surprise is the actual figure less the consensus. When the size of the surprise is at least the threshold, the release has the reason `surprise`, at level `info`; at least twice the threshold makes it `warning`, and at least three times the threshold `critical`."
+source = "room:docs/desk/release-alerts.md"
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "the revision: a second reason at the threshold, one step up, critical stays, alone it is info, smaller is nothing"
+quote = "The revision is the revised figure less the previous figure. When the size of the revision is at least the threshold, the release also has the reason `revision`, and the revision raises the level one step: `info` becomes `warning`, `warning` becomes `critical`, and `critical` stays `critical`. A revision alone, with no surprise, is `info`. A smaller revision is not a reason and changes nothing."
+source = "room:docs/desk/release-alerts.md"
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "no consensus, no surprise; and a release with neither reason is no alert"
+quote = "When there is no consensus, there is no surprise; a revision can still make an alert."
+source = "room:docs/desk/release-alerts.md"
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "a release with neither reason is not worth an alert; the reasons' order"
+quote = "A release with neither reason is not worth an alert. **Reasons** are listed with `surprise` first."
+source = "room:docs/desk/release-alerts.md"
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "when a release is stale, and its default window"
+quote = "A release is stale when alertd sees it more than `release.stale_after_minutes` minutes after it was published, counted from `released_at` to `at`. The default is 120 minutes."
+source = "room:docs/desk/release-alerts.md"
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "the key mutes and the cooldown go by"
+quote = "The key for mutes and the cooldown is `release:<country>:<release>`, for example `release:VD:CPI`."
+source = "room:docs/desk/release-alerts.md"
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "the shared suppressions apply to releases"
+quote = "Mutes, quiet hours, the cooldown and the daily cap apply to release alerts as they do to every alert."
+source = "room:docs/desk/release-alerts.md"
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "the suppressions' order, first one wins, its tag after the reasons"
+quote = "They are checked in this order, and the first that applies stops the alert: its tag is added after the alert's reasons, the alert is not sent, and no later suppression is looked at."
+source = "room:alertd/suppress.py"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "critical's exceptions"
+quote = "A critical alert passes mutes, quiet hours and the daily cap; nothing passes stale or the cooldown."
+source = "room:alertd/suppress.py"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "the code, not docs/ARCHITECTURE.md's older order, is today's behaviour"
+quote = "Where docs/ARCHITECTURE.md and the code disagree about today's behaviour, the code is right."
+source = "room:README.md"
+
+[[evidence]]
+check = "test_outputs::test_release_decisions"
+demands = "a rule does not suppress: the engine applies the shared suppressions to every kind"
+quote = "A rule decides only whether an event is worth an alert, how serious it is and why. It never looks at the state: staleness, mutes, quiet hours, the cooldown and the daily cap are the shared suppressions (alertd/suppress.py), which the engine applies to every kind alike."
+source = "room:alertd/rules/__init__.py"
+trail = ["room:README.md", "room:alertd/registry.py"]
+
+[[evidence]]
+check = "test_outputs::test_release_messages"
+demands = "messages like the existing alerts'"
+quote = "and the messages should read like the rest."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_release_messages"
+demands = "the wording, settled by the worked examples"
+quote = "Messages are in the house style, like every other alert's. The examples below show the wording for a surprise, a revision and both."
+source = "room:docs/desk/release-alerts.md"
+
+[[evidence]]
+check = "test_outputs::test_release_messages"
+demands = "the house style and its number formatting"
+quote = "Numbers in messages are written by number() and the helpers built on it, never by str() or format(), so that every kind writes the same figure the same way:"
+source = "room:alertd/format.py"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_release_messages"
+demands = "the message field: the message sent, null when nothing is sent"
+quote = "the message sent, in the house style; `null` when nothing is sent"
+source = "room:README.md"
+
+[[evidence]]
+check = "test_outputs::test_settings_are_read"
+demands = "the thresholds are read from the config, not typed into the code"
+quote = "Thresholds go in the config with the others, so we can change them without a release"
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_settings_are_read"
+demands = "the settings' keys"
+quote = "The thresholds are settings in alertd's config, under `release.thresholds.<importance>.<unit>`, with these defaults:"
+source = "room:docs/desk/release-alerts.md"
+
+[[evidence]]
+check = "test_outputs::test_settings_are_read"
+demands = "the stale window is a setting too"
+quote = "A release is stale when alertd sees it more than `release.stale_after_minutes` minutes after it was published"
+source = "room:docs/desk/release-alerts.md"
+
+[[evidence]]
+check = "test_outputs::test_settings_are_read"
+demands = "how a setting is declared and named (a key in a config file must be declared in the defaults)"
+quote = "Every key in a config file must be declared in alertd/defaults.toml. An unknown key is an error, never ignored, so a misspelt setting cannot quietly fall back to its default."
+source = "room:alertd/config.py"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_fitted_to_the_machinery"
+demands = "mutes, quiet hours and the cap work for releases as for the rest"
+quote = "Mutes, quiet hours and the daily cap should work for these as they do for everything else."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_fitted_to_the_machinery"
+demands = "every alert sent counts towards the one daily cap and starts its key's cooldown"
+quote = "Every alert sent counts towards the daily cap, whatever its kind and level, and starts its key's cooldown (State.record_sent)."
+source = "room:alertd/suppress.py"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_fitted_to_the_machinery"
+demands = "one cap for all kinds"
+quote = "The daily cap counts every alert sent, of every kind, against one cap (`alerts.daily_cap`)."
+source = "room:docs/CHANGELOG.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_existing_kinds_unchanged"
+demands = "the existing alerts and their settings unchanged"
+quote = "and nothing else changes: the existing alerts, their settings and the tests in `tests/`, which will be run as they are."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_existing_kinds_unchanged"
+demands = "a config that sets no release key still loads (the desk's config as it is)"
+quote = "A config file need only set the keys it changes; every other key takes its default from alertd/defaults.toml."
+source = "room:alertd/config.py"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_original_tests_pass"
+demands = "the existing tests pass, run as they are"
+quote = "the tests in `tests/`, which will be run as they are."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_original_tests_pass"
+demands = "how the tests are run"
+quote = "the tests: `python -m pytest`"
+source = "room:README.md"
+
+# ----- every name and rule the grader relies on, with the sentence that fixes it -----
+
+[[names]]
+kind = "option"
+name = "the entry point"
+value = "python -m alertd replay --feed F --state S --config C, run from the project folder (a copy of /app)"
+quote = "Run it from this folder: python -m alertd <command> [options]"
+source = "room:README.md"
+
+[[names]]
+kind = "option"
+name = "replay's options"
+value = "--feed, --state (never written), --config"
+quote = "decides every event in the feed F, starting from the state file S, and prints one decision per event (below). It sends nothing and never writes S"
+source = "room:README.md"
+
+[[names]]
+kind = "column"
+name = "the decision line"
+value = "id, kind, key, sent, level, reasons, message; matched by id; sent, level, reasons (and message) compared"
+quote = "`replay` prints one JSON object per line, one for each event it decides, in the order of the feed:"
+source = "room:README.md"
+
+[[names]]
+kind = "column"
+name = "an event not worth an alert"
+value = "sent false, level null, reasons []"
+quote = "`info`, `warning` or `critical`; `null` when the event is not worth an alert"
+source = "room:README.md"
+
+[[names]]
+kind = "identifier"
+name = "kind release"
+value = "events of kind release, with the fields of the desk page's table"
+quote = "Releases come in on the feed as kind `release`, one event per figure published:"
+source = "room:docs/desk/release-alerts.md"
+
+[[names]]
+kind = "identifier"
+name = "a null consensus and a null revision"
+value = "consensus null: no surprise; revised null: no revision (hidden events use only these, never an absent field)"
+quote = "the economists' consensus for the figure; null when none was collected"
+source = "room:docs/desk/release-alerts.md"
+
+[[names]]
+kind = "setting"
+name = "release.thresholds.<importance>.<unit>"
+value = "high 0.10 / 15 / 1.0, medium 0.20 / 30 / 2.0, low 0.30 / 50 / 3.0 (pct / k / bn); hidden: 0.15 / 20 / 1.5, 0.25 / 40 / 2.5, 0.40 / 60 / 4.0"
+quote = "The thresholds are settings in alertd's config, under `release.thresholds.<importance>.<unit>`, with these defaults:"
+source = "room:docs/desk/release-alerts.md"
+
+[[names]]
+kind = "setting"
+name = "release.stale_after_minutes"
+value = "120 (hidden: 75); stale when at minus released_at is more than it"
+quote = "A release is stale when alertd sees it more than `release.stale_after_minutes` minutes after it was published, counted from `released_at` to `at`. The default is 120 minutes."
+source = "room:docs/desk/release-alerts.md"
+
+[[names]]
+kind = "rule"
+name = "the surprise's levels"
+value = "|actual - consensus| >= t: info; >= 2t: warning; >= 3t: critical"
+quote = "When the size of the surprise is at least the threshold, the release has the reason `surprise`, at level `info`; at least twice the threshold makes it `warning`, and at least three times the threshold `critical`."
+source = "room:docs/desk/release-alerts.md"
+
+[[names]]
+kind = "rule"
+name = "the revision"
+value = "|revised - previous| >= t: reason revision, one level up (critical stays); alone: info; smaller: nothing"
+quote = "A revision alone, with no surprise, is `info`. A smaller revision is not a reason and changes nothing."
+source = "room:docs/desk/release-alerts.md"
+
+[[names]]
+kind = "rule"
+name = "the reasons' order"
+value = "surprise, revision, then the suppression's tag"
+quote = "are listed with `surprise` first."
+source = "room:docs/desk/release-alerts.md"
+
+[[names]]
+kind = "rule"
+name = "the suppressions"
+value = "stale, muted, quiet_hours, cooldown, daily_cap; the first that applies; critical passes muted, quiet_hours and daily_cap"
+quote = "ORDER = (\"stale\", \"muted\", \"quiet_hours\", \"cooldown\", \"daily_cap\")"
+source = "room:alertd/suppress.py"
+
+[[names]]
+kind = "rule"
+name = "the code is right, not docs/ARCHITECTURE.md"
+value = "ARCHITECTURE.md (reviewed for 1.4.0) lists stale last; the code and CHANGELOG 1.5.0 have it first"
+quote = "Where docs/ARCHITECTURE.md and the code disagree about today's behaviour, the code is right."
+source = "room:README.md"
+
+[[names]]
+kind = "rule"
+name = "one daily cap"
+value = "every alert sent, of every kind, critical included, counts towards alerts.daily_cap"
+quote = "Every alert sent counts towards the daily cap, whatever its kind and level, and starts its key's cooldown (State.record_sent)."
+source = "room:alertd/suppress.py"
+
+[[names]]
+kind = "identifier"
+name = "the key"
+value = "release:<country>:<release>; mutes match it exactly or by a prefix ending in *"
+quote = "The key for mutes and the cooldown is `release:<country>:<release>`, for example `release:VD:CPI`."
+source = "room:docs/desk/release-alerts.md"
+
+[[names]]
+kind = "format"
+name = "a surprise's message"
+value = "<LEVEL> <country> <release>: actual <a> vs consensus <c> (surprise <signed s>)"
+quote = "WARNING VD CPI: actual 0.46% vs consensus 0.22% (surprise +0.24%)"
+source = "room:docs/desk/release-alerts.md"
+
+[[names]]
+kind = "format"
+name = "a revision's message"
+value = "<LEVEL> <country> <release>: actual <a>, previous revised from <p> to <r> (revision <signed r>)"
+quote = "INFO XR TRADE_BALANCE: actual -14.6bn, previous revised from -12.4bn to -15.8bn (revision -3.4bn)"
+source = "room:docs/desk/release-alerts.md"
+
+[[names]]
+kind = "format"
+name = "both reasons' message"
+value = "the surprise's what, then the revision's, separated by a comma; both details likewise"
+quote = "WARNING VD GDP: actual 0.31% vs consensus 0.45%, previous revised from 0.20% to 0.34% (surprise -0.14%, revision +0.14%)"
+source = "room:docs/desk/release-alerts.md"
+
+[[names]]
+kind = "format"
+name = "numbers"
+value = "format.amount and format.signed: pct two decimals and %, k no decimals with thousands commas, bn one decimal; signs + and -"
+quote = "amount() writes a figure in its unit, signed() a difference with its sign (+0.24%, -93k), and change() a move in words (up 0.24%, down 93k)."
+source = "room:alertd/format.py"
+
+[[names]]
+kind = "rule"
+name = "the existing settings"
+value = "every existing key keeps its name; a config without release keys loads (the original config and a hidden one are used)"
+quote = "A config file need only set the keys it changes; every other key takes its default from alertd/defaults.toml."
+source = "room:alertd/config.py"
+
+[[names]]
+kind = "rule"
+name = "the existing tests"
+value = "the original tests/, examples/ and pyproject.toml restored over a copy of /app; every original test passes"
+quote = "the tests in `tests/`, which will be run as they are."
+source = "ticket"
+
+[hints]
+forbidden = ["consensus", "revision", "revised", "surprise", "critical", "stale", "escalate", "raise", "step", "null",
+             "missing", "three times", "twice", "cooldown", "suppress", "suppression", "suppressions", "order",
+             "ARCHITECTURE", "suppress.py", "format.py", "defaults.toml", "release.thresholds", "stale_after_minutes",
+             "importance", "previous", "prefix"]
+
+# ----- selftest: doing nothing, the integrity probes and every wrong solution fail exactly their checks -----
+
+[nop]
+fails = ["test_outputs::test_release_decisions", "test_outputs::test_release_messages",
+         "test_outputs::test_settings_are_read", "test_outputs::test_fitted_to_the_machinery"]
+
+# The wrong solutions are written by generate.py (WRONG), which also proves the checks each one fails.
+[[cheats]]
+name = "a revision of any size counts as a reason"
+script = "cheats/revision_below_threshold.sh"
+fails = ["test_outputs::test_release_decisions", "test_outputs::test_release_messages",
+         "test_outputs::test_settings_are_read"]
+
+[[cheats]]
+name = "takes the consensus as always there: a release without one stops the replay"
+script = "cheats/no_consensus_crash.sh"
+fails = ["test_outputs::test_release_decisions", "test_outputs::test_release_messages",
+         "test_outputs::test_settings_are_read", "test_outputs::test_fitted_to_the_machinery"]
+
+[[cheats]]
+name = "measures a release without a consensus against the previous figure, so it can have a surprise"
+script = "cheats/no_consensus_uses_previous.sh"
+fails = ["test_outputs::test_release_decisions", "test_outputs::test_release_messages",
+         "test_outputs::test_settings_are_read", "test_outputs::test_fitted_to_the_machinery"]
+
+[[cheats]]
+name = "the thresholds and the stale window typed into the rule (declared in the config, never read)"
+script = "cheats/thresholds_in_code.sh"
+fails = ["test_outputs::test_settings_are_read"]
+
+[[cheats]]
+name = "releases check mutes and quiet hours themselves before the shared suppressions, critical included"
+script = "cheats/mutes_inside_release.sh"
+fails = ["test_outputs::test_release_decisions", "test_outputs::test_release_messages",
+         "test_outputs::test_settings_are_read", "test_outputs::test_fitted_to_the_machinery"]
+
+[[cheats]]
+name = "releases go through the suppressions in docs/ARCHITECTURE.md's older order (stale last)"
+script = "cheats/architecture_order.sh"
+fails = ["test_outputs::test_release_decisions", "test_outputs::test_settings_are_read",
+         "test_outputs::test_fitted_to_the_machinery"]
+
+[[cheats]]
+name = "a revision alone takes the level its size would give a surprise"
+script = "cheats/revision_alone_by_size.sh"
+fails = ["test_outputs::test_release_decisions", "test_outputs::test_release_messages",
+         "test_outputs::test_settings_are_read"]
+
+[[cheats]]
+name = "the revision's step has no ceiling: critical goes round to info"
+script = "cheats/critical_raised_past_critical.sh"
+fails = ["test_outputs::test_release_decisions", "test_outputs::test_release_messages"]
+
+[[cheats]]
+name = "release alerts sent are kept out of the daily cap's count"
+script = "cheats/cap_excludes_releases.sh"
+fails = ["test_outputs::test_fitted_to_the_machinery"]
+
+[[cheats]]
+name = "the right decisions, with messages in a format of its own"
+script = "cheats/own_message_format.sh"
+fails = ["test_outputs::test_release_messages"]
+
+[[cheats]]
+name = "changes the shared formatter's change() to write a sign, for the release message"
+script = "cheats/formatter_changed.sh"
+fails = ["test_outputs::test_existing_kinds_unchanged", "test_outputs::test_original_tests_pass"]
+
+[[cheats]]
+name = "brings alertd/suppress.py into line with docs/ARCHITECTURE.md's order"
+script = "cheats/suppress_reordered.sh"
+fails = ["test_outputs::test_release_decisions", "test_outputs::test_settings_are_read",
+         "test_outputs::test_fitted_to_the_machinery", "test_outputs::test_existing_kinds_unchanged",
+         "test_outputs::test_original_tests_pass"]
+
+[[cheats]]
+name = "renames price_move's thresholds to price_move.thresholds.<measure>, like the release thresholds"
+script = "cheats/renames_config_key.sh"
+fails = ["test_outputs::test_settings_are_read", "test_outputs::test_existing_kinds_unchanged",
+         "test_outputs::test_original_tests_pass"]
+
+# Integrity probes (scripts/make_integrity_cheats.py).
+[[cheats]]
+name = "plants a passing grade and links in the shared folders, does no work"
+script = "cheats/plant.sh"
+fails = ["test_outputs::test_release_decisions", "test_outputs::test_release_messages",
+         "test_outputs::test_settings_are_read", "test_outputs::test_fitted_to_the_machinery"]
+
+[[cheats]]
+name = "code that tries to read the hidden checks and to rewrite the grade"
+script = "cheats/tamper.sh"
+fails = ["test_outputs::test_release_decisions", "test_outputs::test_release_messages",
+         "test_outputs::test_settings_are_read", "test_outputs::test_fitted_to_the_machinery",
+         "test_outputs::test_existing_kinds_unchanged", "test_outputs::test_original_tests_pass"]

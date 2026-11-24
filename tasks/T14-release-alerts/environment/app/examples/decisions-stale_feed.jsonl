@@ -1,0 +1,8 @@
+{"id": "s01", "kind": "stale_feed", "key": "stale_feed:prices-eu", "sent": false, "level": null, "reasons": [], "message": null}
+{"id": "s02", "kind": "stale_feed", "key": "stale_feed:prices-eu", "sent": true, "level": "warning", "reasons": ["silent"], "message": "WARNING prices-eu: no update for 23 min (last at 09:12 UTC)"}
+{"id": "s03", "kind": "stale_feed", "key": "stale_feed:prices-eu", "sent": false, "level": "warning", "reasons": ["silent", "cooldown"], "message": null}
+{"id": "s04", "kind": "stale_feed", "key": "stale_feed:prices-eu", "sent": false, "level": "critical", "reasons": ["silent", "cooldown"], "message": null}
+{"id": "s05", "kind": "stale_feed", "key": "stale_feed:fx-asia", "sent": true, "level": "critical", "reasons": ["silent"], "message": "CRITICAL fx-asia: no update for 50 min (last at 09:40 UTC)"}
+{"id": "s06", "kind": "stale_feed", "key": "stale_feed:prices-eu", "sent": true, "level": "critical", "reasons": ["silent"], "message": "CRITICAL prices-eu: no update for 88 min (last at 09:12 UTC)"}
+{"id": "s07", "kind": "stale_feed", "key": "stale_feed:rates-us", "sent": false, "level": "warning", "reasons": ["silent", "quiet_hours"], "message": null}
+{"id": "s08", "kind": "stale_feed", "key": "stale_feed:rates-us", "sent": true, "level": "critical", "reasons": ["silent"], "message": "CRITICAL rates-us: no update for 70 min (last at 22:20 UTC)"}

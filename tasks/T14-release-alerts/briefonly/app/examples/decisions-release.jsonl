@@ -1,0 +1,12 @@
+{"id": "r01", "kind": "release", "key": "release:VD:CPI", "sent": true, "level": "warning", "reasons": ["surprise"], "message": "WARNING VD CPI: actual 0.46% vs consensus 0.22% (surprise +0.24%)"}
+{"id": "r02", "kind": "release", "key": "release:QM:CPI", "sent": false, "level": null, "reasons": [], "message": null}
+{"id": "r03", "kind": "release", "key": "release:XR:TRADE_BALANCE", "sent": true, "level": "info", "reasons": ["revision"], "message": "INFO XR TRADE_BALANCE: actual -14.6bn, previous revised from -12.4bn to -15.8bn (revision -3.4bn)"}
+{"id": "r04", "kind": "release", "key": "release:VD:GDP", "sent": true, "level": "warning", "reasons": ["surprise", "revision"], "message": "WARNING VD GDP: actual 0.31% vs consensus 0.45%, previous revised from 0.20% to 0.34% (surprise -0.14%, revision +0.14%)"}
+{"id": "r05", "kind": "release", "key": "release:VD:RETAIL_SALES", "sent": true, "level": "warning", "reasons": ["surprise"], "message": "WARNING VD RETAIL_SALES: actual -0.42% vs consensus 0.10% (surprise -0.52%)"}
+{"id": "r06", "kind": "release", "key": "release:QM:PAYROLLS", "sent": true, "level": "info", "reasons": ["revision"], "message": "INFO QM PAYROLLS: actual 212k, previous revised from 175k to 198k (revision +23k)"}
+{"id": "r07", "kind": "release", "key": "release:XR:CPI", "sent": false, "level": null, "reasons": [], "message": null}
+{"id": "r08", "kind": "release", "key": "release:QM:HOUSING_STARTS", "sent": true, "level": "critical", "reasons": ["surprise"], "message": "CRITICAL QM HOUSING_STARTS: actual 1,212k vs consensus 1,305k (surprise -93k)"}
+{"id": "r09", "kind": "release", "key": "release:VD:JOBLESS_CLAIMS", "sent": false, "level": "info", "reasons": ["surprise", "stale"], "message": null}
+{"id": "r10", "kind": "release", "key": "release:XR:BUDGET_BALANCE", "sent": true, "level": "critical", "reasons": ["surprise", "revision"], "message": "CRITICAL XR BUDGET_BALANCE: actual 8.4bn vs consensus 1.7bn, previous revised from 3.5bn to 1.2bn (surprise +6.7bn, revision -2.3bn)"}
+{"id": "r11", "kind": "release", "key": "release:QM:GDP", "sent": true, "level": "info", "reasons": ["surprise"], "message": "INFO QM GDP: actual 0.52% vs consensus 0.40% (surprise +0.12%)"}
+{"id": "r12", "kind": "release", "key": "release:VD:BUDGET_BALANCE", "sent": false, "level": "info", "reasons": ["surprise", "quiet_hours"], "message": null}

@@ -1,0 +1,7 @@
+instrument,issuer,reason,from,until
+# Exclusion list from the Ellesmere trustees. One instrument or one issuer per row.
+FRXL,,Cluster munitions components,2025-07-01,
+,MXTB,Trustee review of consumer lending,2026-06-15,2026-07-31
+NYQV,,Animal testing policy under review,2026-09-01,
+TNSL,,Thermal coal over 10% of revenue,2026-10-01,
+,Brixham Shipping,Fleet emissions not disclosed,2026-11-16,

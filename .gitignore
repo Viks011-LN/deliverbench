@@ -1,0 +1,24 @@
+# Local-only files: personal terms, machine addresses, keys
+.privacy/
+endpoints.local.toml
+*.local.*
+.env
+
+# Run output (published results are exported deliberately, after a privacy scan)
+results/
+runs/
+jobs/
+trials/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+
+# Fetched third-party documents (house rule 4): never committed
+.cache/
+tasks/*/environment/fetched/

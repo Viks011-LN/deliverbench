@@ -1,0 +1,699 @@
+# deliverbench's own settings for this job (Harbor's task.toml has no place for them). A v2 job (format 2):
+# the evidence map, the name-and-rule list and the no-hint check below are checked by dbench/jobformat.py.
+# The job plan: docs/job-plans/T11-PLAN.md; the tick list: docs/job-plans/T11-TICKLIST.md.
+[job]
+id = "T11"
+title = "Price standard CDS the way the market does"
+version = "0.1.2"
+skill = "reading a published methodology and applying it exactly; numerical care; checking one's own numbers"
+scored = true
+format = 2
+time_limit_min = 240   # SCORING section 6: 5 x the slowest honest trial run (170 min, all trial setups), rounded up to 5 minutes; 240 at most
+runs_agent_code = true
+
+# The job's levers (docs/job-plans/T11-PLAN.md, "Levers and settings"), frozen before its first model run. Set at
+# the hard end (owner's decision, 22 Nov 2026): plain tie-outs only; hard hidden cases; the 0.5bp tolerance kept.
+[settings]
+trade_date = "2026-11-19"           # every priced contract; the discount curve is for this day
+reference = "ISDA CDS Standard Model, C code v1.8.3 (zip sha256 bee02772...0db0)"
+tie_outs = 4                        # quoted-spread conversions only: IG, 100bp coupon, 40% recovery, before 2033
+hidden_schedules = 10               # 6 trade dates; 4 cross the 20 June 2033 holiday roll or start from it
+hidden_upfronts = 16                # quoted spread to upfront: 6 IG, 10 HY (up to 1,000bp)
+hidden_spreads = 16                 # upfront to quoted spread: 7 IG, 9 HY (up to 979bp, 20.5 points)
+hidden_names = 6                    # curves: 3 steep, 2 inverted (high yield, one peaking at 900bp), 1 sparse
+max_spread_bp = 1000                # no distressed name (owner's decision, 22 Nov): a pricer without the half-day
+                                    # adjustment passes every hidden case (generate.py asserts it)
+hidden_curve_contracts = 18         # between, on, before and after the names' quote maturities
+spread_tolerance_bp = 0.5           # spreads; an upfront within what 0.5bp is worth on its contract
+accrued_tolerance_usd = 0.01        # accrued premium and every coupon, to the cent
+holiday_roll = "2033-06-20"         # Juneteenth observed on a coupon date: the coupon moves to 21 June
+documents = 2                       # the methodology paper (local copy) and ISDA's numerical-fix note (fetched)
+
+[[checks]]
+id = "test_outputs::test_payment_schedules"
+required = true
+
+[[checks]]
+id = "test_outputs::test_upfront_from_quoted_spread"
+required = true
+
+[[checks]]
+id = "test_outputs::test_quoted_spread_from_upfront"
+required = true
+
+[[checks]]
+id = "test_outputs::test_pricing_off_the_term_structure"
+required = true
+
+[[checks]]
+id = "test_outputs::test_quoted_spread_off_the_term_structure"
+required = true
+
+# ----- the reference documents: never committed (house rule 4); dbench documents writes them into the room -----
+
+[[documents]]
+name = "okane-turnbull-2003"
+title = "Valuation of Credit Default Swaps (O'Kane and Turnbull, Lehman Brothers, 2003)"
+local_source = "the desk's own copy of the Lehman Brothers Quantitative Credit Research note of April 2003, which has no stable public address (the owner's choice, docs/job-plans/T11-PLAN.md)"
+sha256 = "d82afbcc5d29d9380e9a6f7c6df34da4be6d81fafc1fd515451902589d530e0c"
+room_file = "fetched/okane-turnbull-2003.txt"
+text_sha256 = "4e13aab752b3a9bdc2cf769f64c7c524b927165052c278c1ce657019ceb6c523"
+passages = [
+  "The standard modeling assumption used in the credit default swap market is to assume that the hazard rate is a piecewise flat function of maturity time.",
+  "It starts with taking the shortest maturity contract and using it to calculate the first survival probability.",
+  "Beyond this, it is often assumed that the hazard rate is flat.",
+  "It also includes the payment of premium accrued from the previous premium payment date until the time of the credit event.",
+  "This is the breakeven spread, and is given by PV of Premium Leg = PV of Protection Leg.",
+  "we typically assume that this payment is made immediately.",
+  "Strictly speaking the timing of a credit event should not be resolved to less than a day.",
+  "Contractual Spread 200bp Basis Actual 360",
+]
+
+[[documents]]
+name = "isda-numerical-fix-2012"
+title = "ISDA CDS Standard Model: Proposed Numerical Fix (Markit, 2012)"
+url = "https://www.cdsmodel.com/assets/cds-model/docs/20121115_ISDA%20CDS%20Standard%20Model%20-%20Numerical%20Fix.pdf"
+backup_url = "https://web.archive.org/web/20240808025323id_/https://www.cdsmodel.com/assets/cds-model/docs/20121115_ISDA%20CDS%20Standard%20Model%20-%20Numerical%20Fix.pdf"
+sha256 = "e544d3848d1e92dd116d2b46930ae846580003d10f34c630b45d56d94a0dad69"
+room_file = "fetched/isda-numerical-fix-2012.txt"
+text_sha256 = "47a1cd928ed9caae2ec8a2dc57314934463ac8ee56ef0c29f79a16e131a07da1"
+passages = [
+  "The original ISDA Model calculates the accrual on default for each sub period using the following formula",
+  "where t₀ and t₁ are start and end time of the period; S₀, S₁ and D₀,D₁ are the survival probabilities and discount factors until t₀ and t₁",
+  "To remove the noise, we need to transform the equations and remove λ+f from denominators.",
+  "Similar expansion can be applied to contingent leg calculation.",
+  "the criteria we set to use the expansion is |Λ+F| <1×10-⁴",
+]
+
+# The note's mathematics is set in a font whose character codes map to unrelated letters (a recovery rate R arrives
+# as a Syriac letter). Each code is mapped back by its place in the formulas; checked by reading the converted text
+# (docs/job-plans/T11-TICKLIST.md). Sub- and superscripts in fractions come out on their own lines, as in any
+# conversion of typeset mathematics.
+[documents.char_map]
+"ܣ" = "A"
+"ܦ" = "D"
+"ܨ" = "F"
+"ܱ" = "O"
+"ܴ" = "R"
+"ܵ" = "S"
+"݁" = "e"
+"݂" = "f"
+"݄" = "h"
+"ݐ" = "t"
+"ߣ" = "λ"
+"଴" = "₀"
+"ଵ" = "₁"
+"ଶ" = "²"
+"ଷ" = "³"
+"ସ" = "⁴"
+"ହ" = "⁵"
+"଺" = "⁶"
+"ା" = "+"
+"ି" = "-"
+"୪" = "l"
+"୬" = "n"
+"ஃ" = "Λ"
+"஽" = "D"
+"ி" = "F"
+"ௌ" = "S"
+"௙" = "f"
+"௧" = "t"
+"ఒ" = "λ"
+"బ" = "0"
+"భ" = "1"
+"శ" = "+"
+"ವ" = "D"
+"ೄ" = "S"
+"೑" = "f"
+"ഊ" = "λ"
+"൅" = "+"
+"െ" = "-"
+"ൈ" = "×"
+"ൌ" = "="
+"൏" = "<"
+"൜" = "{"
+"ൠ" = "}"
+"൤" = "["
+"൨" = "]"
+"൬" = "("
+"൰" = ")"
+"ሺ" = "("
+"ሻ" = ")"
+"ሾ" = "["
+"ሿ" = "]"
+"ቀ" = "("
+"ቁ" = ")"
+"ቈ" = "["
+"቉" = "]"
+"቎" = "["
+"቏" = "]"
+
+# ----- the evidence map: what each check demands, the sentence that demands it, where it lives -----
+
+[[evidence]]
+check = "test_outputs::test_payment_schedules"
+demands = "each contract's coupon schedule, to the standard"
+quote = "give each contract's coupon schedule, all to the ISDA CDS Standard Model."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_payment_schedules"
+demands = "the entry point, its arguments and its result"
+quote = "payment_schedule(trade_date, maturity, coupon_bp, notional) -> list[Period]"
+source = "room:cdslib/__init__.py"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_payment_schedules"
+demands = "a period's fields: accrual start (included), accrual end (excluded), payment date, coupon in dollars"
+quote = "One coupon period: it accrues from accrual_start (included) to accrual_end (excluded) and is paid on pay_date; amount is the coupon it pays, in dollars."
+source = "room:cdslib/dates.py"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_payment_schedules"
+demands = "every period from the one the trade accrues from to the last, in order"
+quote = "Every coupon period of a standard contract traded on `trade_date` and maturing on `maturity`, from the period the trade accrues from to the last one, in order"
+source = "room:cdslib/dates.py"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_payment_schedules"
+demands = "the accrual start: the latest coupon date on or before the trade date, moved to a business day"
+quote = "A new trade accrues from the latest coupon date on or before the trade date (moved to the next business day if it is not one), so the buyer pays a whole first coupon."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_payment_schedules"
+demands = "coupon dates on the 20th of the quarter months, moved forward to a business day"
+quote = "Coupon dates are every 20 March, 20 June, 20 September and 20 December. A coupon date that is not a business day moves to the next business day: always forward, even into the next month."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_payment_schedules"
+demands = "business days exclude the desk's holidays (20 June 2033 is one)"
+quote = "Business days are Monday to Friday, except the desk's holidays in `data/holidays.csv`."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_payment_schedules"
+demands = "the holiday on the 2033 June coupon date"
+quote = "2033-06-20,Juneteenth"
+source = "room:data/holidays.csv"
+trail = ["room:docs/desk-conventions.md"]
+
+[[evidence]]
+check = "test_outputs::test_payment_schedules"
+demands = "each period ends on the next coupon date as moved, and is paid on it"
+quote = "Each coupon period starts on a coupon date, as moved, and accrues up to the next coupon date, as moved, which is the next period's first day and is not part of the period. The coupon is paid on that next coupon date."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_payment_schedules"
+demands = "the last period includes the maturity date, paid on the maturity date moved to a business day"
+quote = "The last period runs through the maturity date itself, so it accrues one day more than the days from its first day to the maturity date. It is paid on the maturity date, moved to the next business day if it is not one."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_payment_schedules"
+demands = "coupons on an Actual/360 basis"
+quote = "The premium accrues on an Actual/360 basis: a period's coupon is the notional times the coupon rate times the period's days over 360."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "quoted spread to upfront, to the standard"
+quote = "convert between upfront and quoted spread both ways"
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "the entry point and its result's fields: points, accrued, cash"
+quote = "points: the clean upfront in percent of notional, as the market quotes it (2.5 means 2.5%); accrued: the accrued premium in dollars, which the seller pays back at cash settlement; cash: the dollars the buyer pays at cash settlement, after the accrued premium."
+source = "room:cdslib/pricing.py"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "the quoting convention: one flat hazard rate fitted to the contract at the quoted spread"
+quote = "The quoting convention: a quoted spread stands for an upfront through one flat hazard rate, the rate at which the same contract, with its coupon replaced by the quoted spread, is worth nothing clean. The contract is then valued at its real coupon on that flat curve."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "the flat curve on the contract's own dates"
+quote = "The flat curve uses the contract's own dates (accrual start, step-in, cash settlement and maturity) and the name's recovery rate."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "points clean, cash after the accrued premium, buyer's side"
+quote = "An upfront is from the protection buyer's side, positive when the buyer pays. It is quoted in points: the clean value (before accrued premium) in percent of notional. The cash the buyer pays at cash settlement is the notional times the points, less the accrued premium the seller pays back."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "the accrued premium: the current period's days through the trade date, Actual/360"
+quote = "Because the buyer pays a whole first coupon, the seller pays back at cash settlement the premium accrued from the start of the current period up to the step-in date: the days from the period's first day through the trade date, on the same Actual/360 basis."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "upfronts valued at the cash settlement date, three business days after the trade"
+quote = "Upfronts are values at the cash settlement date: the value at the trade date carried forward to the cash settlement date on the discount curve."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "the cash settlement date"
+quote = "The cash settlement date is the third business day after the trade date."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "protection from the start of the step-in date to the end of the maturity date"
+quote = "The step-in date is the calendar day after the trade date. Protection starts at the start of the step-in date (the moment the trade date ends) and ends at the end of the maturity date."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "a coupon is paid if the name survives its period's last day"
+quote = "A coupon is paid on its payment date if the name survives to the end of the period's last day of accrual."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "premium accrued at default, from the period's first day, with the half-day adjustment"
+quote = "If the name defaults during a period, the buyer pays the premium accrued since the period's first day, at the moment of default. The standard measures the time accrued from the start of the period's first day to the moment of default, and adds half a day: the standard's half-day adjustment."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "premium accrued at default is part of the premium leg"
+quote = "It also includes the payment of premium accrued from the previous premium payment date until the time of the credit event."
+source = "doc:okane-turnbull-2003"
+trail = ["room:docs/desk-conventions.md"]
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "the exact formula for premium accrued at default over a piece"
+quote = "The original ISDA Model calculates the accrual on default for each sub period using the following formula"
+source = "doc:isda-numerical-fix-2012"
+trail = ["room:docs/desk-conventions.md"]
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "exact continuous-time valuation, not the paper's shortcuts"
+quote = "The standard values both legs exactly in continuous time. It does not use the paper's shortcuts (default only at a few points a month, premium accrued taken as half the coupon)"
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "the discount curve's basis and interpolation"
+quote = "continuously compounded zero rates, on an Actual/365 Fixed basis, from the curve date to each pillar's date. The forward rate is flat between pillars and from the curve date to the first pillar; after the last pillar the last forward rate carries on."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_upfront_from_quoted_spread"
+demands = "time in days from the trade date over 365"
+quote = "Time, for discounting and for survival, is counted in calendar days from the trade date, over 365."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_quoted_spread_from_upfront"
+demands = "upfront to quoted spread, to the standard"
+quote = "convert between upfront and quoted spread both ways"
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_quoted_spread_from_upfront"
+demands = "the entry point: points in, quoted spread in bp out"
+quote = "The quoted spread, in basis points, of a standard contract whose upfront is `points` (percent of notional, clean)."
+source = "room:cdslib/pricing.py"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_quoted_spread_from_upfront"
+demands = "the quoting convention, the other way"
+quote = "Converting an upfront to a quoted spread goes the other way."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_quoted_spread_from_upfront"
+demands = "the quoting convention: one flat hazard rate"
+quote = "The quoting convention: a quoted spread stands for an upfront through one flat hazard rate, the rate at which the same contract, with its coupon replaced by the quoted spread, is worth nothing clean."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_pricing_off_the_term_structure"
+demands = "a name's curve from its quotes, contracts priced off it"
+quote = "Build a name's credit curve from its quotes and price contracts off it"
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_pricing_off_the_term_structure"
+demands = "the entry point: par spread, quoted spread and upfront"
+quote = "A contract priced off a name's credit curve: its par spread and its quoted spread in basis points, and its upfront."
+source = "room:cdslib/pricing.py"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_pricing_off_the_term_structure"
+demands = "priced off the name's full curve; the par spread is the coupon with no clean upfront"
+quote = "Pricing off a name's curve: the desk values a contract off the name's full credit curve, built from all its quotes. The contract's par spread is the coupon at which it would have no clean upfront on that curve."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_pricing_off_the_term_structure"
+demands = "a hazard rate flat between the quotes' maturities, and after the last"
+quote = "A name's credit curve has a hazard rate that is flat between the maturity dates of the name's quotes: from the trade date to the first quote's maturity, from each quote's maturity to the next, and after the last quote's maturity at the last piece's rate."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_pricing_off_the_term_structure"
+demands = "fitted one maturity at a time to par contracts"
+quote = "The curve is fitted one maturity at a time, shortest first: each piece's hazard rate is set so that a contract traded today to that quote's maturity, at a coupon equal to the quote, is worth nothing clean, with the earlier pieces held fixed."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_pricing_off_the_term_structure"
+demands = "quotes are par spreads; curves slope either way"
+quote = "A name's quotes are par spreads at standard maturities. A par spread is the coupon at which a contract traded today to that maturity would have no upfront before accrued premium, so the fitted curve gives back each quote exactly. Curves slope either way: a distressed name's curve is usually inverted, its short maturities quoted wider than its long ones."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_pricing_off_the_term_structure"
+demands = "the piecewise flat hazard rate"
+quote = "The standard modeling assumption used in the credit default swap market is to assume that the hazard rate is a piecewise flat function of maturity time."
+source = "doc:okane-turnbull-2003"
+trail = ["room:docs/desk-conventions.md"]
+
+[[evidence]]
+check = "test_outputs::test_pricing_off_the_term_structure"
+demands = "the bootstrap, shortest maturity first"
+quote = "It starts with taking the shortest maturity contract and using it to calculate the first survival probability."
+source = "doc:okane-turnbull-2003"
+trail = ["room:docs/desk-conventions.md"]
+
+[[evidence]]
+check = "test_outputs::test_pricing_off_the_term_structure"
+demands = "flat beyond the last quote"
+quote = "Beyond this, it is often assumed that the hazard rate is flat."
+source = "doc:okane-turnbull-2003"
+trail = ["room:docs/desk-conventions.md"]
+
+[[evidence]]
+check = "test_outputs::test_quoted_spread_off_the_term_structure"
+demands = "a contract's quoted spread off a name's curve"
+quote = "convert between upfront and quoted spread both ways"
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_quoted_spread_off_the_term_structure"
+demands = "the quoted spread is the quoting convention's spread for the curve's upfront, not the par spread"
+quote = "Its quoted spread is the quoting convention's spread for its upfront; it differs from the par spread whenever the curve is not flat."
+source = "room:docs/desk-conventions.md"
+
+[[evidence]]
+check = "test_outputs::test_quoted_spread_off_the_term_structure"
+demands = "the result's quoted_spread field"
+quote = "A contract priced off a name's credit curve: its par spread and its quoted spread in basis points, and its upfront."
+source = "room:cdslib/pricing.py"
+trail = ["room:README.md"]
+
+# ----- every name and rule the grader relies on, with the sentence that fixes it -----
+
+[[names]]
+kind = "identifier"
+name = "cdslib entry points"
+value = "load_discount_curve, payment_schedule, upfront_from_quoted_spread, quoted_spread_from_upfront, price_off_curve, called with these arguments in this order"
+quote = "How the modules behind them are organised is up to whoever writes them; these names, their arguments and their results are what the desk relies on."
+source = "room:cdslib/__init__.py"
+
+[[names]]
+kind = "format"
+name = "arguments"
+value = "dates as datetime.date; coupons and spreads in bp; recovery a fraction; notionals and money in dollars; quotes as (date, bp) pairs"
+quote = "dates are datetime.date; coupons and spreads in basis points; recovery a fraction such as 0.4; notionals and money in dollars"
+source = "room:cdslib/__init__.py"
+
+[[names]]
+kind = "rule"
+name = "where the library finds the desk's files"
+value = "data/ beside the package (the graders copy cdslib with the original data/ beside it); the curve file's path is passed to load_discount_curve"
+quote = "The library reads the desk's files from `data/` beside the package (`cdslib.dates.HOLIDAYS_FILE`), never from an absolute path."
+source = "room:README.md"
+
+[[names]]
+kind = "format"
+name = "the discount curve file"
+value = "columns curve_date, tenor, maturity, zero_rate"
+quote = "data/discount-curve.csv: columns curve_date, tenor, maturity, zero_rate"
+source = "room:cdslib/curves.py"
+
+[[names]]
+kind = "format"
+name = "Period"
+value = "accrual_start, accrual_end (excluded), pay_date, amount (dollars); dates compared exactly, amounts to the cent"
+quote = "One coupon period: it accrues from accrual_start (included) to accrual_end (excluded) and is paid on pay_date; amount is the coupon it pays, in dollars."
+source = "room:cdslib/dates.py"
+
+[[names]]
+kind = "format"
+name = "Upfront"
+value = "points (clean, percent of notional), accrued (dollars, positive), cash (dollars the buyer pays); points and cash within what 0.5bp is worth, accrued to the cent"
+quote = "points: the clean upfront in percent of notional, as the market quotes it (2.5 means 2.5%); accrued: the accrued premium in dollars, which the seller pays back at cash settlement; cash: the dollars the buyer pays at cash settlement, after the accrued premium."
+source = "room:cdslib/pricing.py"
+
+[[names]]
+kind = "format"
+name = "CurvePrice"
+value = "par_spread and quoted_spread in bp (each within 0.5bp), upfront an Upfront"
+quote = "A contract priced off a name's credit curve: its par spread and its quoted spread in basis points, and its upfront."
+source = "room:cdslib/pricing.py"
+
+[[names]]
+kind = "rule"
+name = "business days"
+value = "Monday to Friday except data/holidays.csv (the 2033-06-20 coupon date is a holiday)"
+quote = "Business days are Monday to Friday, except the desk's holidays in `data/holidays.csv`."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "rule"
+name = "step-in and protection"
+value = "step-in the day after the trade date; protection from the end of the trade date to the end of the maturity date"
+quote = "The step-in date is the calendar day after the trade date. Protection starts at the start of the step-in date (the moment the trade date ends) and ends at the end of the maturity date."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "rule"
+name = "cash settlement date"
+value = "three business days after the trade date (2026-11-24)"
+quote = "The cash settlement date is the third business day after the trade date."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "rule"
+name = "coupon dates"
+value = "20 Mar/Jun/Sep/Dec, moved forward to a business day"
+quote = "Coupon dates are every 20 March, 20 June, 20 September and 20 December. A coupon date that is not a business day moves to the next business day: always forward, even into the next month."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "rule"
+name = "accrual start"
+value = "the latest coupon date on or before the trade date, moved to a business day (hidden trade dates are never the day before a coupon date)"
+quote = "A new trade accrues from the latest coupon date on or before the trade date (moved to the next business day if it is not one), so the buyer pays a whole first coupon."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "rule"
+name = "coupon periods"
+value = "from one moved coupon date to the next (excluded), paid on it"
+quote = "Each coupon period starts on a coupon date, as moved, and accrues up to the next coupon date, as moved, which is the next period's first day and is not part of the period. The coupon is paid on that next coupon date."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "rule"
+name = "the last period"
+value = "accrual end the day after the maturity date; paid on the maturity date moved to a business day"
+quote = "The last period runs through the maturity date itself, so it accrues one day more than the days from its first day to the maturity date. It is paid on the maturity date, moved to the next business day if it is not one."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "rule"
+name = "day count of the premium"
+value = "Actual/360"
+quote = "The premium accrues on an Actual/360 basis: a period's coupon is the notional times the coupon rate times the period's days over 360."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "rule"
+name = "coupon paid on survival"
+value = "survival to the end of the period's last accrual day; discounted from the payment date"
+quote = "A coupon is paid on its payment date if the name survives to the end of the period's last day of accrual."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "method"
+name = "premium accrued at default and the half-day adjustment"
+value = "paid at the default, from the start of the period's first day to the default plus half a day; in the first period, defaults from the step-in date on"
+quote = "The standard measures the time accrued from the start of the period's first day to the moment of default, and adds half a day: the standard's half-day adjustment. In the first period, only defaults from the step-in date on count, but the premium accrued still runs from the period's first day."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "rule"
+name = "accrued premium of an upfront"
+value = "the current period's days from its first day through the trade date, Actual/360"
+quote = "Because the buyer pays a whole first coupon, the seller pays back at cash settlement the premium accrued from the start of the current period up to the step-in date: the days from the period's first day through the trade date, on the same Actual/360 basis."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "rule"
+name = "recovery"
+value = "given with each quote; (1 - recovery) of notional paid at the moment of default"
+quote = "At a default the protection pays the notional times one minus the recovery rate, at the moment of default."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "method"
+name = "time"
+value = "calendar days from the trade date over 365, for discounting and survival"
+quote = "Time, for discounting and for survival, is counted in calendar days from the trade date, over 365."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "method"
+name = "the discount curve"
+value = "continuously compounded zero rates (Actual/365 Fixed); flat forwards between pillars and before the first; the last forward after the last"
+quote = "continuously compounded zero rates, on an Actual/365 Fixed basis, from the curve date to each pillar's date. The forward rate is flat between pillars and from the curve date to the first pillar; after the last pillar the last forward rate carries on."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "method"
+name = "a name's credit curve"
+value = "hazard rate flat between quote maturities, from the trade date, flat after the last; survival to the end of a day"
+quote = "A name's credit curve has a hazard rate that is flat between the maturity dates of the name's quotes: from the trade date to the first quote's maturity, from each quote's maturity to the next, and after the last quote's maturity at the last piece's rate. Survival observed on a date means survival to the end of that day."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "method"
+name = "fitting the curve"
+value = "one maturity at a time, each quote a contract traded today worth nothing clean at a coupon equal to the quote"
+quote = "The curve is fitted one maturity at a time, shortest first: each piece's hazard rate is set so that a contract traded today to that quote's maturity, at a coupon equal to the quote, is worth nothing clean, with the earlier pieces held fixed."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "rule"
+name = "par spread"
+value = "the coupon with no clean upfront (valued at cash settlement); the curve gives back each quote"
+quote = "A par spread is the coupon at which a contract traded today to that maturity would have no upfront before accrued premium, so the fitted curve gives back each quote exactly."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "method"
+name = "valuation"
+value = "exact in continuous time, piece by piece between the dates where either curve changes"
+quote = "between the dates where the hazard rate or the forward rate changes, both are flat, and each piece of the protection leg and of the premium accrued at default is valued exactly, as in the numerical fix note's formulas."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "method"
+name = "the numerical fix"
+value = "the note's series where the hazard plus forward rate over a piece is under 1e-4 (moves no hidden answer by more than 0.0001bp)"
+quote = "over a piece where the hazard rate and the forward rate add up to less than 1e-4 in absolute value (each taken as its total over the piece), the standard uses the note's series instead of the exact formula, for the premium accrued at default and for the protection leg."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "rule"
+name = "value date"
+value = "upfronts valued at the cash settlement date"
+quote = "Upfronts are values at the cash settlement date: the value at the trade date carried forward to the cash settlement date on the discount curve."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "rule"
+name = "points, accrued and cash"
+value = "points the clean value in percent; cash = notional x points / 100 - accrued; positive when the buyer pays"
+quote = "An upfront is from the protection buyer's side, positive when the buyer pays. It is quoted in points: the clean value (before accrued premium) in percent of notional. The cash the buyer pays at cash settlement is the notional times the points, less the accrued premium the seller pays back."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "method"
+name = "the quoting convention"
+value = "one flat hazard rate fitted to the contract itself (its own dates, accrual start included) with its coupon set to the quoted spread"
+quote = "The flat curve uses the contract's own dates (accrual start, step-in, cash settlement and maturity) and the name's recovery rate."
+source = "room:docs/desk-conventions.md"
+
+[[names]]
+kind = "method"
+name = "the quoted spread off a curve"
+value = "the quoting convention's spread for the curve's upfront, not the par spread"
+quote = "Its quoted spread is the quoting convention's spread for its upfront; it differs from the par spread whenever the curve is not flat."
+source = "room:docs/desk-conventions.md"
+
+[hints]
+forbidden = ["hazard", "bootstrap", "accrual", "accrued", "half-day", "ACT/360", "Actual/360", "IMM", "step-in",
+             "holiday", "holidays", "flat", "par spread", "series", "numerical fix", "Juneteenth"]
+
+# ----- selftest: doing nothing, the integrity probes and every wrong solution fail exactly their checks -----
+
+[nop]
+fails = ["test_outputs::test_payment_schedules", "test_outputs::test_upfront_from_quoted_spread",
+         "test_outputs::test_quoted_spread_from_upfront", "test_outputs::test_pricing_off_the_term_structure",
+         "test_outputs::test_quoted_spread_off_the_term_structure"]
+
+[[cheats]]
+name = "prices a contract off a name's quotes with one flat hazard rate (fitted to the par spread interpolated at its maturity), where the desk prices off the name's full curve"
+script = "cheats/flat_hazard.sh"
+fails = ["test_outputs::test_pricing_off_the_term_structure", "test_outputs::test_quoted_spread_off_the_term_structure"]
+
+[[cheats]]
+name = "reports the curve's par spread as the quoted spread: the term structure, where the quoting convention uses one flat hazard rate"
+script = "cheats/par_as_quoted.sh"
+fails = ["test_outputs::test_quoted_spread_off_the_term_structure"]
+
+[[cheats]]
+name = "the premium on an Actual/365 basis"
+script = "cheats/act_365.sh"
+fails = ["test_outputs::test_payment_schedules", "test_outputs::test_upfront_from_quoted_spread",
+         "test_outputs::test_quoted_spread_from_upfront", "test_outputs::test_pricing_off_the_term_structure"]
+
+[[cheats]]
+name = "coupon dates and the accrual start never moved to a business day"
+script = "cheats/unrolled_dates.sh"
+fails = ["test_outputs::test_payment_schedules", "test_outputs::test_upfront_from_quoted_spread",
+         "test_outputs::test_pricing_off_the_term_structure"]
+
+[[cheats]]
+name = "ignores the desk's holidays: every Monday to Friday is a business day"
+script = "cheats/ignores_holidays.sh"
+fails = ["test_outputs::test_payment_schedules"]
+
+[[cheats]]
+name = "no premium accrued at a default"
+script = "cheats/no_accrual_on_default.sh"
+fails = ["test_outputs::test_upfront_from_quoted_spread", "test_outputs::test_quoted_spread_from_upfront",
+         "test_outputs::test_pricing_off_the_term_structure"]
+
+[[cheats]]
+name = "the credit-triangle shortcut: each hazard rate is the spread over one minus the recovery, never fitted"
+script = "cheats/credit_triangle.sh"
+fails = ["test_outputs::test_upfront_from_quoted_spread", "test_outputs::test_quoted_spread_from_upfront",
+         "test_outputs::test_pricing_off_the_term_structure", "test_outputs::test_quoted_spread_off_the_term_structure"]
+
+# Integrity probes (scripts/make_integrity_cheats.py).
+[[cheats]]
+name = "plants a passing grade and links in the shared folders, does no work"
+script = "cheats/plant.sh"
+fails = ["test_outputs::test_payment_schedules", "test_outputs::test_upfront_from_quoted_spread",
+         "test_outputs::test_quoted_spread_from_upfront", "test_outputs::test_pricing_off_the_term_structure",
+         "test_outputs::test_quoted_spread_off_the_term_structure"]
+
+[[cheats]]
+name = "code that tries to read the hidden checks and to rewrite the grade"
+script = "cheats/tamper.sh"
+fails = ["test_outputs::test_payment_schedules", "test_outputs::test_upfront_from_quoted_spread",
+         "test_outputs::test_quoted_spread_from_upfront", "test_outputs::test_pricing_off_the_term_structure",
+         "test_outputs::test_quoted_spread_off_the_term_structure"]

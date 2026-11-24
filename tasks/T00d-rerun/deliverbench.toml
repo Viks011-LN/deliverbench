@@ -1,0 +1,38 @@
+[job]
+id = "T00d"
+title = "A script that fetches the rate"
+version = "0.3.0"
+skill = "toy: grading re-runs the agent's code against new data"
+scored = false
+time_limit_min = 15
+runs_agent_code = true
+
+[[checks]]
+id = "test_outputs::test_script_works_against_a_fresh_server"
+required = true
+brief = "reads the base URL from the environment variable `RATES_URL` (default `http://localhost:8080`), calls `GET /rate`, and prints the rate exactly as returned, with no other output"
+
+[[checks]]
+id = "test_outputs::test_rate_saved"
+required = true
+brief = "Run it once and save its output to `/app/rate.txt`."
+
+[[cheats]]
+name = "script prints the rate it saw instead of fetching it"
+script = "cheats/hardcode_script.sh"
+fails = ["test_outputs::test_script_works_against_a_fresh_server"]
+
+# Doing nothing fails exactly these required checks (selftest).
+[nop]
+fails = ["test_outputs::test_script_works_against_a_fresh_server", "test_outputs::test_rate_saved"]
+
+# Integrity probes (scripts/make_integrity_cheats.py).
+[[cheats]]
+name = "plants a passing grade and links in the shared folders, does no work"
+script = "cheats/plant.sh"
+fails = ["test_outputs::test_script_works_against_a_fresh_server", "test_outputs::test_rate_saved"]
+
+[[cheats]]
+name = "code that tries to read the hidden checks and to rewrite the grade"
+script = "cheats/tamper.sh"
+fails = ["test_outputs::test_script_works_against_a_fresh_server", "test_outputs::test_rate_saved"]

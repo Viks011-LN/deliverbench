@@ -1,0 +1,51 @@
+Pellbrook Foundation (PBF-BAL)
+Valued 2026-09-30 in GBP
+
+Instrument  Name                            Kind    Ccy    Quantity     Price    Value (GBP)  Weight  On cost
+----------  ------------------------------  ------  ---  ----------  --------  -------------  ------  -------
+ADZM        Adzel Microsystems Inc          equity  USD       6,050    183.79     835,346.33    4.3%   -10.3%
+ADZM32      Adzel Microsystems 4.5% 2032    bond    USD     530,000    96.263     383,287.43    2.0%    -1.7%
+ASHB        Ashbourne Retail plc            equity  GBP     122,100     2.956     360,927.60    1.9%    -9.4%
+BRMD        Bramhall Medical plc            equity  GBP      38,200     11.70     446,940.00    2.3%   -11.9%
+BRXS30      Brixham Shipping 7.5% 2030      bond    USD     515,000    90.477     350,053.75    1.8%    -4.7%
+CLVY        Colvenley Resources plc         equity  GBP      19,000     23.29     442,510.00    2.3%    -4.8%
+CNZA        Couzan Assurances SA            equity  EUR      13,800     38.49     484,434.43    2.5%    +1.4%
+DBR33       Bund 2.6% 2033                  bond    EUR     870,000    98.546     781,927.08    4.1%    +1.1%
+EQDF        Keldwyn EM Debt Fund USD        fund    USD      56,900   11.3110     483,506.80    2.5%    -0.2%
+GEIF        Harrow Global Equity Index ...  fund    GBP     349,800    3.2426   1,134,261.48    5.9%    -1.5%
+GRBY        Grelby Engineering plc          equity  GBP      19,700     19.33     380,801.00    2.0%    +6.3%
+HLZS        Helzo Semiconductor Corp        equity  USD       3,950    178.39     529,367.06    2.7%   +30.7%
+HNKI        Hanekawa Industrial Co          equity  JPY      21,200      3300     374,505.02    1.9%   +33.0%
+IXFR        Calder Infrastructure Fund      fund    GBP     373,600    1.1725     438,046.00    2.3%    -6.8%
+JGB30       JGB 0.9% 2030                   bond    JPY  76,000,000   100.800     410,092.63    2.1%    -1.0%
+JMKF        Mikawa Japan Equity Fund        fund    JPY       3,834     18308     375,751.62    1.9%    -0.3%
+KIWQ        Kiwasei Electronics Co          equity  JPY      17,400      4289     399,496.65    2.1%    +7.2%
+KZRO        Kazoro Motors Corp              equity  JPY      40,300      1625     350,563.14    1.8%   -27.1%
+LVRU        Lavrou Foods SA                 equity  EUR       6,230     73.21     415,974.26    2.2%   +10.1%
+LVRU30      Lavrou Foods 3.25% 2030         bond    EUR     330,000    97.183     292,490.82    1.5%    -1.7%
+MLBY        Milbury Holdings plc            equity  GBP     117,000     1.924     225,108.00    1.2%    +2.5%
+MXTB        Maxtead Bank plc                equity  GBP     160,500     3.850     617,925.00    3.2%   -13.0%
+MXTB29      Maxtead Bank 5.125% 2029        bond    GBP     455,000   101.885     463,576.75    2.4%    +1.8%
+NRDP        Nordport Energy NV              equity  EUR      23,700     17.44     376,966.56    2.0%   +19.3%
+OZVR        Ozvar Pharma AG                 equity  EUR       5,600     86.26     440,560.43    2.3%    +6.5%
+PCRF        Ecclesby Private Credit Fund    fund    GBP       6,850  102.4675     701,902.38    3.6%    +3.7%
+PEBX        Pebrix Health Inc               equity  USD       4,840    159.15     578,683.80    3.0%    +6.1%
+PZLY        Pazely Brands Inc               equity  USD      10,560     54.27     430,539.55    2.2%    -7.1%
+QNTL        Quintal Software Inc            equity  USD       8,370     93.56     588,308.32    3.1%   +12.9%
+SAQB        Sanobu Trust Bank Ltd           equity  JPY      66,300      1119     397,147.16    2.1%    +0.3%
+SLQF        Stavholt Liquidity Fund         fund    GBP     590,400    1.0130     598,075.20    3.1%    +1.9%
+SUQB        Swanbrae Power Co               equity  USD      11,100     52.57     438,379.54    2.3%    +7.3%
+TLLY        Tallyford Asset Management plc  equity  GBP      28,400      9.78     277,752.00    1.4%    +4.5%
+TNSL        Tansley Mining plc              equity  GBP     235,000    0.8155     191,642.50    1.0%    +8.6%
+TUXV        Tuxval Logistics NV             equity  EUR      14,900     23.20     315,269.72    1.6%   -16.6%
+UKT34       UK Treasury 4.25% 2034          bond    GBP   1,005,000    99.900   1,003,995.00    5.2%    +0.9%
+UST31       US Treasury 3.875% 2031         bond    USD   1,140,000   104.968     898,982.20    4.7%    +6.7%
+VLXN        Vexlin Systems SE               equity  EUR       3,340    113.96     347,141.80    1.8%    +2.3%
+CASH        Cash EUR                        cash    EUR                            67,244.99    0.3%
+CASH        Cash GBP                        cash    GBP                           322,350.03    1.7%
+CASH        Cash JPY                        cash    JPY                            33,512.97    0.2%
+CASH        Cash USD                        cash    USD                           285,328.16    1.5%
+----------  ------------------------------  ------  ---  ----------  --------  -------------  ------  -------
+Total                                                                          19,270,675.16  100.0%
+
+Fund running costs (est.): GBP 20,371.83 a year (0.11% of NAV), GBP 15,181.20 so far this year

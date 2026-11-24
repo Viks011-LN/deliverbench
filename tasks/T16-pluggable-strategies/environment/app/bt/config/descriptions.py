@@ -1,0 +1,30 @@
+"""One line on each setting, for `python -m bt.tools.settings`. README.md's table says the same at more length;
+tests/test_tools.py keeps the two lists of settings in step with DEFAULTS."""
+
+DESCRIPTIONS = {
+    "initial_capital": "the starting cash",
+    "signal": "the signal: its type and any of its parameters (README.md, Signals)",
+    "top_n": "how many names to hold on each side",
+    "allow_short": "also short the most negative scores",
+    "max_weight": "the most one name may weigh, as a fraction of the NAV",
+    "min_price": "names priced below this today are left out of the ranking",
+    "min_history": "names with fewer prices than this in the run are left out of the ranking",
+    "exclude": "symbols never held",
+    "rebalance": "daily, weekly or monthly",
+    "rebalance_band": "trades smaller than this fraction of the NAV are skipped",
+    "vol_target": "the book's target annual volatility, or null",
+    "vol_window": "days of returns for each name's volatility",
+    "max_leverage": "the most the volatility target may scale the book up",
+    "drawdown_limit": "the fall from the high that cuts the book, or null",
+    "drawdown_scale": "what the book is multiplied by while it is cut",
+    "stop_loss": "close a position that has lost this fraction of its entry price, or null",
+    "max_turnover": "the most a rebalancing may trade, as a fraction of the NAV, or null",
+    "commission_bps": "commission in basis points of the traded notional",
+    "min_commission": "the smallest commission on a trade",
+    "slippage_bps": "slippage in basis points of the traded notional",
+    "borrow_bps": "the yearly fee on shorts, in basis points, charged daily",
+    "cash_rate": "the yearly interest on cash, paid or charged daily",
+    "max_fill_gap": "days a missing price is carried forward",
+    "benchmark": "the price file's benchmark column, or null",
+    "risk_free_rate": "yearly, for the Sharpe and Sortino ratios",
+}

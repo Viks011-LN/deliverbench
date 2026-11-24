@@ -1,0 +1,1 @@
+warning: GARN has no price from 2024-10-08 to 2024-10-18 (9 days, more than max_fill_gap)

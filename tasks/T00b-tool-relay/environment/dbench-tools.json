@@ -1,0 +1,33 @@
+{
+  "endpoint": "http://127.0.0.1:9000",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "get_price",
+        "description": "Get the current price of a symbol from the trading desk.",
+        "parameters": {
+          "type": "object",
+          "properties": {"symbol": {"type": "string", "description": "Ticker symbol, e.g. ABC"}},
+          "required": ["symbol"]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "book_ticket",
+        "description": "Book a paper ticket with the trading desk.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "symbol": {"type": "string"},
+            "side": {"type": "string", "enum": ["buy", "sell"]},
+            "quantity": {"type": "integer", "minimum": 1}
+          },
+          "required": ["symbol", "side", "quantity"]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "folio"
+version = "0.6.2"
+description = "Valuation, risk and limit checks for the desk's model portfolio"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+folio = "folio.cli:main"
+folio-ledger = "folio.ledger.cli:main"
+folio-compliance = "folio.compliance.cli:main"
+folio-scenarios = "folio.scenarios.cli:main"
+folio-benchmark = "folio.benchmark.cli:main"
+folio-rebalance = "folio.rebalance.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["folio*"]
+
+[tool.setuptools.package-data]
+"folio.config" = ["defaults.toml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

@@ -1,0 +1,86 @@
+Title: Credit monthly: October
+Date: 2026-10-20
+Desk: Credit
+
+Spreads ended September close to their tights for the year, and the first weeks of October have done
+little to change that.
+
+Index                          End-August (bp)  End-September (bp)
+------------------------------------------------------------------
+Investment grade, all sectors  112              108
+Investment grade, industrials  104              99
+High yield, all sectors        362              351
+
+Supply
+
+Bank loan markets have reopened for mid-sized companies, which takes pressure off bond issuance.
+Secondary liquidity is adequate, though bid-offer spreads widen quickly on risk-off days. Pension
+funds have been net buyers of short-dated bonds for most of the quarter so far. Spreads tightened
+modestly over the month as new issues were well absorbed. Rating agencies have become more willing
+to look through one-off costs. We prefer industrial and utility paper over financials at current
+levels. Issuers are extending maturities while demand for longer paper lasts. New-issue premiums
+have compressed to almost nothing for the strongest names.
+
+Fundamentals
+
+Fallen-angel risk is concentrated in a handful of consumer names with weak cash flow. Leverage
+across the companies we follow is stable, and cash balances are healthy. We see better value in the
+five-to-seven-year part of the curve than in the long end. Credit-default swap indices have
+outperformed cash bonds over the month. Ten-year paper offers little extra spread over seven-year
+paper at current levels. Rating drift has turned slightly positive, with upgrades outnumbering
+downgrades this quarter. Hybrid issuance has picked up as issuers lock in funding before rates fall
+further.
+
+Order books remain healthy, although lead times have shortened, which points to slower growth next
+year. Input-cost relief from lower freight and energy is now flowing through to gross margins.
+Sentiment toward media improved over the month as hedge funds weighed the results season. Results
+days have brought larger share-price moves than usual, a sign that positioning is crowded. Working
+capital has been a drag on cash flow this year as companies rebuilt stocks.
+
+Issuers we follow
+
+Norrland Industrial and Sorvik Energy are the two issuers we expect in the market before the year
+end. Bellamy Foods has no bonds maturing before 2028 and no need to issue.
+
+Covenant quality in new high-yield deals has deteriorated again. Primary markets were busy, with
+issuers bringing deals forward ahead of results blackouts. Sentiment toward covered bonds turned
+more cautious over the week as hedge funds digested energy prices. Demand for longer maturities has
+been uneven, which keeps credit curves steep. We would add to defensive sectors on any widening
+caused by supply. Default rates remain low, and the pipeline of distressed exchanges is short.
+
+Price clauses in long contracts have protected margins from the cost inflation of the past two
+years. Factory automation orders have slowed as customers delay projects until rates come down.
+Competition from overseas suppliers has increased in the lower-value segments.
+
+Maintenance seasons have been longer than usual, which has weighed on output across the sector.
+Low-carbon spending is rising, but from a small base and at lower returns than the core business.
+Decommissioning costs are a growing item in the cash-flow statements of older producers.
+
+Rates
+
+Supply is the main near-term risk for longer maturities, with heavy issuance scheduled before the
+year end. Short-dated bonds have been anchored by the policy outlook, while the long end has traded
+on supply. Repo markets remain calm into the year end, with no sign of the balance-sheet strains of
+previous years. We prefer to hold steepeners in the five-to-thirty-year sector. Pension fund demand
+for long-dated bonds should pick up as funding levels improve.
+
+Strategy
+
+Our allocation is built to survive a range of outcomes rather than to win on one. Cash still pays,
+which raises the bar for every other asset. The backdrop is one of slowing but positive growth and
+inflation drifting lower. The correlation between bonds and equities has turned negative again,
+which restores the value of balance. Consensus positioning is long quality and short cyclicals,
+which leaves room for a squeeze. We review the allocation at the start of each quarter and after any
+large market move.
+
+Investment-grade spreads ended the quarter so far at 105bp, and high-yield spreads at 342bp. The
+average new-issue premium was 9bp.
+
+Government bond issuance plans for next year will be published with the budget, and we expect few
+surprises. Households' view of their own finances has improved faster than their view of the wider
+outlook. Services inflation is proving stickier than goods inflation, which has all but stopped
+rising. The central banks of the region are close to the end of their cycles, but not all at the
+same point. Fiscal policy is set to be broadly neutral next year after two years of support.
+
+Risks to our view include a sharper fall in energy prices, a faster easing of the labour market and
+a renewed rise in long-term yields. Any of these would change the balance of our arguments.

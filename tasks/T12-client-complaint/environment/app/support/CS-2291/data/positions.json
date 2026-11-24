@@ -1,0 +1,154 @@
+{
+  "_comment": "Pellbrook Foundation's account as booked. Quantities are units, or nominal for bonds; prices as quoted.",
+  "portfolio": "PBF-BAL",
+  "name": "Pellbrook Foundation",
+  "cash": {"EUR": "73731.31", "GBP": "322350.03", "JPY": "6260443", "USD": "379800.32"},
+  "positions": [
+    {"instrument": "ADZM", "lots": [
+      {"date": "2025-03-14", "quantity": "2270", "price": "199.05"},
+      {"date": "2025-11-04", "quantity": "2270", "price": "224.51"},
+      {"date": "2026-09-15", "quantity": "1510", "price": "184.42"}
+    ]},
+    {"instrument": "QNTL", "lots": [
+      {"date": "2026-01-15", "quantity": "2720", "price": "85.71"},
+      {"date": "2026-04-21", "quantity": "5650", "price": "81.52"}
+    ]},
+    {"instrument": "HLZS", "lots": [
+      {"date": "2026-01-15", "quantity": "3950", "price": "136.50"}
+    ]},
+    {"instrument": "PEBX", "lots": [
+      {"date": "2026-04-21", "quantity": "4840", "price": "149.98"}
+    ]},
+    {"instrument": "NYQV", "lots": [
+      {"date": "2025-09-18", "quantity": "6500", "price": "19.85"},
+      {"date": "2026-02-11", "quantity": "3500", "price": "22.40"},
+      {"date": "2026-08-20", "quantity": "-10000", "price": "22.29"}
+    ]},
+    {"instrument": "PZLY", "lots": [
+      {"date": "2025-06-24", "quantity": "5130", "price": "55.81"},
+      {"date": "2025-10-07", "quantity": "5430", "price": "60.85"}
+    ]},
+    {"instrument": "SUQB", "lots": [
+      {"date": "2025-02-03", "quantity": "11100", "price": "48.98"}
+    ]},
+    {"instrument": "VLXN", "lots": [
+      {"date": "2026-04-21", "quantity": "3340", "price": "111.39"}
+    ]},
+    {"instrument": "CNZA", "lots": [
+      {"date": "2024-11-12", "quantity": "6120", "price": "38.19"},
+      {"date": "2025-02-03", "quantity": "3780", "price": "34.42"},
+      {"date": "2026-04-21", "quantity": "3900", "price": "40.97"}
+    ]},
+    {"instrument": "OZVR", "lots": [
+      {"date": "2024-11-12", "quantity": "5600", "price": "81.02"}
+    ]},
+    {"instrument": "TUXV", "lots": [
+      {"date": "2026-04-21", "quantity": "14900", "price": "27.83"}
+    ]},
+    {"instrument": "LVRU", "lots": [
+      {"date": "2025-06-24", "quantity": "2220", "price": "65.52"},
+      {"date": "2026-04-21", "quantity": "4010", "price": "67.08"}
+    ]},
+    {"instrument": "NRDP", "lots": [
+      {"date": "2024-11-12", "quantity": "23700", "price": "14.62"}
+    ]},
+    {"instrument": "MXTB", "lots": [
+      {"date": "2025-05-21", "quantity": "192600", "price": "4.427"},
+      {"date": "2026-07-10", "quantity": "-32100", "price": "4.444"}
+    ]},
+    {"instrument": "TLLY", "lots": [
+      {"date": "2025-10-07", "quantity": "9600", "price": "9.10"},
+      {"date": "2026-01-15", "quantity": "18800", "price": "9.49"}
+    ]},
+    {"instrument": "BRMD", "lots": [
+      {"date": "2025-06-24", "quantity": "10200", "price": "12.81"},
+      {"date": "2026-01-15", "quantity": "10500", "price": "13.32"},
+      {"date": "2026-04-21", "quantity": "17500", "price": "13.53"}
+    ]},
+    {"instrument": "GRBY", "lots": [
+      {"date": "2025-02-03", "quantity": "5700", "price": "17.87"},
+      {"date": "2026-04-21", "quantity": "14000", "price": "18.31"},
+      {"date": "2026-09-30", "quantity": "-7500", "price": "19.39"}
+    ]},
+    {"instrument": "ASHB", "lots": [
+      {"date": "2025-02-03", "quantity": "122100", "price": "3.262"}
+    ]},
+    {"instrument": "CLVY", "lots": [
+      {"date": "2026-01-15", "quantity": "19000", "price": "24.46"}
+    ]},
+    {"instrument": "MLBY", "lots": [
+      {"date": "2026-01-15", "quantity": "117000", "price": "1.877"}
+    ]},
+    {"instrument": "TNSL", "lots": [
+      {"date": "2024-11-12", "quantity": "95500", "price": "0.7451"},
+      {"date": "2025-06-24", "quantity": "139500", "price": "0.7554"}
+    ]},
+    {"instrument": "KIWQ", "lots": [
+      {"date": "2026-01-15", "quantity": "6400", "price": "3824"},
+      {"date": "2026-04-21", "quantity": "11000", "price": "4106"}
+    ]},
+    {"instrument": "SAQB", "lots": [
+      {"date": "2024-11-12", "quantity": "18900", "price": "1148"},
+      {"date": "2026-01-15", "quantity": "47400", "price": "1102"}
+    ]},
+    {"instrument": "HNKI", "lots": [
+      {"date": "2025-10-07", "quantity": "21200", "price": "2482"}
+    ]},
+    {"instrument": "KZRO", "lots": [
+      {"date": "2026-01-15", "quantity": "11300", "price": "2073"},
+      {"date": "2026-04-21", "quantity": "29000", "price": "2291"}
+    ]},
+    {"instrument": "UKT34", "lots": [
+      {"date": "2025-06-24", "quantity": "300000", "price": "98.178"},
+      {"date": "2025-10-07", "quantity": "705000", "price": "99.391"}
+    ]},
+    {"instrument": "UST31", "lots": [
+      {"date": "2024-11-12", "quantity": "505000", "price": "96.007"},
+      {"date": "2025-06-24", "quantity": "550000", "price": "100.842"},
+      {"date": "2026-01-15", "quantity": "85000", "price": "96.798"}
+    ]},
+    {"instrument": "DBR33", "lots": [
+      {"date": "2026-01-15", "quantity": "320000", "price": "97.123"},
+      {"date": "2026-04-21", "quantity": "550000", "price": "97.681"}
+    ]},
+    {"instrument": "JGB30", "lots": [
+      {"date": "2026-01-15", "quantity": "76000000", "price": "101.782"}
+    ]},
+    {"instrument": "MXTB29", "lots": [
+      {"date": "2024-11-12", "quantity": "160000", "price": "100.724"},
+      {"date": "2025-06-24", "quantity": "295000", "price": "99.708"}
+    ]},
+    {"instrument": "ADZM32", "lots": [
+      {"date": "2024-11-12", "quantity": "250000", "price": "97.204"},
+      {"date": "2025-02-03", "quantity": "215000", "price": "99.280"},
+      {"date": "2025-06-24", "quantity": "65000", "price": "96.371"}
+    ]},
+    {"instrument": "LVRU30", "lots": [
+      {"date": "2026-04-21", "quantity": "330000", "price": "98.878"}
+    ]},
+    {"instrument": "BRXS30", "lots": [
+      {"date": "2026-04-21", "quantity": "515000", "price": "94.900"}
+    ]},
+    {"instrument": "SLQF", "lots": [
+      {"date": "2025-10-07", "quantity": "150100", "price": "0.9931"},
+      {"date": "2026-01-15", "quantity": "167800", "price": "0.9944"},
+      {"date": "2026-04-21", "quantity": "272500", "price": "0.9947"}
+    ]},
+    {"instrument": "EQDF", "lots": [
+      {"date": "2026-01-15", "quantity": "56900", "price": "11.3366"}
+    ]},
+    {"instrument": "GEIF", "lots": [
+      {"date": "2025-06-24", "quantity": "123600", "price": "3.2413"},
+      {"date": "2026-04-21", "quantity": "226200", "price": "3.3193"}
+    ]},
+    {"instrument": "JMKF", "lots": [
+      {"date": "2025-10-07", "quantity": "3834", "price": "18365"}
+    ]},
+    {"instrument": "PCRF", "lots": [
+      {"date": "2026-01-15", "quantity": "6850", "price": "98.7808"}
+    ]},
+    {"instrument": "IXFR", "lots": [
+      {"date": "2026-01-23", "quantity": "373600", "price": "1.2583"}
+    ]}
+  ]
+}

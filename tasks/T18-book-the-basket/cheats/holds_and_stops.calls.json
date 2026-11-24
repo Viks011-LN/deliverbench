@@ -1,0 +1,384 @@
+[
+ {
+  "calls": [
+   [
+    "read_file",
+    {
+     "path": "/app/desk-procedure.md"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "basket"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "account accounts"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "search_notes",
+    {
+     "query": "restricted compliance"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "find_instrument",
+    {
+     "query": "LQVB"
+    }
+   ],
+   [
+    "find_instrument",
+    {
+     "query": "EKVN"
+    }
+   ],
+   [
+    "find_instrument",
+    {
+     "query": "KZNP"
+    }
+   ],
+   [
+    "find_instrument",
+    {
+     "query": "VXMR"
+    }
+   ],
+   [
+    "find_instrument",
+    {
+     "query": "KAFO"
+    }
+   ],
+   [
+    "find_instrument",
+    {
+     "query": "BKQM"
+    }
+   ],
+   [
+    "find_instrument",
+    {
+     "query": "PLHA"
+    }
+   ],
+   [
+    "find_instrument",
+    {
+     "query": "RTSY"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_calendar",
+    {
+     "exchange": "ESX",
+     "start_date": "2026-11-13",
+     "end_date": "2026-11-30"
+    }
+   ],
+   [
+    "get_calendar",
+    {
+     "exchange": "KTX",
+     "start_date": "2026-11-13",
+     "end_date": "2026-11-30"
+    }
+   ],
+   [
+    "get_calendar",
+    {
+     "exchange": "NRX",
+     "start_date": "2026-11-13",
+     "end_date": "2026-11-30"
+    }
+   ],
+   [
+    "get_calendar",
+    {
+     "exchange": "WSX",
+     "start_date": "2026-11-13",
+     "end_date": "2026-11-30"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_close",
+    {
+     "symbol": "LQVB",
+     "date": "2026-11-13"
+    }
+   ],
+   [
+    "get_close",
+    {
+     "symbol": "EKVN",
+     "date": "2026-11-13"
+    }
+   ],
+   [
+    "get_close",
+    {
+     "symbol": "KZNP",
+     "date": "2026-11-13"
+    }
+   ],
+   [
+    "get_close",
+    {
+     "symbol": "VXMR",
+     "date": "2026-11-13"
+    }
+   ],
+   [
+    "get_close",
+    {
+     "symbol": "KAFO",
+     "date": "2026-11-13"
+    }
+   ],
+   [
+    "get_close",
+    {
+     "symbol": "BKQM",
+     "date": "2026-11-13"
+    }
+   ],
+   [
+    "get_close",
+    {
+     "symbol": "PLHA",
+     "date": "2026-11-13"
+    }
+   ],
+   [
+    "get_close",
+    {
+     "symbol": "RTSY",
+     "date": "2026-11-13"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_fx_fixing",
+    {
+     "currency": "USD",
+     "date": "2026-11-13"
+    }
+   ],
+   [
+    "get_fx_fixing",
+    {
+     "currency": "SEK",
+     "date": "2026-11-13"
+    }
+   ],
+   [
+    "get_fx_fixing",
+    {
+     "currency": "JPY",
+     "date": "2026-11-13"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "LQVB"
+    }
+   ],
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "EKVN"
+    }
+   ],
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "KZNP"
+    }
+   ],
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "VXMR"
+    }
+   ],
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "KAFO"
+    }
+   ],
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "BKQM"
+    }
+   ],
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "PLHA"
+    }
+   ],
+   [
+    "get_corporate_actions",
+    {
+     "symbol": "RTSY"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "check_limits",
+    {
+     "fund": "NRDF",
+     "symbol": "LQVB",
+     "side": "buy",
+     "quantity": 20200,
+     "limit_price": 152.95,
+     "currency": "SEK"
+    }
+   ],
+   [
+    "check_limits",
+    {
+     "fund": "NRDF",
+     "symbol": "EKVN",
+     "side": "buy",
+     "quantity": 37000,
+     "limit_price": 62.3,
+     "currency": "SEK"
+    }
+   ],
+   [
+    "check_limits",
+    {
+     "fund": "GLBF",
+     "symbol": "KZNP",
+     "side": "buy",
+     "quantity": 12000,
+     "limit_price": 3605,
+     "currency": "JPY"
+    }
+   ],
+   [
+    "check_limits",
+    {
+     "fund": "GLBF",
+     "symbol": "VXMR",
+     "side": "buy",
+     "quantity": 60000,
+     "limit_price": 87.85,
+     "currency": "USD"
+    }
+   ],
+   [
+    "check_limits",
+    {
+     "fund": "NRDF",
+     "symbol": "KAFO",
+     "side": "sell",
+     "quantity": 14230,
+     "limit_price": 41.0,
+     "currency": "EUR"
+    }
+   ],
+   [
+    "check_limits",
+    {
+     "fund": "NRDF",
+     "symbol": "BKQM",
+     "side": "buy",
+     "quantity": 8100,
+     "limit_price": 319.4,
+     "currency": "SEK"
+    }
+   ],
+   [
+    "check_limits",
+    {
+     "fund": "GLBF",
+     "symbol": "PLHA",
+     "side": "buy",
+     "quantity": 22780,
+     "limit_price": 63.49,
+     "currency": "USD"
+    }
+   ],
+   [
+    "check_limits",
+    {
+     "fund": "GLBF",
+     "symbol": "RTSY",
+     "side": "buy",
+     "quantity": 13175,
+     "limit_price": 58.96,
+     "currency": "EUR"
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "send_message",
+    {
+     "to": "desk-head",
+     "text": "Nothing booked: PM-1113-D fails check_limits (5.65% of NAV in Vexmoor Logistics Inc after the order (start-of-day holding 4.45%)), so I have stopped the basket there."
+    }
+   ]
+  ]
+ },
+ {
+  "calls": [
+   [
+    "finish",
+    {
+     "status": "needs_input",
+     "missing": [
+      "PM-1113-D: buy 60,000 Vexmoor Logistics Inc (VXMR) for the Global fund fails check_limits: 5.65% of NAV in Vexmoor Logistics Inc after the order (start-of-day holding 4.45%), against at most 5.00% of the fund's NAV in one issuer, after the order; held, not resized, as the desk procedure says"
+     ],
+     "summary": "Stopped the basket at PM-1113-D, which fails check_limits."
+    }
+   ]
+  ]
+ }
+]

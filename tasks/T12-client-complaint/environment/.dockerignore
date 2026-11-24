@@ -1,0 +1,4 @@
+# Never copy caches into a room.
+**/__pycache__
+**/*.pyc
+**/.pytest_cache

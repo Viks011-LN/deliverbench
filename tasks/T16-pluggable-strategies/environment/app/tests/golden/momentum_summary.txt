@@ -1,0 +1,33 @@
+Backtest 2024-01-02 to 2025-07-14 (400 days)
+Strategy: momentum (lookback 60, skip 5)
+Book: top 3, long only, rebalanced monthly, max weight 40.00%
+Risk: volatility target none; drawdown control none
+
+Total return                    70.80%
+Annual return                   34.47%
+Annual volatility               11.28%
+Sharpe                            3.06
+Sortino                           5.46
+Calmar                            3.89
+Max drawdown                    -8.86%
+Hit rate                        55.88%
+Benchmark IDX                   -0.89%
+Excess return                   71.69%
+Beta                             -0.01
+Tracking error                  16.50%
+Information ratio                 2.08
+Trades                      64 (1f 0s)
+Positions               17 (54.5 days)
+Costs                        11,521.50
+Interest                          0.00
+Final NAV                 1,708,014.76
+
+Worst drawdowns
+    -8.86%  2024-08-23 to 2024-11-05, recovered 2024-12-13 (80 days)
+    -4.65%  2025-06-03 to 2025-06-27, not recovered (29 days)
+    -3.81%  2025-03-04 to 2025-04-01, recovered 2025-04-22 (35 days)
+
+Monthly returns
+Year    Jan    Feb    Mar    Apr    May    Jun    Jul    Aug    Sep    Oct    Nov    Dec     Year
+2024   0.0%   0.0%   1.8%  11.9%   7.6%  -0.9%  10.2%   3.6%   0.4%  -5.2%   2.0%   7.0%    44.2%
+2025  11.7%   1.9%  -1.8%   4.5%   3.0%  -4.4%   2.9%                                       18.5%

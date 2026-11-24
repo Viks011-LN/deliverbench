@@ -1,0 +1,54 @@
+id,weight,name,kind,sector,country,currency
+ADZM,0.0310,,,,,
+ADZM32,0.0120,,,,,
+ASHB,0.0090,,,,,
+BRMD,0.0120,,,,,
+BROZ,0.0160,Brozingen Pharma AG,equity,Health Care,CH,CHF
+CLVY,0.0140,,,,,
+CNZA,0.0140,,,,,
+CTHX,0.0190,Canthrix Software Corp,equity,Technology,US,USD
+DBR29,0.0230,Bund 2.1% 2029,bond,Government,DE,EUR
+DBR33,0.0480,,,,,
+DXMR,0.0210,Daxmoor Pharmaceuticals Inc,equity,Health Care,US,USD
+ELRY,0.0190,Ellery Bancorp,equity,Financials,US,USD
+FRXL,0.0210,,,,,
+GRBY,0.0100,,,,,
+HLMF,0.0110,Holmfirth Insurance plc,equity,Financials,GB,GBP
+HLZS,0.0220,,,,,
+HNKI,0.0110,,,,,
+HZKI,0.0130,Houzaki Semicon Co,equity,Technology,JP,JPY
+JGB30,0.0320,,,,,
+JGB34,0.0180,JGB 0.8% 2034,bond,Government,JP,JPY
+KIWQ,0.0160,,,,,
+KLGR,0.0140,Kalgarra Minerals Ltd,equity,Materials,AU,AUD
+KNMR,0.0120,Kanemura Precision Co,equity,Industrials,JP,JPY
+KZRO,0.0140,,,,,
+LVRU,0.0130,,,,,
+LVRU30,0.0090,,,,,
+MXTB,0.0150,,,,,
+MXTB29,0.0110,,,,,
+NCRN,0.0110,Northcairn Mining Corp,equity,Materials,CA,CAD
+NRDP,0.0110,,,,,
+NYQV,0.0090,,,,,
+ORVL,0.0300,Orvelle Networks Inc,equity,Technology,US,USD
+ORVL30,0.0120,Orvelle Networks 4.75% 2030,bond,Technology,US,USD
+OZVR,0.0170,,,,,
+PEBX,0.0240,,,,,
+PNDL,0.0110,Pendle Water plc,equity,Utilities,GB,GBP
+PNKS,0.0160,Pennick Stores Inc,equity,Consumer,US,USD
+PZLY,0.0150,,,,,
+QNTL,0.0160,,,,,
+RDMS,0.0130,Redmarsh Energy Corp,equity,Energy,US,USD
+RKNS,0.0120,Rokenstedt Chemie AG,equity,Materials,DE,EUR
+SAQB,0.0130,,,,,
+SUQB,0.0190,,,,,
+SVLA,0.0090,Savela Power Oyj,equity,Utilities,FI,EUR
+TLLY,0.0060,,,,,
+TUXV,0.0080,,,,,
+UKT29,0.0360,UK Treasury 4.125% 2029,bond,Government,GB,GBP
+UKT34,0.0650,,,,,
+UKT45,0.0240,UK Treasury 3.75% 2045,bond,Government,GB,GBP
+UST28,0.0380,US Treasury 4.25% 2028,bond,Government,US,USD
+UST31,0.0720,,,,,
+VLXN,0.0180,,,,,
+VOSL,0.0150,Vosette Luxe SA,equity,Consumer,FR,EUR

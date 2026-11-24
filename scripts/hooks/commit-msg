@@ -1,0 +1,11 @@
+#!/bin/sh
+# Blocks a commit whose message contains personal information.
+# Enabled per clone with: git config core.hooksPath scripts/hooks
+root=$(git rev-parse --show-toplevel) || exit 2
+if command -v py >/dev/null 2>&1; then
+  exec py -3 "$root/scripts/privacy_guard.py" --message "$1"
+elif command -v python3 >/dev/null 2>&1; then
+  exec python3 "$root/scripts/privacy_guard.py" --message "$1"
+else
+  exec python "$root/scripts/privacy_guard.py" --message "$1"
+fi

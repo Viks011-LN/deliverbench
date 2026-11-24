@@ -1,0 +1,15 @@
+{
+  "signal": {
+    "type": "reversion",
+    "window": 15,
+    "entry_z": 1.0
+  },
+  "top_n": 2,
+  "allow_short": true,
+  "rebalance": "daily",
+  "rebalance_band": 0.01,
+  "borrow_bps": 75.0,
+  "exclude": [
+    "IDX"
+  ]
+}

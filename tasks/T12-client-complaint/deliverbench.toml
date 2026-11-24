@@ -1,0 +1,344 @@
+# deliverbench's own settings for this job (Harbor's task.toml has no place for them). A v2 job (format 2):
+# the evidence map, the name-and-rule list and the no-hint check below are checked by dbench/jobformat.py.
+# The job plan: docs/job-plans/T12-PLAN.md.
+[job]
+id = "T12"
+title = "A client's complaint: the statement does not agree with the ledger"
+version = "0.1.2"
+skill = "tracing a symptom to a distant cause in a large codebase, fixing it there and proving it with a regression test"
+scored = true
+format = 2
+time_limit_min = 55   # SCORING section 6: 5 x the slowest honest trial run (11 min, all trial setups), rounded up to 5 minutes; 240 at most
+runs_agent_code = true
+
+# The job's levers (docs/job-plans/T12-PLAN.md), set at the hard end of the plan (owner, 22 Nov 2026) and frozen
+# before its first model run.
+[settings]
+codebase_files = 156           # the room: v1's T09 folio at full size (148 files with CONTRIBUTING.md), and the client's 8 files
+codebase_lines = 16512         # 15,861 the codebase, its tests and documents; 651 the client's data folder, statement and ledger
+original_tests = 413           # all pass with the cause in place
+cause_depth = 5                # folio value -> Context.valuation -> value_portfolio -> Portfolio.holdings -> Position -> lots_as_of
+complaint_names = "the total only: no holding, file, function or date rule"
+data_sets = 6                  # hidden; generate.py
+trade_dates = 12               # two per data set
+settled_dates = 2              # an --as-of after the last price date, and a Saturday, both settled onto a trade date
+hidden_cases = 373             # 98 on trade dates ("fixed"), 275 around them, on quiet dates and in the ledger ("unchanged")
+statement_nav = "19,270,675.16"
+statement_difference = "144,975.00"   # 7,500 GRBY sold on 30 September at a close of 19.33
+
+[[checks]]
+id = "test_outputs::test_broken_behaviour_fixed"
+required = true
+
+[[checks]]
+id = "test_outputs::test_everything_else_unchanged"
+required = true
+
+[[checks]]
+id = "test_outputs::test_original_tests_pass"
+required = true
+
+[[checks]]
+id = "test_outputs::test_existing_tests_not_edited"
+required = true
+rule = true
+
+[[checks]]
+id = "test_outputs::test_new_test_fails_before_the_fix_and_passes_after"
+required = true
+
+[[checks]]
+id = "test_outputs::test_client_files_unchanged"
+required = true
+rule = true
+
+# ----- the evidence map: what each check demands, the sentence that demands it, where it lives -----
+
+[[evidence]]
+check = "test_outputs::test_broken_behaviour_fixed"
+demands = "find which figure is right and fix the statement when it is wrong"
+quote = "so we need to know which figure is right, and the statement fixed if it is wrong."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_broken_behaviour_fixed"
+demands = "the fix is in folio, not in the client's data"
+quote = "Please find what is wrong and fix it in folio."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_broken_behaviour_fixed"
+demands = "the one right behaviour: a position as of a date includes that day's trades (the book at the close)"
+quote = "A position as of a date includes the trades of that day: prices are closing prices, so every figure for a date shows the book at that day's close, never at its open."
+source = "room:docs/ARCHITECTURE.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_broken_behaviour_fixed"
+demands = "the same rule where the cause sits"
+quote = "The lots traded on or before ``as_of``, or every lot when it is None."
+source = "room:folio/domain/positions.py"
+trail = ["room:README.md", "room:docs/ARCHITECTURE.md"]
+
+[[evidence]]
+check = "test_outputs::test_broken_behaviour_fixed"
+demands = "the ledger counts the valuation date, so reconcile compares both sides through that day"
+quote = "`--as-of` is settled as folio settles it and is the last day the ledger counts."
+source = "room:docs/ledger.md"
+trail = ["room:README.md", "room:docs/ARCHITECTURE.md"]
+
+[[evidence]]
+check = "test_outputs::test_broken_behaviour_fixed"
+demands = "reconcile reports only real differences between the trades and positions.json"
+quote = "`reconcile` rebuilds the open lots from the trades and from the lots in `positions.json`, and prints a `DIFF` line for each instrument open on one side only, each different open quantity, each open lot (date, quantity, price) on one side only and each cash balance that differs."
+source = "room:docs/ledger.md"
+trail = ["room:README.md", "room:docs/ARCHITECTURE.md"]
+
+[[evidence]]
+check = "test_outputs::test_broken_behaviour_fixed"
+demands = "a date after the last price is valued on the last price date (a settled case lands on a trade date)"
+quote = "`--as-of YYYY-MM-DD` (default today; a date after the last price becomes the last price date)"
+source = "room:README.md"
+
+[[evidence]]
+check = "test_outputs::test_broken_behaviour_fixed"
+demands = "a weekend date is valued on the Friday before (a settled case lands on a Friday trade date)"
+quote = "A weekend rolls back to the Friday before, and a date after the last price in the file becomes that last price date"
+source = "room:folio/calc/valuation.py"
+trail = ["room:README.md", "room:docs/ARCHITECTURE.md"]
+
+[[evidence]]
+check = "test_outputs::test_everything_else_unchanged"
+demands = "nothing else folio prints changes (the days either side of a trade, quiet days, the ledger's own reports)"
+quote = "It changes what was wrong and nothing else that folio prints."
+source = "room:CONTRIBUTING.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_everything_else_unchanged"
+demands = "the fix is judged on other data folders, not the client's alone"
+quote = "Release checks run the package on other data folders than the ones in this repo, so a change that only makes one folder's report come out right is not a fix."
+source = "room:CONTRIBUTING.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_original_tests_pass"
+demands = "the whole existing suite passes against the fixed package"
+quote = "The whole suite passes (`python -m pytest`) before a fix is handed in."
+source = "room:CONTRIBUTING.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_existing_tests_not_edited"
+demands = "the existing test files are left as they are"
+quote = "Existing tests are never edited."
+source = "room:CONTRIBUTING.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_new_test_fails_before_the_fix_and_passes_after"
+demands = "a regression test in a new tests/test_<what>.py that fails before the fix by an assertion and passes after"
+quote = "Every fix comes with a regression test, in a new file in `tests/` named `test_<what>.py`. At least one of its tests fails on the code before the fix, by an assertion, and all of them pass after it."
+source = "room:CONTRIBUTING.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_new_test_fails_before_the_fix_and_passes_after"
+demands = "the test uses only what exists before the fix (an import error is not a failure)"
+quote = "So the test uses only functions and commands that exist before the fix: a test that fails because it imports something new proves nothing."
+source = "room:CONTRIBUTING.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_new_test_fails_before_the_fix_and_passes_after"
+demands = "how the test is run: in a copy of the project, before and after the fix"
+quote = "Release checks run that file against the package before the fix and after it, each time in a copy of this folder with the existing tests. Import `folio` as the existing tests do, and find any file the test reads relative to the test file itself."
+source = "room:CONTRIBUTING.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_client_files_unchanged"
+demands = "the client's data folder, statement and ledger export are left as they are"
+quote = "A client's files are never edited to make a report agree: they are a record of what was sent."
+source = "room:CONTRIBUTING.md"
+trail = ["room:README.md"]
+
+# ----- every name and rule the grader relies on, with the sentence that fixes it -----
+
+[[names]]
+kind = "rule"
+name = "a day's trades count in that day's figures"
+value = "Position.lots_as_of(d) keeps lots dated on or before d; every quantity, average cost and reconcile lot through it"
+quote = "A position as of a date includes the trades of that day: prices are closing prices, so every figure for a date shows the book at that day's close, never at its open."
+source = "room:docs/ARCHITECTURE.md"
+
+[[names]]
+kind = "rule"
+name = "lots_as_of"
+value = "on or before the date (the docstring the code contradicts)"
+quote = "The lots traded on or before ``as_of``, or every lot when it is None."
+source = "room:folio/domain/positions.py"
+
+[[names]]
+kind = "rule"
+name = "the ledger's last day"
+value = "the ledger counts the trades and cash flows of the valuation date (it is right already)"
+quote = "`--as-of` is settled as folio settles it and is the last day the ledger counts."
+source = "room:docs/ledger.md"
+
+[[names]]
+kind = "rule"
+name = "prices are closing prices"
+value = "rules out reading a date's figures as the book at the open"
+quote = "| `prices.csv` | closing prices, one column per instrument; blank = no price that day |"
+source = "room:README.md"
+
+[[names]]
+kind = "rule"
+name = "settling --as-of"
+value = "after the last price: the last price date; a weekend: the Friday before (with a note on stderr)"
+quote = "A weekend rolls back to the Friday before, and a date after the last price in the file becomes that last price date"
+source = "room:folio/calc/valuation.py"
+
+[[names]]
+kind = "format"
+name = "the commands compared"
+value = "value, report --by sector, export --format csv and json, risk, check-limits -v: stdout, stderr and exit status exactly"
+quote = "| `check-limits [-v]` | one `BREACH ...` line per limit breach; exit status 1 if there is any |"
+source = "room:README.md"
+
+[[names]]
+kind = "format"
+name = "the ledger commands compared"
+value = "python -m folio.ledger reconcile (trade dates: fixed), trades, pnl, cash, export (unchanged): exactly"
+quote = "It lives in `folio/ledger/` and runs as `python -m folio.ledger <command>`, with folio's common options (`--data-dir`, `--as-of`, `--config`, `--set`)."
+source = "room:docs/ledger.md"
+
+[[names]]
+kind = "identifier"
+name = "the client's statement and ledger"
+value = "the statement is folio value, the ledger is python -m folio.ledger export, on support/CS-2291/data"
+quote = "A client's statement is `folio value` and the trade ledger they are sent is `python -m folio.ledger export`, each run on the client's own data folder."
+source = "room:CONTRIBUTING.md"
+
+[[names]]
+kind = "identifier"
+name = "the client's files"
+value = "everything under /app/support/CS-2291/ (data folder, statement-2026-09-30.txt, ledger-2026-09-30.csv), compared byte for byte"
+quote = "Their data folder, the statement and the ledger export they were sent are in `/app/support/CS-2291/`."
+source = "ticket"
+
+[[names]]
+kind = "rule"
+name = "a fix changes nothing else"
+value = "every output on dates without a trade, and every ledger report, as the original prints it"
+quote = "It changes what was wrong and nothing else that folio prints."
+source = "room:CONTRIBUTING.md"
+
+[[names]]
+kind = "rule"
+name = "the regression test"
+value = "a new tests/test_*.py; on the original package it collects cleanly and one test fails by AssertionError; on the fix every test passes"
+quote = "Every fix comes with a regression test, in a new file in `tests/` named `test_<what>.py`. At least one of its tests fails on the code before the fix, by an assertion, and all of them pass after it."
+source = "room:CONTRIBUTING.md"
+
+[[names]]
+kind = "rule"
+name = "how the regression test runs"
+value = "in a copy of /app (its own folio swapped for the original or the agent's), the original tests and pyproject.toml restored"
+quote = "Release checks run that file against the package before the fix and after it, each time in a copy of this folder with the existing tests."
+source = "room:CONTRIBUTING.md"
+
+[[names]]
+kind = "rule"
+name = "existing tests"
+value = "every original file under tests/, conftest.py included, byte for byte (a rule check)"
+quote = "Existing tests are never edited."
+source = "room:CONTRIBUTING.md"
+
+[[names]]
+kind = "rule"
+name = "a client's files"
+value = "never edited (a rule check); new files beside them are not graded"
+quote = "A client's files are never edited to make a report agree: they are a record of what was sent."
+source = "room:CONTRIBUTING.md"
+
+[hints]
+forbidden = ["as-of", "as_of", "trade date", "trade dates", "same day", "same-day", "inclusive", "off by one",
+             "off-by-one", "positions.py", "position", "positions", "lot", "lots", "GRBY", "Grelby", "sale", "sold",
+             "sell", "closing", "close", "boundary"]
+
+# ----- selftest: doing nothing, the integrity probes and every wrong solution fail exactly their checks -----
+
+[nop]
+fails = ["test_outputs::test_broken_behaviour_fixed",
+         "test_outputs::test_new_test_fails_before_the_fix_and_passes_after"]
+
+# The wrong solutions are written by generate.py (WRONG), which also proves the output case groups each one fails.
+[[cheats]]
+name = "the valuation asks for the holdings of the next day: the statement, the 413 tests and every valuation are right; reconcile is not"
+script = "cheats/next_day_holdings.sh"
+fails = ["test_outputs::test_broken_behaviour_fixed"]
+
+[[cheats]]
+name = "the valuation counts each holding's quantity itself, leaving Position.lots_as_of: right for the reported sale only"
+script = "cheats/recount_in_valuation.sh"
+fails = ["test_outputs::test_broken_behaviour_fixed"]
+
+[[cheats]]
+name = "makes the ledger agree with the statement: the ledger stops counting the trades of its last day"
+script = "cheats/ledger_agrees.sh"
+fails = ["test_outputs::test_broken_behaviour_fixed", "test_outputs::test_everything_else_unchanged",
+         "test_outputs::test_original_tests_pass"]
+
+[[cheats]]
+name = "drops the date filter, so every lot counts on every date"
+script = "cheats/no_date_filter.sh"
+fails = ["test_outputs::test_broken_behaviour_fixed", "test_outputs::test_everything_else_unchanged",
+         "test_outputs::test_original_tests_pass"]
+
+[[cheats]]
+name = "moves the client's sale a day earlier in their positions.json; folio unchanged, no test"
+script = "cheats/moves_client_sale.sh"
+fails = ["test_outputs::test_broken_behaviour_fixed",
+         "test_outputs::test_new_test_fails_before_the_fix_and_passes_after",
+         "test_outputs::test_client_files_unchanged"]
+
+[[cheats]]
+name = "the right fix, but the test imports a helper the fix adds (it fails before the fix by an import error)"
+script = "cheats/helper_import.sh"
+fails = ["test_outputs::test_new_test_fails_before_the_fix_and_passes_after"]
+
+[[cheats]]
+name = "the right fix, but the test looks at a day with no trade (it passes before the fix)"
+script = "cheats/quiet_day_test.sh"
+fails = ["test_outputs::test_new_test_fails_before_the_fix_and_passes_after"]
+
+[[cheats]]
+name = "the right fix and test, and an existing test edited back onto the trade date"
+script = "cheats/edits_existing_test.sh"
+fails = ["test_outputs::test_existing_tests_not_edited"]
+
+[[cheats]]
+name = "the right fix and test, and the client's statement printed again over the one they were sent"
+script = "cheats/corrects_statement.sh"
+fails = ["test_outputs::test_client_files_unchanged"]
+
+[[cheats]]
+name = "the right fix and test, and the ledger's cash report says the balances are at the day's close"
+script = "cheats/ledger_cash_title.sh"
+fails = ["test_outputs::test_everything_else_unchanged"]
+
+# Integrity probes (scripts/make_integrity_cheats.py).
+[[cheats]]
+name = "plants a passing grade and links in the shared folders, does no work"
+script = "cheats/plant.sh"
+fails = ["test_outputs::test_broken_behaviour_fixed",
+         "test_outputs::test_new_test_fails_before_the_fix_and_passes_after"]
+
+[[cheats]]
+name = "code that tries to read the hidden checks and to rewrite the grade"
+script = "cheats/tamper.sh"
+fails = ["test_outputs::test_broken_behaviour_fixed", "test_outputs::test_everything_else_unchanged",
+         "test_outputs::test_original_tests_pass",
+         "test_outputs::test_new_test_fails_before_the_fix_and_passes_after"]

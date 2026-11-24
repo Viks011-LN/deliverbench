@@ -1,0 +1,27 @@
+Backtest 2024-01-02 to 2025-07-14 (400 days)
+Strategy: reversion (window 15, entry_z 1.0)
+Book: top 2, long-short, rebalanced daily, max weight 40.00%, band 1.00%, excluding IDX
+Risk: volatility target none; drawdown control none
+
+Total return                   -36.82%
+Annual return                  -28.40%
+Annual volatility               10.89%
+Sharpe                           -2.61
+Sortino                          -3.25
+Calmar                           -0.76
+Max drawdown                   -37.26%
+Hit rate                        43.42%
+Trades                    1395 (0f 0s)
+Positions               410 (2.9 days)
+Costs                       141,153.55
+Interest                          0.00
+Final NAV                   631,760.83
+
+Worst drawdowns
+   -37.26%  2024-02-26 to 2025-07-14, not recovered (360 days)
+    -2.70%  2024-01-29 to 2024-02-12, recovered 2024-02-23 (19 days)
+
+Monthly returns
+Year    Jan    Feb    Mar    Apr    May    Jun    Jul    Aug    Sep    Oct    Nov    Dec     Year
+2024  -0.1%   0.1%  -4.2%  -4.0%  -3.3%  -4.1%  -2.9%  -5.8%  -4.3%  -0.3%   1.5%   0.7%   -23.8%
+2025  -4.4%  -5.8%   0.4%  -0.6%  -4.8%   0.3%  -3.4%                                      -17.1%

@@ -1,0 +1,12 @@
+# The vendor service shares only the room's localhost; the model can't see its code, data or logs.
+services:
+  main:
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 512
+  macro-api:
+    build:
+      context: ./macro-api
+    network_mode: "service:main"
+    depends_on:
+      - main

@@ -1,0 +1,428 @@
+# deliverbench's own settings for this job (Harbor's task.toml has no place for them). A v2 job (format 2):
+# the evidence map, the name-and-rule list and the no-hint check below are checked by dbench/jobformat.py.
+# The job plan: docs/job-plans/T13-PLAN.md.
+[job]
+id = "T13"
+title = "The regime table from the vendor"
+version = "0.1.1"
+skill = "reading a vendor's documentation; noticing bad data; recovering from what the vendor does"
+scored = true
+format = 2
+time_limit_min = 100   # SCORING section 6: 5 x the slowest honest trial run (19 min, all trial setups), rounded up to 5 minutes; 240 at most
+runs_agent_code = true
+
+# The job's levers (docs/job-plans/T13-PLAN.md), at the hard end of the plan (owner, 22 Nov 2026), frozen before its
+# first model run. generate.py asserts that every value here is what it generates.
+[settings]
+quirk_kinds = 6                       # 429 with Retry-After, passing 5xx, a retired series (410), a repeated page, ".", vintages
+series = 2
+months_per_series = 309
+first_month = "2001-01"
+last_month = "2026-09"
+page_size = 24                        # observations, vintages included
+room_pages = 30                       # both series
+room_cycle = 30                       # the request-count quirks repeat every 30 counted requests: any full run meets each kind
+room_rate_limits_per_cycle = 3
+room_retry_after_seconds = [1, 2, 3]
+room_passing_errors_per_cycle = 4     # a 500 alone, a 503 right after a 429, a 502 then a 500
+room_repeated_pages_per_cycle = 1
+room_rename = "CPI_OLD to CPI_YOY"
+room_dot_months = 4                   # two per series, one vintage each
+room_revised_months = 30              # 15 per series: 10 recent, 5 older (benchmark revisions); 2 to 4 vintages each
+room_rows = 298
+room_reference_requests = 43          # the reference's counted requests in a fresh room
+grading_pages = 30
+grading_cycle = 33
+grading_rate_limits_per_cycle = 3
+grading_retry_after_seconds = [1, 2, 3]
+grading_passing_errors_per_cycle = 4  # a 503 alone, a 502 right after a 429, a 500 then a 503
+grading_repeated_pages_per_cycle = 2
+grading_rename = "CPI_OLD to CPI_V2"
+grading_dot_months = 4
+grading_revised_months = 30
+grading_rows = 298
+grading_reference_requests = 43
+
+[[checks]]
+id = "test_outputs::test_table_from_the_job_run"
+required = true
+
+[[checks]]
+id = "test_outputs::test_pipeline_rerun_on_fresh_data"
+required = true
+
+[[checks]]
+id = "test_outputs::test_waits_the_vendor_requires"
+required = true
+rule = true
+
+# ----- the evidence map: what each check demands, the sentence that demands it, where it lives -----
+
+[[evidence]]
+check = "test_outputs::test_table_from_the_job_run"
+demands = "the pipeline run once in the room, so that output/regimes.csv holds today's table"
+quote = "Run it once, so that `output/regimes.csv` holds today's table."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_table_from_the_job_run"
+demands = "the two series, by the ids the ticket gives"
+quote = "Growth is industrial production, year on year (series `IP_YOY`); inflation is CPI, year on year (`CPI_OLD`)."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_table_from_the_job_run"
+demands = "the change over three calendar months, to 4 decimal places"
+quote = "Each series' change over three months: this month's figure minus the figure three calendar months earlier, to 4 decimal places."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_table_from_the_job_run"
+demands = "the four regimes"
+quote = "Regime: `reflation` if both changes are above zero; `goldilocks` if growth's is and inflation's is not; `stagflation` if inflation's is and growth's is not; `deflation` if neither is."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_table_from_the_job_run"
+demands = "which months get a row, their order, the columns and the month format"
+quote = "One row per month that has both figures and both figures from three months earlier, oldest first, in the columns `month,growth_change,inflation_change,regime`, months written `YYYY-MM`."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_table_from_the_job_run"
+demands = "today's figures"
+quote = "Use the figures as they stand today."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_table_from_the_job_run"
+demands = "today's figure for a month is its latest vintage"
+quote = "A month revised since first publication appears once per vintage, oldest first. The figure as it stands today is its latest vintage."
+source = "room:docs/vendor/macro-api.md"
+
+[[evidence]]
+check = "test_outputs::test_table_from_the_job_run"
+demands = "\".\" is no figure, so the month and the month three months on get no row"
+quote = "\".\" means no figure was published for that month; it is not zero."
+source = "room:docs/vendor/macro-api.md"
+
+[[evidence]]
+check = "test_outputs::test_table_from_the_job_run"
+demands = "every page of each series, each read once"
+quote = "A page holds up to 24 observations, in order of `date`, then of `vintage`. `next_page` is the number of the following page, or `null` on the last page."
+source = "room:docs/vendor/macro-api.md"
+
+[[evidence]]
+check = "test_outputs::test_table_from_the_job_run"
+demands = "a page answered with the page before is not the page asked for, which comes when it is asked for again"
+quote = "Under load the gateway may answer a request for a page with the page before it. A response's `page` always names the page it holds, and the page asked for is served when it is asked for again."
+source = "room:docs/vendor/macro-api.md"
+
+[[evidence]]
+check = "test_outputs::test_table_from_the_job_run"
+demands = "a passing error is answered normally when the same request is sent again"
+quote = "500, 502 and 503 are passing errors: they come from the gateway's load, not from the request, and the same request is answered normally when it is sent again."
+source = "room:docs/vendor/macro-api.md"
+
+[[evidence]]
+check = "test_outputs::test_table_from_the_job_run"
+demands = "the retired inflation series is followed to its successor"
+quote = "A retired series answers 410 with `replaced_by` naming its successor, which replaces it from then on:"
+source = "room:docs/vendor/macro-api.md"
+
+[[evidence]]
+check = "test_outputs::test_pipeline_rerun_on_fresh_data"
+demands = "how the scheduler runs the pipeline at grading: from the repo, with MACRO_API_URL and REGIMES_OUT set"
+quote = "The scheduler runs `python pipeline.py` from the repo with the vendor's address in `MACRO_API_URL` and the output path in `REGIMES_OUT`"
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_pipeline_rerun_on_fresh_data"
+demands = "exit status 0, with the table written"
+quote = "A job exits with status 0 only when its output is written."
+source = "room:README.md"
+
+[[evidence]]
+check = "test_outputs::test_pipeline_rerun_on_fresh_data"
+demands = "each run fetches afresh; nothing saved in the room is used"
+quote = "Each run fetches its data from the vendor afresh."
+source = "room:README.md"
+
+[[evidence]]
+check = "test_outputs::test_pipeline_rerun_on_fresh_data"
+demands = "the pipeline writes only the table, at REGIMES_OUT, and keeps nothing between runs"
+quote = "A job writes only its output, to the path in its output variable (for the regime table, `REGIMES_OUT`), and keeps nothing between runs."
+source = "room:README.md"
+
+[[evidence]]
+check = "test_outputs::test_pipeline_rerun_on_fresh_data"
+demands = "an id the vendor never issued (at grading, the room's successor) answers 404"
+quote = "An id that was never issued answers 404."
+source = "room:docs/vendor/macro-api.md"
+
+[[evidence]]
+check = "test_outputs::test_pipeline_rerun_on_fresh_data"
+demands = "the pipeline works unchanged on other figures, and names series only by the ticket's ids"
+quote = "A job keeps working, unchanged, when the vendor's figures change: it hard-codes no figure, and it names each series only by the id its ticket gives."
+source = "room:README.md"
+
+[[evidence]]
+check = "test_outputs::test_pipeline_rerun_on_fresh_data"
+demands = "replaced_by is followed whenever a 410 comes; a successor met in the room is not written into the code"
+quote = "Series are retired without notice, and a successor may itself be retired later, so a client keeps the id it was given and follows `replaced_by` whenever it meets a 410; it does not write a successor's id into its own code or settings."
+source = "room:docs/vendor/macro-api.md"
+
+[[evidence]]
+check = "test_outputs::test_pipeline_rerun_on_fresh_data"
+demands = "the request-count quirks come at any request, so the re-run meets them at other requests than the room's"
+quote = "Rate limits (429), passing errors (500, 502, 503) and repeated pages can come at any request, whatever the client's pattern of requests: how many it makes, in what order and how fast."
+source = "room:docs/vendor/macro-api.md"
+
+[[evidence]]
+check = "test_outputs::test_pipeline_rerun_on_fresh_data"
+demands = "the same table rules, on the fresh service's data"
+quote = "One row per month that has both figures and both figures from three months earlier, oldest first, in the columns `month,growth_change,inflation_change,regime`, months written `YYYY-MM`."
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_waits_the_vendor_requires"
+demands = "no request before a 429's Retry-After has passed"
+quote = "When the allowance is used up the answer is 429 with `Retry-After` in seconds, and no request may be sent until it has passed. The wait counts from the moment the 429 arrives."
+source = "room:docs/vendor/macro-api.md"
+
+[[evidence]]
+check = "test_outputs::test_waits_the_vendor_requires"
+demands = "no two requests in flight at once"
+quote = "One request at a time: a line may not send a request while another of its requests is unanswered."
+source = "room:docs/vendor/macro-api.md"
+
+[[evidence]]
+check = "test_outputs::test_waits_the_vendor_requires"
+demands = "both are breaches the vendor records"
+quote = "Requests sent before a wait is over, and requests sent while another is unanswered, are recorded against the line;"
+source = "room:docs/vendor/macro-api.md"
+
+# ----- every name and rule the grader relies on, with the sentence that fixes it -----
+
+[[names]]
+kind = "identifier"
+name = "the script"
+value = "pipeline.py at the repo root (/app/pipeline.py)"
+quote = "Put it in `pipeline.py`."
+source = "ticket"
+
+[[names]]
+kind = "method"
+name = "how it is run"
+value = "python pipeline.py, from (a copy of) the repo root, as nobody; 600 s at most"
+quote = "The scheduler runs it as `python <job>.py`, from the repo root."
+source = "room:README.md"
+
+[[names]]
+kind = "setting"
+name = "MACRO_API_URL"
+value = "the vendor's base address; default http://localhost:8090 (the room's service); at grading the fresh service"
+quote = "| `MACRO_API_URL` | `http://localhost:8090` | the base address of the macro data vendor's API |"
+source = "room:README.md"
+
+[[names]]
+kind = "setting"
+name = "REGIMES_OUT"
+value = "where the table is written; default output/regimes.csv from the repo root; at grading a file in an existing folder"
+quote = "| `REGIMES_OUT` | `output/regimes.csv` | where the regime table is written; a relative path is taken from the repo root |"
+source = "room:README.md"
+
+[[names]]
+kind = "identifier"
+name = "the room's table"
+value = "/app/output/regimes.csv, written by the job's own run"
+quote = "Run it once, so that `output/regimes.csv` holds today's table."
+source = "ticket"
+
+[[names]]
+kind = "rule"
+name = "exit status"
+value = "0 at grading"
+quote = "A job exits with status 0 only when its output is written."
+source = "room:README.md"
+
+[[names]]
+kind = "identifier"
+name = "the series"
+value = "IP_YOY and CPI_OLD (retired: CPI_YOY in the room, CPI_V2 at grading)"
+quote = "Growth is industrial production, year on year (series `IP_YOY`); inflation is CPI, year on year (`CPI_OLD`)."
+source = "ticket"
+
+[[names]]
+kind = "method"
+name = "the change"
+value = "this month's figure minus the figure three calendar months earlier"
+quote = "this month's figure minus the figure three calendar months earlier"
+source = "ticket"
+
+[[names]]
+kind = "format"
+name = "the changes' precision"
+value = "4 decimal places; compared as numbers within 1e-9 of the key (every change is a whole number of hundredths, none zero)"
+quote = "to 4 decimal places"
+source = "ticket"
+
+[[names]]
+kind = "rule"
+name = "the regimes"
+value = "reflation, goldilocks, stagflation, deflation by the signs of the two changes (no change is zero)"
+quote = "Regime: `reflation` if both changes are above zero; `goldilocks` if growth's is and inflation's is not; `stagflation` if inflation's is and growth's is not; `deflation` if neither is."
+source = "ticket"
+
+[[names]]
+kind = "rule"
+name = "which months get a row"
+value = "both figures in the month and three calendar months earlier; oldest first"
+quote = "One row per month that has both figures and both figures from three months earlier, oldest first"
+source = "ticket"
+
+[[names]]
+kind = "column"
+name = "the columns"
+value = "month,growth_change,inflation_change,regime (header compared exactly)"
+quote = "in the columns `month,growth_change,inflation_change,regime`"
+source = "ticket"
+
+[[names]]
+kind = "format"
+name = "months"
+value = "YYYY-MM"
+quote = "months written `YYYY-MM`"
+source = "ticket"
+
+[[names]]
+kind = "rule"
+name = "\".\""
+value = "no figure for that month: neither zero nor carried forward"
+quote = "\".\" means no figure was published for that month; it is not zero."
+source = "room:docs/vendor/macro-api.md"
+
+[[names]]
+kind = "rule"
+name = "today's figure"
+value = "each month's latest vintage"
+quote = "The figure as it stands today is its latest vintage."
+source = "room:docs/vendor/macro-api.md"
+
+[[names]]
+kind = "rule"
+name = "a repeated page"
+value = "the answer's page differs from the page asked for; the page asked for comes when it is asked for again"
+quote = "A response's `page` always names the page it holds, and the page asked for is served when it is asked for again."
+source = "room:docs/vendor/macro-api.md"
+
+[[names]]
+kind = "rule"
+name = "passing errors"
+value = "500, 502 and 503: the same request again is answered normally (at most two in a row, in the room and at grading)"
+quote = "500, 502 and 503 are passing errors: they come from the gateway's load, not from the request, and the same request is answered normally when it is sent again."
+source = "room:docs/vendor/macro-api.md"
+
+[[names]]
+kind = "rule"
+name = "an id never issued"
+value = "404 (at grading: CPI_YOY, the room's successor, which that service never issued)"
+quote = "An id that was never issued answers 404."
+source = "room:docs/vendor/macro-api.md"
+
+[[names]]
+kind = "rule"
+name = "a retired series"
+value = "410 with replaced_by: the successor from then on; asked for again at every run"
+quote = "a client keeps the id it was given and follows `replaced_by` whenever it meets a 410"
+source = "room:docs/vendor/macro-api.md"
+
+[[names]]
+kind = "rule"
+name = "Retry-After"
+value = "no request until Retry-After seconds after the 429 arrived (0.25 s grace, judged on the re-run's log)"
+quote = "When the allowance is used up the answer is 429 with `Retry-After` in seconds, and no request may be sent until it has passed."
+source = "room:docs/vendor/macro-api.md"
+
+[[names]]
+kind = "rule"
+name = "one request at a time"
+value = "no request arrives while another is in flight (judged on the re-run's log)"
+quote = "One request at a time: a line may not send a request while another of its requests is unanswered."
+source = "room:docs/vendor/macro-api.md"
+
+[[names]]
+kind = "rule"
+name = "where a job writes, and nothing kept between runs"
+value = "only the table, at REGIMES_OUT; the re-run fetches its data, so a saved table or saved figures are wrong at grading"
+quote = "A job writes only its output, to the path in its output variable (for the regime table, `REGIMES_OUT`), and keeps nothing between runs."
+source = "room:README.md"
+
+[hints]
+forbidden = ["429", "Retry-After", "rate limit", "rate-limit", "throttle", "retry", "retries", "rename", "renamed",
+             "retired", "successor", "replaced_by", "410", "5xx", "500", "502", "503", "duplicate", "twice",
+             "repeated", "missing", "\".\"", "vintage", "vintages", "revised", "revision", "revisions", "page",
+             "pages", "paging", "parallel", "concurrent", "CPI_YOY", "CPI_V2"]
+
+# ----- selftest: doing nothing, the integrity probes and every wrong solution fail exactly their checks -----
+
+[nop]
+fails = ["test_outputs::test_table_from_the_job_run", "test_outputs::test_pipeline_rerun_on_fresh_data"]
+
+# The wrong solutions are written by generate.py (WRONG), which also runs each one it can in-process against both
+# services and proves it fails exactly the checks below.
+[[cheats]]
+name = "loops over page numbers and keeps whatever page comes back: the repeated page is read twice and the page asked for is lost"
+script = "cheats/repeated_page.sh"
+fails = ["test_outputs::test_table_from_the_job_run", "test_outputs::test_pipeline_rerun_on_fresh_data"]
+
+[[cheats]]
+name = "reads \".\" as zero"
+script = "cheats/dot_as_zero.sh"
+fails = ["test_outputs::test_table_from_the_job_run", "test_outputs::test_pipeline_rerun_on_fresh_data"]
+
+[[cheats]]
+name = "drops the \".\" months, then takes the row three rows back instead of three calendar months back"
+script = "cheats/rows_back.sh"
+fails = ["test_outputs::test_table_from_the_job_run", "test_outputs::test_pipeline_rerun_on_fresh_data"]
+
+[[cheats]]
+name = "takes each month's first vintage, not its latest"
+script = "cheats/first_vintage.sh"
+fails = ["test_outputs::test_table_from_the_job_run", "test_outputs::test_pipeline_rerun_on_fresh_data"]
+
+[[cheats]]
+name = "hard-codes the successor it met in the room (CPI_YOY) instead of asking for CPI_OLD"
+script = "cheats/hardcoded_successor.sh"
+fails = ["test_outputs::test_pipeline_rerun_on_fresh_data"]
+
+[[cheats]]
+name = "retries a 429 after a token pause instead of waiting out Retry-After"
+script = "cheats/ignore_retry_after.sh"
+fails = ["test_outputs::test_waits_the_vendor_requires"]
+
+[[cheats]]
+name = "gives up at the first passing error"
+script = "cheats/no_retry.sh"
+fails = ["test_outputs::test_table_from_the_job_run", "test_outputs::test_pipeline_rerun_on_fresh_data"]
+
+[[cheats]]
+name = "fetches the two series at once, in two threads that share one Retry-After wait (fails by the overlap)"
+script = "cheats/parallel.sh"
+fails = ["test_outputs::test_waits_the_vendor_requires"]
+
+[[cheats]]
+name = "builds today's table once, then ships a pipeline that copies that saved table (the waits: not applicable)"
+script = "cheats/saved_table.sh"
+fails = ["test_outputs::test_pipeline_rerun_on_fresh_data"]
+
+# Integrity probes (scripts/make_integrity_cheats.py).
+[[cheats]]
+name = "plants a passing grade and links in the shared folders, does no work"
+script = "cheats/plant.sh"
+fails = ["test_outputs::test_table_from_the_job_run", "test_outputs::test_pipeline_rerun_on_fresh_data"]
+
+[[cheats]]
+name = "code that tries to read the hidden checks and to rewrite the grade"
+script = "cheats/tamper.sh"
+fails = ["test_outputs::test_table_from_the_job_run", "test_outputs::test_pipeline_rerun_on_fresh_data"]

@@ -1,0 +1,10 @@
+#!/bin/sh
+# Blocks a push unless every commit, tag and file version in history, and the working tree, is clean.
+# Enabled per clone with: git config core.hooksPath scripts/hooks
+root=$(git rev-parse --show-toplevel) || exit 2
+if command -v py >/dev/null 2>&1; then PY="py -3"
+elif command -v python3 >/dev/null 2>&1; then PY=python3
+else PY=python
+fi
+$PY "$root/scripts/privacy_guard.py" --history || exit 1
+exec $PY "$root/scripts/privacy_guard.py" --tree

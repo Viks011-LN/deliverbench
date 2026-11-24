@@ -1,0 +1,14 @@
+{
+  "muted": {
+    "news:wire:*": "2026-11-03T12:00:00Z",
+    "price_move:QMB30": null
+  },
+  "last_alert": {
+    "limit_usage:credit:CS01": "2026-11-03T07:50:00Z",
+    "price_move:BRHW": "2026-11-03T09:20:00Z"
+  },
+  "sent_today": {
+    "day": "2026-11-03",
+    "count": 3
+  }
+}

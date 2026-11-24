@@ -1,0 +1,82 @@
+Title: Oil market monthly: October
+Date: 2026-10-01
+Desk: Commodities
+
+Crude prices drifted lower through September as refinery maintenance cut demand and the producer
+group signalled no change to its output targets. Gas did the opposite: storage is close to full, but
+a cold spell in the second half of the month lifted the prompt price.
+
+Benchmark                  End-August  End-September  Change
+------------------------------------------------------------
+Brent crude, USD a barrel  81.4        78.9           -2.5
+WTI crude, USD a barrel    77.2        74.6           -2.6
+Regional gas, EUR per MWh  38.5        41.2           +2.7
+
+Supply
+
+The producer group's next meeting is the main event risk for the oil price this quarter. Producers
+have kept spending in check, which limits the supply response to higher prices. Refining margins
+have come off their summer highs but remain above their long-run average. We keep our price
+assumptions unchanged and see the risks as balanced. Industrial metals have tracked the cycle lower
+as orders for machinery softened. Real-money accounts have cut their length in crude futures to the
+lowest in several months. Freight rates eased as new ships joined the fleet and port congestion
+cleared. Weather is the main swing factor for gas over the winter, and the long-range forecasts are
+no help.
+
+Brent crude ended the quarter so far at USD 80.8 a barrel. Copper rose 0.3% on the quarter so far.
+Gold fell 0.9% to USD 2,655 an ounce.
+
+Maintenance seasons have been longer than usual, which has weighed on output across the sector.
+Long-term gas contracts give the producers more stable cash flows than the spot market suggests.
+Refining exposure has helped the integrated companies this year. Sentiment toward media turned more
+cautious over the week as insurers digested the results season. Shareholder returns are the sector's
+main attraction, and buybacks are covered at current prices.
+
+Demand
+
+Real incomes are rising again, which should support consumption into the new year. The labour market
+is loosening at the margin, with vacancies falling faster than employment. Household spending has
+held up better than confidence surveys suggested, helped by real wage gains. Productivity remains
+the missing piece: without it, the labour market cannot loosen without hurting incomes. Business
+surveys have become a less reliable guide to output, so we put more weight on hard data. Inventories
+were run down over the summer, and the restocking cycle has further to go. Survey evidence points to
+a tentative recovery in services, while manufacturing remains the weak spot.
+
+Long-dated prices have moved far less than prompt prices this year. Forward curves have flattened,
+signalling a better-supplied market next year. The cost of carbon permits has moved in a narrow
+range, which helps power generators plan their hedging. Shipping disruptions have added to delivered
+prices more than to benchmark prices. Crude inventories built for a third week as refinery runs fell
+into the maintenance season. Gas storage is close to full ahead of the heating season, which caps
+the near-term upside for prices. Demand from the petrochemical sector has been broad-based, in line
+with the slowdown in manufacturing.
+
+The producers we cover
+
+Among the companies we cover, Sorvik Energy is the most exposed to the gas price, and the one whose
+cash flow gains most from a cold winter. We would not change our view of the sector on one month's
+move.
+
+Hedging policies vary widely across the sector, which makes results harder to compare. Upstream
+spending plans remain disciplined, with most of the growth in gas rather than oil. Low-carbon
+spending is rising, but from a small base and at lower returns than the core business.
+Decommissioning costs are a growing item in the cash-flow statements of older producers. Windfall
+taxes remain a political risk, though none is on the table now.
+
+Order books remain healthy, although lead times have shortened, which points to slower growth next
+year. We would use any weakness after results to add to our preferred names. Input-cost relief from
+lower freight and energy is now flowing through to gross margins. Consolidation remains a theme in
+the sector, though regulators have become stricter. Analysts' estimates for next year still assume a
+recovery in volumes that the companies do not promise.
+
+Dispersion within sectors remains high, which favours stock selection over sector bets. We review
+the allocation at the start of each quarter and after any large market move. The backdrop is one of
+slowing but positive growth and inflation drifting lower. Our allocation is built to survive a range
+of outcomes rather than to win on one.
+
+Risks
+
+Risks to our view include a sharper fall in energy prices, a faster easing of the labour market and
+a renewed rise in long-term yields. Any of these would change the balance of our arguments.
+
+This note reflects the desk's views at the time of writing. Published figures are from the sources
+named; forecasts are the desk's own unless the note says otherwise.

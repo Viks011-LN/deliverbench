@@ -1,0 +1,529 @@
+# deliverbench's own settings for this job (Harbor's task.toml has no place for them). A v2 job (format 2):
+# the evidence map, the name-and-rule list and the no-hint check below are checked by dbench/jobformat.py.
+# The job plan: docs/job-plans/T16-PLAN.md.
+[job]
+id = "T16"
+title = "Make strategies pluggable"
+version = "0.1.4"
+skill = "redesigning code without changing a digit of its output: a strategy slot in a brownfield backtest"
+scored = true
+format = 2
+time_limit_min = 165   # SCORING section 6: 5 x the slowest honest trial run (33 min, all trial setups), rounded up to 5 minutes; 240 at most
+runs_agent_code = true
+
+# The job's levers (docs/job-plans/T16-PLAN.md), set at the hard end of the plan (owner, 22 Nov 2026) and frozen
+# before its first model run. generate.py asserts the case counts.
+[settings]
+codebase_files = 91              # bt (63 modules), tests (16 files), documents (10), the example strategy, pytest.ini
+codebase_lines = 5388            # the codebase, its tests and documents
+room_files_with_data = 108       # with the sample prices, the golden files and the example's prices and outputs
+room_lines_with_data = 7669
+original_tests = 296             # pytest items, all passing on the original and on the reference
+special_cases = 5                # validation, warm-up, scoring, the report's echo, the summary's line
+hidden_price_files = 8
+configs_per_builtin = 6          # every documented setting away from its default, each parameter given and left out
+option_sets = 3                  # json + equity + trades; text from a later start; html + equity + trades over a window
+invalid_configs = 12
+builtin_cases = 48               # (6 configs x 3 option sets) x 2 built-ins + 12 invalid configs
+hidden_strategies = 3            # pullback, steady, breakout (strategies/; their sources travel in tests/data/cases.json)
+inputs_per_strategy = 4          # the example strategy on 4 hidden inputs too
+dropped_in_cases = 16
+swapped_cases = 4                # 0.1.1: changed built-ins (strategies/builtins/); 0.1.3: added at the end of their
+                                 # files, which must be in the agent's bt, instead of copied over them
+agent_hash_seeds = 2
+wrong_solutions = 15
+
+[[checks]]
+id = "test_outputs::test_output_unchanged"
+required = true
+
+[[checks]]
+id = "test_outputs::test_strategies_dropped_in"
+required = true
+
+[[checks]]
+id = "test_outputs::test_builtins_go_through_the_slot"
+required = true
+
+[[checks]]
+id = "test_outputs::test_original_tests_pass"
+required = true
+
+# ----- the evidence map: what each check demands, the sentence that demands it, where it lives -----
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "every output of the program is unchanged for every input, the two built-in strategies included"
+quote = '''Nothing the program prints may change, for any input'''
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "what counts as output: the report, the summary, the HTML page, the equity curve, the trade log, the warnings, the messages and the exit statuses"
+quote = '''Everything `bt` prints and writes, for every input: the report, the summary, the HTML page, the equity curve, the trade log, the warnings, the error messages and the exit statuses.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "the program is run as python -m bt with its documented options"
+quote = '''python -m bt --prices P.csv --config C.json --equity equity.csv --start 2024-03-01 --end 2024-09-30'''
+source = "room:README.md"
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "every documented setting is input, including the ones the sample never uses"
+quote = '''A JSON object. Every setting is optional; an unknown key is an error, so a typo cannot pass silently.'''
+source = "room:README.md"
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "an unknown or missing signal type keeps today's message"
+quote = '''A type with no module is refused with today's message, `unknown signal type 'carry'` (the type as Python's `repr` writes it, so a config without a type gets `unknown signal type None`), after the config's path as every config message has it.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "an unknown parameter keeps today's message, for the first such key in the config's order"
+quote = '''refuses a parameter that the strategy's `PARAMETERS` does not name with today's message, `signal: <type> has no parameter '<name>'`, for the first such key in the config's order.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "the built-in strategies keep their checks on parameter values and their messages"
+quote = '''The two built-in strategies keep every check they have on their values, with today's messages (`bt/config/signal_params.py`).'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "the signal is still checked right after unknown settings, so a config with two problems reports the same one"
+quote = '''All of this happens where the signal is checked today: after the check for unknown settings and before every other setting (`bt/config/validate.py` lists the order). A config with two problems reports the same one as today.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "the order of the checks, as the code runs them"
+quote = '''The checks run in a fixed order and stop at the first problem, which is the one reported'''
+source = "room:bt/config/validate.py"
+trail = ["room:docs/design/strategy-slot.md"]
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "the report's echo of the signal: type, then the parameters in PARAMETERS order, defaults filled in"
+quote = '''The report shows the signal as `type`, then every parameter in `PARAMETERS` order, defaults filled in.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "how the summary writes a parameter's value, with reversion's default entry_z shown as 1.0"
+quote = '''each value written as Python's `str` writes it, as the summary writes the built-ins' today (`Strategy: reversion (window 20, entry_z 1.0)`).'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "reversion's documented default for entry_z"
+quote = '''| | `entry_z` | `1.0` |'''
+source = "room:README.md"
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "the arithmetic keeps its order, to the last digit"
+quote = '''The arithmetic is plain floats in a fixed order: the golden files depend on it.'''
+source = "room:README.md"
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "the rolling standard deviation of the scoring code and that of the volatility scale stay separate, each adding up in its own order"
+quote = '''There are three standard deviations in the code and they are not interchangeable'''
+source = "room:docs/ARCHITECTURE.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "reversion's mean stays a sum(), its squares added oldest first"
+quote = '''The mean is taken with Python's `sum()`, then the squares are added up oldest first (`bt/signals/stats.py`): that is the arithmetic the golden files were made with.'''
+source = "room:docs/strategies.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "the weekly schedule as the code has it (week number, or the calendar year), its New Year behaviour included"
+quote = '''True if `today` starts a new week: its ISO week number differs from the day before's, or the calendar year does (in case of a long gap between the two days).'''
+source = "room:bt/data/calendar.py"
+trail = ["room:README.md", "room:docs/ARCHITECTURE.md"]
+
+[[evidence]]
+check = "test_outputs::test_output_unchanged"
+demands = "a change meant to move nothing is checked to the last digit, on configs the golden files never use"
+quote = '''Nothing may differ, not even in the last digit.'''
+source = "room:docs/operations.md"
+trail = ["room:README.md"]
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "a new strategy is a file the engine picks up from the config, with no change to the engine"
+quote = '''a new strategy should be a file of its own that the engine picks up from the config, with no change to the engine.'''
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "the slot as the design note describes it, checked against the example's output"
+quote = '''The slot is described in `docs/design/strategy-slot.md`, and `examples/strategies/` has one written for it, with the output it should give.'''
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "where a strategy goes and how the config selects it; nothing else to add"
+quote = '''A strategy is a module `bt/strategies/<type>.py`. The config's `signal.type` selects it, as it selects a signal today: the file's name without `.py` is the type (a Python identifier). A new strategy is that one file: no change to the engine and no list to add it to.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "other strategies than the example will be dropped in; they rely on the note alone"
+quote = '''Several are being written against this note already, by people who will not read the engine, so the slot must accept any strategy that follows this note and needs nothing more.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "a strategy defines only PARAMETERS, warmup and score"
+quote = '''Three names. A strategy may define others for its own use; one that defines only these three must work.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "PARAMETERS: names and defaults, in order"
+quote = '''`PARAMETERS`: a dict of its parameters' names and their defaults, in order'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "the first rebalancing day comes from the strategy's warmup(params), not from its parameter names"
+quote = '''The engine first rebalances on the day with index max(warmup(params), `vol_window`), the run's first day being day 0, and never earlier'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "what score returns"
+quote = '''`score(history, params)`: a dict that gives every symbol in `history` a score, a number (int or float) or `None`.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "the engine passes every parameter, defaults filled in"
+quote = '''**`params`** is a dict holding every name in `PARAMETERS`, in that order: the config's value where the `signal` section gives one, the default otherwise.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "history's shape: by symbol, every close from the run's first day through today, oldest first"
+quote = '''**`history`** maps each symbol the engine trades, in the price file's order, to the list of its closes from the run's first day up to and including today, oldest first.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "today's close is the last item, and every list is as long as the run so far"
+quote = '''So `history[symbol][-1]` is today's close, and every list's length is today's index plus one.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "None leaves a symbol out; so does no close today"
+quote = '''`None` leaves the symbol out of the ranking, as today. A symbol with no close today is left out whatever it scores.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "the summary's line for any strategy"
+quote = '''The summary's strategy line reads `Strategy: <type> (<name> <value>, <name> <value>, ...)` in the same order'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "after scoring the engine works as it does today, for a new strategy too"
+quote = '''**After scoring**, everything works as it does today'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_strategies_dropped_in"
+demands = "the example's expected output is what a build of the slot prints"
+quote = '''A build of the slot prints exactly these, byte for byte.'''
+source = "room:examples/README.md"
+trail = ["room:docs/design/strategy-slot.md"]
+
+[[evidence]]
+check = "test_outputs::test_builtins_go_through_the_slot"
+demands = "momentum and reversion become strategies like any other"
+quote = '''Our two strategies become strategies like any other.'''
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_builtins_go_through_the_slot"
+demands = "the built-ins' files are there, and the engine runs them as any strategy file: a changed file changes what runs"
+quote = '''Their files are `bt/strategies/momentum.py` and `bt/strategies/reversion.py`, which the engine runs as it runs any strategy file.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_builtins_go_through_the_slot"
+demands = "the engine names no strategy but in signal.type's default, so nothing special-cases the two by name"
+quote = '''Apart from the default of `signal.type` (`momentum`, the README's default config), the engine names no strategy.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_builtins_go_through_the_slot"
+demands = "the three names are what the engine runs from a built-in file; the file may keep other names for its own use, and they stay when the three are changed"
+quote = '''Three names. A strategy may define others for its own use; one that defines only these three must work.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[evidence]]
+check = "test_outputs::test_original_tests_pass"
+demands = "the existing tests pass, run in their original form"
+quote = '''the tests in `tests/` keep passing (they will be run as they are).'''
+source = "ticket"
+
+[[evidence]]
+check = "test_outputs::test_original_tests_pass"
+demands = "the reconciliation test keeps importing and running the 2021 runner"
+quote = '''`tests/test_legacy.py` keeps the 2021 runner (`bt/legacy/`) in agreement with the engine.'''
+source = "room:README.md"
+
+# ----- every name and rule the grader relies on, with the sentence that fixes it -----
+
+[[names]]
+kind = "identifier"
+name = "the entry point"
+value = "python -m bt, run in a fresh folder holding the agent's bt/ and the case's data/; options --prices, --config, --equity, --trades, --start, --end, --format"
+quote = '''python -m bt --prices P.csv --config C.json --equity equity.csv --start 2024-03-01 --end 2024-09-30'''
+source = "room:README.md"
+
+[[names]]
+kind = "format"
+name = "what is compared"
+value = "exit status, stdout, stderr, the equity curve (--equity) and the trade log (--trades), exactly; the agent's package under hash seeds 1 and 2"
+quote = '''Everything `bt` prints and writes, for every input: the report, the summary, the HTML page, the equity curve, the trade log, the warnings, the error messages and the exit statuses.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[names]]
+kind = "setting"
+name = "every documented setting"
+value = "the 22 settings of README.md's config table; the hidden configs use each one away from its default, for each built-in strategy, and no other"
+quote = '''| `top_n` | `3` | how many names to hold on each side |'''
+source = "room:README.md"
+
+[[names]]
+kind = "setting"
+name = "reversion's entry_z default"
+value = "1.0, echoed as 1.0 in the report and the summary when the config leaves it out"
+quote = '''| | `entry_z` | `1.0` |'''
+source = "room:README.md"
+
+[[names]]
+kind = "identifier"
+name = "where a strategy goes"
+value = "bt/strategies/<type>.py; the checks copy each strategy file there, unchanged, in a copy of the agent's bt (the folder created if missing)"
+quote = '''A strategy is a module `bt/strategies/<type>.py`.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[names]]
+kind = "identifier"
+name = "the built-ins' files"
+value = "bt/strategies/momentum.py and bt/strategies/reversion.py, which must be regular files in the agent's bt; the checks add changed versions at the end of them (same PARAMETERS, defaults and warm-ups, only the three names, a changed score: they come last and win, every other name in the file stays) in a copy of the agent's bt and of the reference, on four valid configs that give every parameter"
+quote = '''Their files are `bt/strategies/momentum.py` and `bt/strategies/reversion.py`, which the engine runs as it runs any strategy file.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[names]]
+kind = "identifier"
+name = "the slot's names"
+value = "PARAMETERS, warmup(params), score(history, params); the hidden strategies define these and nothing the engine could need"
+quote = '''Three names. A strategy may define others for its own use; one that defines only these three must work.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[names]]
+kind = "rule"
+name = "PARAMETERS"
+value = "a dict of parameter names to defaults, in order (the hidden strategies' values are ints and floats)"
+quote = '''`PARAMETERS`: a dict of its parameters' names and their defaults, in order'''
+source = "room:docs/design/strategy-slot.md"
+
+[[names]]
+kind = "rule"
+name = "the warm-up"
+value = "the first rebalancing day has index max(warmup(params), vol_window), day 0 being the run's first day; momentum's warmup is lookback, reversion's window"
+quote = '''The engine first rebalances on the day with index max(warmup(params), `vol_window`), the run's first day being day 0, and never earlier'''
+source = "room:docs/design/strategy-slot.md"
+
+[[names]]
+kind = "rule"
+name = "params"
+value = "every PARAMETERS name, in order, the config's value or the default; no type"
+quote = '''**`params`** is a dict holding every name in `PARAMETERS`, in that order: the config's value where the `signal` section gives one, the default otherwise.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[names]]
+kind = "rule"
+name = "history"
+value = "a dict of every traded symbol (the benchmark column left out, excluded names kept), in file order, to its forward-filled closes from the run's first day (the file's or --start's) through today, oldest first, None where missing"
+quote = '''**`history`** maps each symbol the engine trades, in the price file's order, to the list of its closes from the run's first day up to and including today, oldest first.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[names]]
+kind = "rule"
+name = "score's result"
+value = "a dict giving each symbol a number or None; None, and any symbol with no close today, is left out of the ranking; positive long, negative short where allowed, 0 neither"
+quote = '''`None` leaves the symbol out of the ranking, as today. A symbol with no close today is left out whatever it scores.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[names]]
+kind = "format"
+name = "the report's echo"
+value = "strategy.signal = {type, then every parameter in PARAMETERS order, defaults filled in}"
+quote = '''The report shows the signal as `type`, then every parameter in `PARAMETERS` order, defaults filled in.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[names]]
+kind = "format"
+name = "the summary's strategy line"
+value = "Strategy: <type> (<name> <value>, ...) in PARAMETERS order, values written by str(); the HTML page shows the same line"
+quote = '''The summary's strategy line reads `Strategy: <type> (<name> <value>, <name> <value>, ...)` in the same order'''
+source = "room:docs/design/strategy-slot.md"
+
+[[names]]
+kind = "format"
+name = "the messages for a bad signal"
+value = "error: <path>: unknown signal type <repr of the type>; error: <path>: signal: <type> has no parameter '<name>'; the built-ins' value messages as in bt/config/signal_params.py"
+quote = '''A type with no module is refused with today's message, `unknown signal type 'carry'`'''
+source = "room:docs/design/strategy-slot.md"
+
+[[names]]
+kind = "rule"
+name = "the order of the checks"
+value = "the signal is checked after unknown settings and before every other setting; the first problem is reported (two of the invalid configs have two problems)"
+quote = '''All of this happens where the signal is checked today: after the check for unknown settings and before every other setting'''
+source = "room:docs/design/strategy-slot.md"
+
+[[names]]
+kind = "rule"
+name = "the weekly schedule"
+value = "a new ISO week number, or a new calendar year: in a week split between two years it rebalances twice; kept as it is"
+quote = '''its ISO week number differs from the day before's, or the calendar year does'''
+source = "room:bt/data/calendar.py"
+
+[[names]]
+kind = "method"
+name = "the standard deviations"
+value = "reversion's (sum() for the mean, squares oldest first) and the volatility scale's (newest first) stay as they are"
+quote = '''There are three standard deviations in the code and they are not interchangeable'''
+source = "room:docs/ARCHITECTURE.md"
+
+[[names]]
+kind = "identifier"
+name = "the example"
+value = "examples/strategies/channel.py on examples/prices.csv and examples/channel.json prints examples/expected/ (report.json, equity.csv, summary.txt); the hidden inputs drop it in too"
+quote = '''`examples/strategies/channel.py` is a strategy written for this slot, and `examples/README.md` says how to run it.'''
+source = "room:docs/design/strategy-slot.md"
+
+[[names]]
+kind = "rule"
+name = "the existing tests"
+value = "tests/, its data and golden files and pytest.ini, restored from the original and run against a copy of the agent's bt; every one passes"
+quote = '''the tests in `tests/` keep passing (they will be run as they are).'''
+source = "ticket"
+
+[hints]
+forbidden = ["float", "floating", "digits", "sum", "fsum", "square root", "sqrt", "numpy", "order of operations",
+             "exit status", "error message", "warm-up", "warmup", "None", "registry", "repr", "rolling",
+             "standard deviation", "quirk", "isocalendar", "legacy", "lookback", "entry_z", "default", "defaults",
+             "importlib", "PARAMETERS", "history", "hash"]
+
+# ----- selftest: doing nothing, the integrity probes and every wrong solution fail exactly their checks -----
+
+[nop]
+fails = ["test_outputs::test_strategies_dropped_in", "test_outputs::test_builtins_go_through_the_slot"]
+
+# The wrong solutions are written by generate.py (WRONG), which also proves that each one changes exactly the outputs
+# and tests below.
+[[cheats]]
+name = "a slot whose engine still keeps a list of the two strategies"
+script = "cheats/keeps_a_list.sh"
+fails = ["test_outputs::test_strategies_dropped_in"]
+
+[[cheats]]
+name = "the warm-up still worked out from `lookback` or `window`"
+script = "cheats/warmup_from_names.sh"
+fails = ["test_outputs::test_strategies_dropped_in"]
+
+[[cheats]]
+name = "history passed as a matrix by day, the built-in strategies rewritten to read it"
+script = "cheats/history_by_day.sh"
+fails = ["test_outputs::test_strategies_dropped_in", "test_outputs::test_builtins_go_through_the_slot"]
+
+[[cheats]]
+name = "history cut to the last warm-up + 1 closes instead of everything since the run's first day"
+script = "cheats/history_window.sh"
+fails = ["test_outputs::test_strategies_dropped_in"]
+
+[[cheats]]
+name = "history without today's close (the built-in strategies left as they are)"
+script = "cheats/history_without_today.sh"
+fails = ["test_outputs::test_output_unchanged", "test_outputs::test_strategies_dropped_in",
+         "test_outputs::test_builtins_go_through_the_slot", "test_outputs::test_original_tests_pass"]
+
+[[cheats]]
+name = "defaults left to each strategy: the engine passes only the parameters the config gives"
+script = "cheats/defaults_left_to_strategy.sh"
+fails = ["test_outputs::test_strategies_dropped_in"]
+
+[[cheats]]
+name = "the two rolling standard deviations merged into one (the volatility scale uses the scoring code's)"
+script = "cheats/merged_std.sh"
+fails = ["test_outputs::test_output_unchanged", "test_outputs::test_strategies_dropped_in"]
+
+[[cheats]]
+name = "a sum rewritten while the scoring code moves (reversion's mean as a loop for sum())"
+script = "cheats/sum_rewritten.sh"
+fails = ["test_outputs::test_output_unchanged", "test_outputs::test_original_tests_pass"]
+
+[[cheats]]
+name = "new validation that checks the signal after the other settings (a config with two problems reports the other one)"
+script = "cheats/validation_order.sh"
+fails = ["test_outputs::test_output_unchanged"]
+
+[[cheats]]
+name = "the report's echo rebuilt in the config's key order"
+script = "cheats/echo_in_config_order.sh"
+fails = ["test_outputs::test_output_unchanged", "test_outputs::test_strategies_dropped_in"]
+
+[[cheats]]
+name = "the week-number quirk fixed on the way (ISO year and week compared)"
+script = "cheats/fixes_week_quirk.sh"
+fails = ["test_outputs::test_output_unchanged", "test_outputs::test_strategies_dropped_in"]
+
+[[cheats]]
+name = "reversion's defaults taken from the scoring module's constants (entry_z 1, not the documented 1.0)"
+script = "cheats/int_default.sh"
+fails = ["test_outputs::test_output_unchanged"]
+
+[[cheats]]
+name = "the 2021 runner deleted as dead code (one existing test imports it)"
+script = "cheats/drops_legacy.sh"
+fails = ["test_outputs::test_original_tests_pass"]
+
+[[cheats]]
+name = "a hybrid: the two built-ins still special-cased in the five places, a branch for every other type added beside each"
+script = "cheats/hybrid.sh"
+fails = ["test_outputs::test_builtins_go_through_the_slot"]
+
+[[cheats]]
+name = "a hybrid the other way round: a type served from its file first, the five special cases kept as the fallback, no files for the two built-ins"
+script = "cheats/files_first.sh"
+fails = ["test_outputs::test_builtins_go_through_the_slot"]
+
+# Integrity probes (scripts/make_integrity_cheats.py).
+[[cheats]]
+name = "plants a passing grade and links in the shared folders, does no work"
+script = "cheats/plant.sh"
+fails = ["test_outputs::test_strategies_dropped_in", "test_outputs::test_builtins_go_through_the_slot"]
+
+[[cheats]]
+name = "code that tries to read the hidden checks and to rewrite the grade"
+script = "cheats/tamper.sh"
+fails = ["test_outputs::test_output_unchanged", "test_outputs::test_strategies_dropped_in",
+         "test_outputs::test_builtins_go_through_the_slot", "test_outputs::test_original_tests_pass"]

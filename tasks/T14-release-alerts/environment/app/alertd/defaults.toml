@@ -1,0 +1,33 @@
+# alertd's settings and their defaults (alertd/config.py).
+#
+# Every setting alertd reads is declared here. A config file (config/alerts.toml) may set only keys declared here,
+# and need set only the ones it changes. Each kind's table is read by its rule; [alerts] is read by the shared
+# suppressions. Times of day are UTC.
+
+[alerts]
+cooldown_minutes = 30          # no second alert for the same key within this many minutes
+daily_cap = 25                 # at most this many alerts a day (UTC), every kind counted together
+quiet_start = "22:00"          # quiet hours: from quiet_start up to, not including, quiet_end
+quiet_end = "06:30"
+
+[price_move]
+threshold_pct = 1.5            # a price move of at least this many percent is a warning
+threshold_bp = 8.0             # a yield move of at least this many basis points is a warning
+critical_multiple = 2.5        # a move of at least this many times its threshold is critical
+stale_after_minutes = 10       # a quote older than this is stale
+
+[limit_usage]
+info_at_pct = 70.0             # usage of a limit, in percent, from which it is info ...
+warn_at_pct = 85.0             # ... warning ...
+critical_at_pct = 100.0        # ... and critical
+stale_after_minutes = 60       # a measurement older than this is stale
+
+[stale_feed]
+warn_after_minutes = 15        # a feed silent for at least this long is a warning ...
+critical_after_minutes = 45    # ... and for at least this long critical
+
+[news]
+watch_tags = ["guidance", "downgrade", "profit_warning", "default", "halt"]   # a story with one of these tags is a warning
+critical_tags = ["default", "halt"]                                             # ... with one of these, critical
+watchlist = []                 # tickers the desk follows: a story naming one is at least info
+stale_after_minutes = 180      # a story published longer ago than this is stale

@@ -1,0 +1,21 @@
+# The confirmation sample sits outside the work folder, on a volume of its own (review R4): /sealed/confirmation in
+# the main room. The watcher (a separate container the model can't see) watches the sealed file with inotify on the
+# same volume and logs every opening or read, by anyone.
+services:
+  main:
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 512
+    volumes:
+      - sealed-confirmation:/sealed/confirmation
+  watcher:
+    build:
+      context: ./watcher
+    network_mode: "service:main"
+    depends_on:
+      - main
+    volumes:
+      - sealed-confirmation:/watched
+
+volumes:
+  sealed-confirmation: {}

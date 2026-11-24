@@ -1,0 +1,89 @@
+date,currency,amount,kind,instrument,note
+2024-11-08,GBP,4407623.43,subscription,,launch subscription
+2024-11-12,EUR,1035000.00,fx,,bought EUR at GBPEUR 1.2014
+2024-11-12,GBP,-861494.92,fx,,bought EUR at GBPEUR 1.2014
+2024-11-12,JPY,22000000,fx,,bought JPY at GBPJPY 196.84
+2024-11-12,GBP,-111765.90,fx,,bought JPY at GBPJPY 196.84
+2024-11-12,USD,730000.00,fx,,bought USD at GBPUSD 1.2765
+2024-11-12,GBP,-571876.22,fx,,bought USD at GBPUSD 1.2765
+2025-01-02,GBP,-1850.00,fee,,custody fee Q4 2024
+2025-02-03,EUR,130000.00,fx,,bought EUR at GBPEUR 1.1973
+2025-02-03,GBP,-108577.63,fx,,bought EUR at GBPEUR 1.1973
+2025-02-03,USD,760000.00,fx,,bought USD at GBPUSD 1.2410
+2025-02-03,GBP,-612409.35,fx,,bought USD at GBPUSD 1.2410
+2025-03-14,USD,450000.00,fx,,bought USD at GBPUSD 1.2925
+2025-03-14,GBP,-348162.48,fx,,bought USD at GBPUSD 1.2925
+2025-04-01,GBP,-2140.00,fee,,custody fee Q1
+2025-06-20,GBP,3500000.00,subscription,,subscription
+2025-06-24,EUR,150000.00,fx,,bought EUR at GBPEUR 1.1810
+2025-06-24,GBP,-127011.01,fx,,bought EUR at GBPEUR 1.1810
+2025-06-24,USD,905000.00,fx,,bought USD at GBPUSD 1.3605
+2025-06-24,GBP,-665196.62,fx,,bought USD at GBPUSD 1.3605
+2025-07-01,GBP,-2960.00,fee,,custody fee Q2
+2025-09-18,USD,130000.00,fx,,bought USD at GBPUSD 1.3560
+2025-09-18,GBP,-95870.21,fx,,bought USD at GBPUSD 1.3560
+2025-10-01,GBP,-3215.00,fee,,custody fee Q3
+2025-10-03,GBP,2000000.00,subscription,,subscription
+2025-10-07,JPY,123000000,fx,,bought JPY at GBPJPY 201.49
+2025-10-07,GBP,-610452.13,fx,,bought JPY at GBPJPY 201.49
+2025-10-07,USD,330000.00,fx,,bought USD at GBPUSD 1.3335
+2025-10-07,GBP,-247469.07,fx,,bought USD at GBPUSD 1.3335
+2025-11-04,USD,510000.00,fx,,bought USD at GBPUSD 1.3110
+2025-11-04,GBP,-389016.02,fx,,bought USD at GBPUSD 1.3110
+2026-01-02,GBP,-3480.00,fee,,custody fee Q4 2025
+2026-01-13,GBP,4250000.00,subscription,,subscription
+2026-01-15,EUR,310000.00,fx,,bought EUR at GBPEUR 1.1529
+2026-01-15,GBP,-268887.15,fx,,bought EUR at GBPEUR 1.1529
+2026-01-15,JPY,178000000,fx,,bought JPY at GBPJPY 204.79
+2026-01-15,GBP,-869183.07,fx,,bought JPY at GBPJPY 204.79
+2026-01-15,USD,1500000.00,fx,,bought USD at GBPUSD 1.3420
+2026-01-15,GBP,-1117734.72,fx,,bought USD at GBPUSD 1.3420
+2026-02-11,USD,75000.00,fx,,bought USD at GBPUSD 1.3650
+2026-02-11,GBP,-54945.05,fx,,bought USD at GBPUSD 1.3650
+2026-03-31,GBP,-12500.00,fee,,annual audit fee
+2026-04-01,GBP,-4105.00,fee,,custody fee Q1
+2026-04-17,GBP,5000000.00,subscription,,subscription
+2026-04-21,EUR,2080000.00,fx,,bought EUR at GBPEUR 1.1893
+2026-04-21,GBP,-1748927.94,fx,,bought EUR at GBPEUR 1.1893
+2026-04-21,JPY,111000000,fx,,bought JPY at GBPJPY 201.57
+2026-04-21,GBP,-550677.18,fx,,bought JPY at GBPJPY 201.57
+2026-04-21,USD,1675000.00,fx,,bought USD at GBPUSD 1.3510
+2026-04-21,GBP,-1239822.35,fx,,bought USD at GBPUSD 1.3510
+2026-06-04,EUR,25530.00,dividend,CNZA,final dividend 1.85
+2026-06-09,USD,190000.00,fx,,bought USD at GBPUSD 1.3405
+2026-06-09,GBP,-141738.16,fx,,bought USD at GBPUSD 1.3405
+2026-06-10,USD,4598.00,dividend,PEBX,quarterly dividend 0.95
+2026-06-12,USD,2360.80,dividend,ADZM,quarterly dividend 0.52
+2026-06-12,GBP,11659.38,coupon,MXTB29,semi-annual coupon
+2026-06-18,EUR,12148.50,dividend,LVRU,annual dividend 1.95
+2026-06-19,GBP,23882.40,dividend,MXTB,final dividend 12.4p
+2026-06-22,JPY,342000,coupon,JGB30,semi-annual coupon (20 Jun)
+2026-06-24,JPY,1652300,dividend,KZRO,final dividend 41
+2026-06-25,JPY,2254200,dividend,SAQB,final dividend 34
+2026-06-26,JPY,957000,dividend,KIWQ,final dividend 55
+2026-06-29,JPY,1017600,dividend,HNKI,final dividend 48
+2026-06-30,USD,6771.00,dividend,SUQB,quarterly dividend 0.61
+2026-06-30,GBP,1415.62,interest,,interest on GBP cash Q2
+2026-07-01,GBP,-4860.00,fee,,custody fee Q2
+2026-07-06,GBP,6876.00,dividend,BRMD,final dividend 18p
+2026-07-14,USD,115000.00,fx,,bought USD at GBPUSD 1.3516
+2026-07-14,GBP,-85084.34,fx,,bought USD at GBPUSD 1.3516
+2026-07-15,USD,4646.40,dividend,PZLY,quarterly dividend 0.44
+2026-07-20,USD,9388.50,dividend,EQDF,quarterly distribution
+2026-07-24,GBP,8669.10,dividend,ASHB,final dividend 7.1p
+2026-07-30,USD,55000.00,fx,,bought USD at GBPUSD 1.3621
+2026-07-30,GBP,-40378.83,fx,,bought USD at GBPUSD 1.3621
+2026-07-31,GBP,13357.50,dividend,PCRF,quarterly distribution
+2026-08-03,USD,11925.00,coupon,ADZM32,semi-annual coupon (1 Aug)
+2026-08-14,GBP,5417.20,dividend,IXFR,quarterly distribution
+2026-08-17,USD,22087.50,coupon,UST31,semi-annual coupon (15 Aug)
+2026-08-17,EUR,22620.00,coupon,DBR33,annual coupon (15 Aug)
+2026-09-07,GBP,21356.25,coupon,UKT34,semi-annual coupon
+2026-09-09,USD,4598.00,dividend,PEBX,quarterly dividend 0.95
+2026-09-11,USD,2360.80,dividend,ADZM,quarterly dividend 0.52
+2026-09-18,GBP,9120.00,dividend,CLVY,interim dividend 48p
+2026-09-24,EUR,9006.00,dividend,NRDP,interim dividend 0.38
+2026-09-25,GBP,-750000.00,redemption,,redemption
+2026-09-25,GBP,5964.00,dividend,TLLY,interim dividend 21p
+2026-09-30,USD,6771.00,dividend,SUQB,quarterly dividend 0.61
+2026-09-30,GBP,1288.07,interest,,interest on GBP cash Q3

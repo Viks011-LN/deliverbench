@@ -1,0 +1,6 @@
+[
+  {"calls": [["get_price", {"symbol": "ABC"}]]},
+  {"calls": [["write_file", {"path": "/app/price.txt", "content": "101.25"}]]},
+  {"calls": [["book_ticket", {"symbol": "ABC", "side": "buy", "quantity": 100}]]},
+  {"calls": [["finish", {"status": "done", "summary": "Quoted 101.25 for ABC; booked a buy ticket for 100 ABC."}]]}
+]

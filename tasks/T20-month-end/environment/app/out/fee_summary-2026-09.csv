@@ -1,0 +1,12 @@
+client_code,client_name,currency,average_aum,fee_rate_bps,fee,invoice_number,status
+C-001,Adatum Insurance SE,EUR,59314165.38,35,17299.96,INV-2026-0932,issued
+C-002,Contoso Partners LLP,GBP,46815105.43,45,17555.66,INV-2026-0933,issued
+C-003,Fabrikam Capital GmbH,EUR,9915623.69,60,4957.81,INV-2026-0934,issued
+C-004,Fourth Coffee Pension Trust,EUR,43979611.75,40,14659.87,INV-2026-0935,issued
+C-005,Globex Treasury Inc,USD,122511501.49,30,30627.88,INV-2026-0936,issued
+C-007,Halden Group plc,GBP,90226890.02,35,26316.18,INV-2026-0937,issued
+C-008,Initech Pension Fund,EUR,153029469.07,30,38257.37,INV-2026-0938,issued
+C-009,Litware Holdings AG,EUR,33201733.14,40,11067.24,INV-2026-0939,issued
+C-010,Northwind Traders BV,EUR,18696584.58,50,7790.24,INV-2026-0940,issued
+C-011,Proseware Trust,USD,26343160.58,45,9878.69,INV-2026-0941,issued
+C-012,Wingtip Foundation,EUR,8967204.66,25,2500.00,INV-2026-0942,issued
