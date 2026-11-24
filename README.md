@@ -12,31 +12,47 @@ deliverbench is a small set of realistic, multi-step jobs: careful maths code, d
 - **false "done" claims** (the model said it finished, but the checks fail),
 - **rule breaks** (it touched what the brief said not to touch).
 
+**To test your own model,** point deliverbench at its server (local or hosted: anything that speaks the OpenAI chat
+API) and let it run. It gives the model each job in a sealed room, marks the result with the hidden checks and
+writes a report like the one below. The steps are under [Running it](#running-it).
+
 ## How a job is marked
 
 - Each job is a starter folder and a written brief. The model works on it alone, with a shell and file tools, and says when it is done.
 - Hidden checks then mark the result. The model never sees them, and most run its work on fresh data it has never seen, so it cannot just fit the examples in the brief.
 - Every check tests something concrete: the program's output compared with a reference, an answer compared with a key (with a stated tolerance where numbers are involved), or a log kept by a service or watcher the model cannot reach. No AI judge and no human opinion decide a mark.
-- Each check quotes the sentence of the brief that demands it, so nothing is marked that the brief does not ask for.
+- Each check quotes the sentence that demands it, from the ticket or the room's own documents, so nothing is marked that the job does not ask for.
 - A job is **delivered** only if every check passes. Checks marked *(rule)* are about how the model worked; failing one also counts as a rule break.
-- Before a job is used, the reference solution must pass 10 times out of 10, doing nothing and a set of known cheats must each fail exactly the checks they should, and an independent solver must pass it from the brief alone.
+- Before a job is used, the reference solution must pass 10 times out of 10, doing nothing and a set of known cheats must each fail exactly the checks they should, and an independent solver must pass it from the ticket and the room alone.
 
 ## Results (v2.0, November 2026)
 
-Three runs of each job per setup. The full report, with every run that was not delivered and which check it
-failed, is in [results/v2/report-v2.md](results/v2/report-v2.md).
+Three runs of each job per setup, 90 runs in all. Every run is marked all or nothing: one wrong figure anywhere and
+the job counts as not delivered. The full report, with every run that was not delivered and the check it failed,
+is in [results/v2/report-v2.md](results/v2/report-v2.md).
 
-| Setup | Delivered | Every run of a job delivered (pass^3) | False "done" |
-|---|---|---|---|
-| `deepseek-v4.1-flash-high` | 100% (30/30) | 100% | 0% |
-| `hy4-flash-free-hosted` | 80% (24/30) | 60% | 22% |
-| `glm-5.3-flash-fp4-high` | 77% (23/30) | 60% | 19% |
+| Setup | Runs delivered | Jobs delivered at least once | Jobs delivered in all 3 runs | False "done" |
+|---|---|---|---|---|
+| `deepseek-v4.1-flash-high` | 100% (30/30) | 10/10 | 10/10 | 0% |
+| `hy4-flash-free-hosted` | 80% (24/30) | 10/10 | 6/10 | 22% |
+| `glm-5.3-flash-fp4-high` | 77% (23/30) | 9/10 | 6/10 | 19% |
 
-- On these ten jobs, DeepSeek is separated from each of the others (a run-level test with Holm's correction), but
-  each gap rests on a few jobs, T18 and T20 among them. With ten jobs, the job-level test cannot say whether the
-  gaps would hold on other jobs like these. GLM and Hy4 are not separated.
-- Five of the thirteen runs not delivered did the work right and held the item the rules required them to hold, but
-  reported the job as done (T18, T20).
+False "done": of the runs in which the model said it had finished, the share that were not delivered.
+
+**What the gaps mean.** All three models did the real work on almost every job, and the differences between them
+are small in substance. Of the 13 runs that were not delivered:
+
+- **7 were near misses:** one figure or line wrong among many that were checked, such as one CDS price a fraction
+  of a basis point outside its tolerance, two orders not rounded down to whole lots, or one quote missing its figure.
+- **5 did the work right but reported it wrongly:** on T18 and T20 the desk's rules require one item to be held
+  back. These runs held it back, and even mentioned it in their summary, but reported the job as "done" rather than
+  "not complete".
+- **1 was a real failure:** one Hy4 run on T11 built the credit curve wrong, and its prices were off by up to 60bp.
+
+None of GLM's misses was a real failure, and DeepSeek delivered every run. On these ten jobs DeepSeek's lead over
+each of the others is statistically real (a run-level test with Holm's correction), but each gap rests on a few
+jobs, T18 and T20 among them, and with ten jobs the job-level test cannot say whether it would hold on other jobs
+like these. GLM and Hy4 are not separated.
 
 ## The ten jobs
 
