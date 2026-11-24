@@ -190,15 +190,18 @@ different setup. Every result names its setup and records these details. The har
 deliverbench measures what a model delivers, not how fast a machine runs it.
 
 ### deepseek-v4.1-flash-high
-- Model: DeepSeek V4.1 Flash, 17 Oct 2026 release (`deepseek-ai/DeepSeek-V4.1-Flash-1017`), official checkpoint:
-  MXFP4 routed experts, FP8 (E4M3) dense layers.
+- Model: DeepSeek V4.1 Flash, 17 Oct 2026 release (`deepseek-ai/DeepSeek-V4.1-Flash-1017`), the official
+  checkpoint: routed experts in MXFP4; every other weight (attention, the shared experts, the dense layers) in FP8
+  (E4M3) with block scales.
 - Engine: SGLang, a development build from the DeepSeek V4.1 branch; FP8 KV cache, radix prefix cache, DSpark
   speculative decoding (block 5).
 - Context 1,048,576 tokens. Reasoning on, effort high. Temperature 1.0, top-p 1.0, as on DeepSeek's model card.
 
 ### glm-5.3-flash-fp4-high
-- Model: GLM-5.3 Flash in NVIDIA's FP4 release (`nvidia/GLM-5.3-Flash-FP4-Local`): NVFP4 weights from
-  quantisation-aware distillation, with 16-bit activations during prefill (NVIDIA's default is 4-bit).
+- Model: GLM-5.3 Flash in NVIDIA's FP4 release (`nvidia/GLM-5.3-Flash-FP4-Local`), a mixed-precision checkpoint
+  from quantisation-aware distillation: routed experts in NVFP4; attention, the shared experts, the first three
+  dense layers and the output layer in FP8 (MXFP8 or block-scaled FP8). Activations stay 16-bit during prefill
+  (NVIDIA's default is 4-bit).
 - Engine: vLLM, the local-inference-lab fork (build `0.1.dev21830+g8244d1c44`); FP8 KV cache.
 - Context 1,048,576 tokens. Reasoning always on, effort high. Temperature 1.0, top-p 1.0, as in Z.ai's agentic
   evaluations.
