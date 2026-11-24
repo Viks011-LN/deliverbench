@@ -2,7 +2,7 @@
 
 **Does the model deliver the job?**
 
-Most public numbers for local models measure speed: tokens per second, time to first token, prompt throughput. Those matter, but they don't tell you whether a model, running inside an agent harness on your hardware, can take a small real job from brief to working result.
+Lot of public numbers for local models measure speed: tokens per second, prefill, TTFT etc. Those matter, but they don't tell whether a model, running inside an agent harness on your hardware/recipe/quant, can take a real-life job from brief to working result. I wanted a way to give my different models, their quants and recipes realistic work to see how well each of them will do.
 
 deliverbench is a small set of realistic, multi-step jobs: careful maths code, debugging, planning, tool use against a flaky service, faithful reading with citations, disciplined refactoring, statistics under rules, and judgement about missing information. Each job is a starter folder plus a brief, graded by hidden checks the model never sees. A run reports:
 
